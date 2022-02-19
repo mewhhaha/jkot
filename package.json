@@ -32,7 +32,7 @@
     "prettier-plugin-tailwindcss": "^0.1.7",
     "tailwindcss": "^3.0.23",
     "typescript": "^4.1.2",
-    "wrangler": "beta"
+    "wrangler": "^0.0.17"
   },
   "engines": {
     "node": ">=14"
@@ -48,7 +48,7 @@
     "build:remix": "NODE_ENV=production remix build",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:tailwind": "tailwindcss -o ./app/tailwind.css --watch",
-    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
+    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public --do SETTINGS_DO=Settings@./durable_objects/worker.ts --do ARTICLE_DO=Article@./durable_objects/worker.ts",
     "dev": "cross-env NODE_ENV=development remix build && run-p dev:*",
     "start": "cross-env NODE_ENV=production npm run dev:wrangler"
   }

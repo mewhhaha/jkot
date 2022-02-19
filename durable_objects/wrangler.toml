@@ -1,4 +1,5 @@
 compatibility_date = "2022-01-30"
+workers_dev = false
 
 [[migrations]]
 new_classes = ["Settings", "Article"]
