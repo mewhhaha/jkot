@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "name": "remix-app-template",
+  "description": "",
+  "license": "",
+  "dependencies": {
+    "@cloudflare/stream-react": "^1.6.1",
+    "@headlessui/react": "^1.5.0",
+    "@heroicons/react": "^1.0.5",
+    "@remix-run/cloudflare-pages": "^1.2.1",
+    "@remix-run/react": "^1.2.1",
+    "@tailwindcss/typography": "^0.5.2",
+    "clsx": "^1.1.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "remix": "^1.2.1",
+    "remix-auth": "^3.2.1",
+    "remix-auth-auth0": "^1.3.2"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^3.2.0",
+    "@remix-run/dev": "^1.2.1",
+    "@remix-run/eslint-config": "^1.2.1",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "autoprefixer": "^10.4.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.9.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.6",
+    "prettier": "^2.5.1",
+    "prettier-plugin-tailwindcss": "^0.1.7",
+    "tailwindcss": "^3.0.23",
+    "typescript": "^4.1.2",
+    "wrangler": "beta"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false,
+  "workspaces": [
+    "./durable_objects"
+  ],
+  "scripts": {
+    "postinstall": "remix setup cloudflare-pages",
+    "build": "cross-env NODE_ENV=production run-s build:css build:remix",
+    "build:css": "tailwindcss -o ./app/tailwind.css --minify",
+    "build:remix": "NODE_ENV=production remix build",
+    "dev:remix": "cross-env NODE_ENV=development remix watch",
+    "dev:tailwind": "tailwindcss -o ./app/tailwind.css --watch",
+    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public",
+    "dev": "cross-env NODE_ENV=development remix build && run-p dev:*",
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
+  }
+}

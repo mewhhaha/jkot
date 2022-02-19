@@ -1,0 +1,5 @@
+compatibility_date = "2022-01-30"
+
+[[migrations]]
+new_classes = ["Settings", "Article"]
+tag = "v1"
