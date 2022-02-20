@@ -1,6 +1,6 @@
 import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
 import * as build from "@remix-run/dev/server-build";
-import { Settings, Article } from "./durable_objects/dist/index.mjs";
+import { Settings, Article } from "./durable_objects/worker";
 
 const state = () => ({
   storage: {

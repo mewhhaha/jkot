@@ -6,7 +6,8 @@ export class Settings implements DurableObject {
   }
 
   async get(request: Request) {
-    const latest = await this.storage.get("latest");
+    const path = new URL(request.url).pathname;
+    const latest = await this.storage.get(path);
 
     return new Response(JSON.stringify(latest ?? {}), {
       status: 200,
@@ -15,6 +16,7 @@ export class Settings implements DurableObject {
   }
 
   async put(request: Request) {
+    const path = new URL(request.url).pathname;
     const json = await request.json();
 
     const now = new Date();
@@ -26,7 +28,7 @@ export class Settings implements DurableObject {
     }
 
     transaction.push(this.storage.put("modified", now));
-    transaction.push(this.storage.put("latest", json));
+    transaction.push(this.storage.put(path, json));
 
     return new Response(JSON.stringify(json), {
       status: 200,

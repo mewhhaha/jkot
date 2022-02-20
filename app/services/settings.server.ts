@@ -22,7 +22,7 @@ export const svc = <Name extends keyof AllSettings>(
   context: CloudflareContext,
   name: Name
 ): SettingsDO<AllSettings[Name]> => {
-  const doid = context.SETTINGS_DO.idFromName(name);
+  const doid = context.SETTINGS_DO.idFromName("admin");
   const stub = context.SETTINGS_DO.get(doid);
 
   return {
@@ -30,11 +30,11 @@ export const svc = <Name extends keyof AllSettings>(
       return stub.fetch(new URL(request.url).origin);
     },
     json: async () => {
-      const response = await stub.fetch(new URL(request.url).origin);
+      const response = await stub.fetch(`${new URL(request.url).origin}/name`);
       return response.json();
     },
     put: (value) => {
-      return stub.fetch(new URL(request.url).origin, {
+      return stub.fetch(`${new URL(request.url).origin}/name`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),

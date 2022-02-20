@@ -1,6 +1,7 @@
 name = "jkot"
 type = "javascript"
 compatibility_date = "2022-02-03"
+workers_dev = false
 
 [build.upload]
 dir = "dist"
