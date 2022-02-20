@@ -2,12 +2,12 @@ import { ActionFunction, Form, LoaderFunction, useLoaderData } from "remix";
 import { Textarea, Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
-import { svc } from "~/services/settings.server";
+import * as settings from "~/services/settings.server";
 import { CloudflareDataFunctionArgs, ProfileSettings } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {
-    return svc(request, context, "profile").json();
+    return settings.item(request, context, "profile").json();
   });
 
 export const action: ActionFunction = (args) =>
@@ -18,17 +18,9 @@ export const action: ActionFunction = (args) =>
 
       const links = fields(formData, ["username", "about"]);
 
-      return svc(request, context, "profile").put(links);
+      return settings.item(request, context, "profile").put(links);
     }
   );
-
-const Full: React.FC = ({ children }) => {
-  return (
-    <div className="grid grid-cols-6 gap-6">
-      <div className="col-span-6 sm:col-span-3">{children}</div>
-    </div>
-  );
-};
 
 export default function SettingsIndex() {
   const { username, about, photo, coverphoto } =

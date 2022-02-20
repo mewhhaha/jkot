@@ -15,9 +15,31 @@ type AllSettings = {
   links: LinksSettings;
   profile: ProfileSettings;
   stream: StreamSettings;
+  created: string;
+  modified: string;
 };
 
-export const svc = <Name extends keyof AllSettings>(
+export const all = (
+  request: Request,
+  context: CloudflareContext
+): Omit<SettingsDO<Partial<AllSettings>>, "put"> => {
+  const doid = context.SETTINGS_DO.idFromName("admin");
+  const stub = context.SETTINGS_DO.get(doid);
+
+  return {
+    get: () => {
+      return stub.fetch(new URL(request.url).origin);
+    },
+    json: async () => {
+      const response = await stub.fetch(new URL(request.url).origin);
+      return response.json();
+    },
+  };
+};
+
+export const item = <
+  Name extends keyof Omit<AllSettings, "created" | "modified">
+>(
   request: Request,
   context: CloudflareContext,
   name: Name
@@ -30,11 +52,13 @@ export const svc = <Name extends keyof AllSettings>(
       return stub.fetch(new URL(request.url).origin);
     },
     json: async () => {
-      const response = await stub.fetch(`${new URL(request.url).origin}/name`);
+      const response = await stub.fetch(
+        `${new URL(request.url).origin}/${name}`
+      );
       return response.json();
     },
     put: (value) => {
-      return stub.fetch(`${new URL(request.url).origin}/name`, {
+      return stub.fetch(`${new URL(request.url).origin}/${name}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(value),

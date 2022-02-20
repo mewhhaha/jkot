@@ -8,7 +8,7 @@ import {
   LinksSettings,
   ProfileSettings,
 } from "~/types";
-import { svc } from "~/services/settings.server";
+import * as settings from "~/services/settings.server";
 
 type LoaderData = {
   authed: boolean;
@@ -23,13 +23,14 @@ export const loader: LoaderFunction = async ({
   const authenticator = createAuthenticator(request, context);
   const user = await authenticator.isAuthenticated(request);
 
-  const links = svc(request, context, "links").json();
-  const profile = svc(request, context, "profile").json();
+  const { links = {}, profile = {} } = await settings
+    .all(request, context)
+    .json();
 
   return {
     authed: user !== null,
-    links: await links,
-    profile: await profile,
+    links,
+    profile,
   };
 };
 
@@ -146,9 +147,19 @@ export default function HeaderTemplate() {
           Videos
         </NavLink>
         {authed ? (
-          <NavLink active={page === "settings"} to="/settings">
-            Settings
-          </NavLink>
+          <>
+            <NavLink active={page === "settings"} to="/settings">
+              Settings
+            </NavLink>
+            <Form action="/auth/logout" method="post">
+              <button
+                type="submit"
+                className="flex h-full items-center border-b-4 border-transparent text-2xl font-light hover:border-orange-400"
+              >
+                Logout
+              </button>
+            </Form>
+          </>
         ) : (
           <Form action="/auth/login" method="post">
             <button

@@ -11,6 +11,10 @@ const state = () => ({
     put(key, value) {
       this.o[key] = value;
     },
+    list() {
+      console.log(this.o);
+      return new Map(Object.entries(this.o));
+    },
   },
 });
 

@@ -5,10 +5,19 @@ export class Settings implements DurableObject {
     this.storage = state.storage;
   }
 
-  async get(request: Request) {
-    const path = new URL(request.url).pathname;
-    const latest = await this.storage.get(path);
+  async list(_request: Request) {
+    const list = await this.storage.list();
+    const latest = Object.fromEntries([...list.entries()]);
+    return new Response(JSON.stringify(latest), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 
+  async get(request: Request) {
+    const path = new URL(request.url).pathname.slice(1);
+
+    const latest = await this.storage.get(path);
     return new Response(JSON.stringify(latest ?? {}), {
       status: 200,
       headers: { "Content-Type": "application/json" },
@@ -16,7 +25,7 @@ export class Settings implements DurableObject {
   }
 
   async put(request: Request) {
-    const path = new URL(request.url).pathname;
+    const path = new URL(request.url).pathname.slice(1);
     const json = await request.json();
 
     const now = new Date();
@@ -37,11 +46,21 @@ export class Settings implements DurableObject {
   }
 
   async fetch(request: Request) {
+    const path = new URL(request.url).pathname;
+
     switch (request.method) {
-      case "GET":
-        return this.get(request);
-      case "PUT":
-        return this.put(request);
+      case "GET": {
+        if (path === "/") {
+          return this.list(request);
+        } else {
+          return this.get(request);
+        }
+      }
+      case "PUT": {
+        if (path !== "/") {
+          return this.put(request);
+        }
+      }
     }
 
     return new Response("Not Found", { status: 404 });

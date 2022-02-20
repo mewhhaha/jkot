@@ -2,12 +2,12 @@ import { ActionFunction, Form, LoaderFunction, useLoaderData } from "remix";
 import { PrefixTextbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
-import { svc } from "~/services/settings.server";
+import * as settings from "~/services/settings.server";
 import { CloudflareDataFunctionArgs } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {
-    return svc(request, context, "links").json();
+    return settings.item(request, context, "links").json();
   });
 
 export const action: ActionFunction = (args) =>
@@ -18,7 +18,7 @@ export const action: ActionFunction = (args) =>
 
       const links = fields(formData, ["github", "twitter"]);
 
-      return svc(request, context, "links").put(links);
+      return settings.item(request, context, "links").put(links);
     }
   );
 
