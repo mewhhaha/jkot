@@ -1,6 +1,18 @@
-compatibility_date = "2022-01-30"
-workers_dev = false
+name = "jkot"
+type = "javascript"
+compatibility_date = "2022-02-03"
+
+[build.upload]
+dir = "dist"
+format = "modules"
+main = "./index.mjs"
+
+[durable_objects]
+bindings = [
+  { name = "SETTINGS_DO", class_name = "Settings" },
+  { name = "ARTICLE_DO", class_name = "Article" },
+]
 
 [[migrations]]
-new_classes = ["Settings", "Article"]
 tag = "v1"
+new_classes = ["Settings", "Article"]

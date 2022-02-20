@@ -6,7 +6,7 @@ export const action: ActionFunction = async ({
   request,
   context,
 }: CloudflareDataFunctionArgs) => {
-  const authenticator = createAuthenticator(context, request);
+  const authenticator = createAuthenticator(request, context);
   await authenticator.authenticate("auth0", request, {
     successRedirect: "/",
     failureRedirect: "/",

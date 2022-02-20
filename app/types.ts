@@ -13,3 +13,21 @@ export type CloudflareContext = {
   SETTINGS_DO: DurableObjectNamespace;
   ARTICLE_DO: DurableObjectNamespace;
 };
+
+export type LinksSettings = {
+  github?: string;
+  twitter?: string;
+};
+
+export type ProfileSettings = {
+  username?: string;
+  about?: string;
+  photo?: string;
+  coverphoto?: string;
+};
+
+export type StreamSettings = {
+  id?: string;
+  title?: string;
+  category?: string;
+};

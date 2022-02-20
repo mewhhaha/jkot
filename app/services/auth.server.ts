@@ -1,11 +1,16 @@
-import { createCookie, createCookieSessionStorage } from "remix";
+import {
+  createCookie,
+  createCookieSessionStorage,
+  LoaderFunction,
+  redirect,
+} from "remix";
 import { Authenticator } from "remix-auth";
 import { Auth0Profile, Auth0Strategy } from "remix-auth-auth0";
-import { CloudflareContext } from "~/types";
+import { CloudflareContext, CloudflareDataFunctionArgs } from "~/types";
 
 export const createAuthenticator = (
-  context: CloudflareContext,
-  request: Request
+  request: Request,
+  context: CloudflareContext
 ) => {
   const sessionCookie = createCookie("_session", {
     sameSite: "lax", // this helps with CSRF
@@ -36,4 +41,19 @@ export const createAuthenticator = (
   authenticator.use(auth0Strategy);
 
   return authenticator;
+};
+
+export const requireAuthentication = async (
+  args: CloudflareDataFunctionArgs,
+  f: (
+    args: CloudflareDataFunctionArgs
+  ) => Promise<Response> | Response | Promise<unknown> | unknown
+) => {
+  const authenticator = createAuthenticator(args.request, args.context);
+  const user = await authenticator.isAuthenticated(args.request);
+  if (user === null) {
+    return redirect("/");
+  }
+
+  return f(args);
 };

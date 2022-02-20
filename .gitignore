@@ -5,3 +5,7 @@ node_modules
 /public/build
 
 tailwind.css
+
+dist
+
+.env

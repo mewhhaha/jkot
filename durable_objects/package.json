@@ -1,17 +1,20 @@
 {
-  "name": "jkot-durable-objects",
+  "name": "jkot",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.mjs",
+  "module": "dist/index.mjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "wrangler publish worker.ts --name jkot"
+    "build": "esbuild worker.ts --format=esm --bundle --outfile=dist/index.mjs",
+    "deploy": "pnpm build && wrangler publish worker.ts --name jkot"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@cloudflare/workers-types": "^3.3.1",
+    "esbuild": "^0.14.23",
     "prettier": "^2.5.1",
     "wrangler": "^0.0.17"
   },

@@ -1,12 +1,42 @@
 import { useMatch } from "react-router";
-import { Link, Outlet } from "remix";
+import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import cx from "clsx";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { createAuthenticator } from "~/services/auth.server";
+import {
+  CloudflareDataFunctionArgs,
+  LinksSettings,
+  ProfileSettings,
+} from "~/types";
+import { svc } from "~/services/settings.server";
 
-const navigation = [
+type LoaderData = {
+  authed: boolean;
+  links: LinksSettings;
+  profile: ProfileSettings;
+};
+
+export const loader: LoaderFunction = async ({
+  request,
+  context,
+}: CloudflareDataFunctionArgs): Promise<LoaderData> => {
+  const authenticator = createAuthenticator(request, context);
+  const user = await authenticator.isAuthenticated(request);
+
+  const links = svc(request, context, "links").json();
+  const profile = svc(request, context, "profile").json();
+
+  return {
+    authed: user !== null,
+    links: await links,
+    profile: await profile,
+  };
+};
+
+const createNavigation = ({ github, twitter }: LinksSettings) => [
   {
     name: "Twitter",
-    href: "https://twitter.com/jt12222667",
+    href: `https://twitter.com/${twitter}`,
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
         <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
@@ -15,7 +45,7 @@ const navigation = [
   },
   {
     name: "GitHub",
-    href: "https://github.com/mewhhaha",
+    href: `https://github.com/${github}`,
     icon: (props: React.SVGProps<SVGSVGElement>) => (
       <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
         <path
@@ -36,7 +66,7 @@ const NavLink: React.FC<{ to: string; active: boolean }> = ({
   return (
     <Link
       className={cx(
-        "h-full border-b-4 border-transparent text-2xl transition-colors hover:border-orange-400",
+        "flex h-full items-center border-b-4 border-transparent text-2xl font-light hover:border-orange-400",
         active ? "border-orange-400" : "border-transparent"
       )}
       to={to}
@@ -63,60 +93,74 @@ const calcTimeOfDay = (): TimeOfDay => {
 };
 
 export default function HeaderTemplate() {
+  const { authed, links, profile } = useLoaderData<LoaderData>();
+
   const match = useMatch("/:page/*");
   const page = match?.params?.page;
 
   const timeOfDay = calcTimeOfDay();
+  const navigation = createNavigation(links);
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden">
-      <header className="flex w-full flex-col border-b shadow-md">
-        <div className="relative bg-white">
-          <div className="absolute inset-0 ">
-            <div
-              className={cx(
-                "h-full w-full transition-all",
-                timeOfDay === TimeOfDay.Night
-                  ? "from-yellow-100 to-gray-400"
-                  : "from-orange-100 to-orange-300",
-                {
-                  "bg-gradient-to-r": timeOfDay === TimeOfDay.Evening,
-                  "bg-gradient-to-l": timeOfDay === TimeOfDay.Morning,
-                  "bg-gradient-to-t": timeOfDay === TimeOfDay.Midday,
-                  "bg-gradient-to-b": timeOfDay === TimeOfDay.Night,
-                }
-              )}
-              aria-hidden="true"
-            />
-          </div>
-          <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h2 className="text-base font-semibold uppercase tracking-wide text-orange-600">
-                Jacob Ken Olof Torrång Blog
-              </h2>
-              <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-                jkot me; I fucked up!
-              </p>
-              <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
-                This is my blog, for better and worse. It's my streaming, my
-                articles, my hot takes and connecting DOTA2 to the real world.
-              </p>
-            </div>
+    <div className="relative flex h-screen w-screen flex-col overflow-auto">
+      <header className="relative flex w-full flex-col bg-white">
+        <div className="absolute inset-0 ">
+          <div
+            className={cx(
+              "h-full w-full transition-all",
+              timeOfDay === TimeOfDay.Night
+                ? "from-yellow-100 to-gray-400"
+                : "from-orange-100 to-orange-300",
+              {
+                "bg-gradient-to-r": timeOfDay === TimeOfDay.Evening,
+                "bg-gradient-to-l": timeOfDay === TimeOfDay.Morning,
+                "bg-gradient-to-t": timeOfDay === TimeOfDay.Midday,
+                "bg-gradient-to-b": timeOfDay === TimeOfDay.Night,
+              }
+            )}
+            aria-hidden="true"
+          />
+        </div>
+        <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-base font-semibold uppercase tracking-wide text-orange-600">
+              {`${profile.username}`} Blog
+            </h2>
+            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+              jkot me; I fucked up!
+            </p>
+            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
+              {profile.about}
+            </p>
           </div>
         </div>
-        <nav className="flex h-12 w-full space-x-4 px-2 pt-1 md:space-x-12 md:px-8">
-          <NavLink active={page === undefined} to="/">
-            Main
-          </NavLink>
-          <NavLink active={page === "archive"} to="/archive">
-            Archive
-          </NavLink>
-          <NavLink active={page === "videos"} to="/videos">
-            Videos
-          </NavLink>
-        </nav>
       </header>
-      <main className="flex flex-grow">
+      <nav className="sticky top-0 flex h-12 w-full flex-none justify-end space-x-4 border-b bg-white/30 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
+        <NavLink active={page === undefined} to="/">
+          Start
+        </NavLink>
+        <NavLink active={page === "archive"} to="/archive">
+          Archive
+        </NavLink>
+        <NavLink active={page === "videos"} to="/videos">
+          Videos
+        </NavLink>
+        {authed ? (
+          <NavLink active={page === "settings"} to="/settings">
+            Settings
+          </NavLink>
+        ) : (
+          <Form action="/auth/login" method="post">
+            <button
+              type="submit"
+              className="flex h-full items-center border-b-4 border-transparent text-2xl font-light hover:border-orange-400"
+            >
+              Login
+            </button>
+          </Form>
+        )}
+      </nav>
+      <main className="flex flex-grow bg-gray-100">
         <Outlet />
       </main>
       <footer className="bg-white">
