@@ -60,11 +60,15 @@ const createNavigation = ({ github, twitter }: LinksSettings) => [
   },
 ];
 
-const NavLink: React.FC<{ to: string; active: boolean }> = ({
-  children,
-  to,
-  active,
-}) => {
+type NavLinkProps = {
+  to: string;
+};
+
+const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
+  const match = useMatch("/:page/*");
+  const page = match?.params?.page ?? "";
+  const active = `/${page}` === to;
+
   return (
     <Link
       className={cx(
@@ -91,18 +95,8 @@ const NavButton: React.FC = ({ children }) => {
   );
 };
 
-enum TimeOfDay {
-  Morning,
-  Midday,
-  Evening,
-  Night,
-}
-
 export default function HeaderTemplate() {
   const { authed, links, profile } = useLoaderData<LoaderData>();
-
-  const match = useMatch("/:page/*");
-  const page = match?.params?.page;
 
   const navigation = createNavigation(links);
 
@@ -126,20 +120,12 @@ export default function HeaderTemplate() {
         </div>
       </header>
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
-        <NavLink active={page === undefined} to="/">
-          Start
-        </NavLink>
-        <NavLink active={page === "archive"} to="/archive">
-          Archive
-        </NavLink>
-        <NavLink active={page === "videos"} to="/videos">
-          Videos
-        </NavLink>
+        <NavLink to="/">Start</NavLink>
+        <NavLink to="/blog">Blog</NavLink>
+        <NavLink to="/videos">Videos</NavLink>
         {authed ? (
           <>
-            <NavLink active={page === "settings"} to="/settings">
-              Settings
-            </NavLink>
+            <NavLink to="/settings">Settings</NavLink>
             <Form action="/auth/logout" method="post">
               <NavButton>Logout</NavButton>
             </Form>
