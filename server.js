@@ -12,7 +12,6 @@ const state = () => ({
       this.o[key] = value;
     },
     list() {
-      console.log(this.o);
       return new Map(Object.entries(this.o));
     },
   },
