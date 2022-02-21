@@ -1,3 +1,3 @@
-export default function Videos() {
+export default function Clips() {
   return <div></div>;
 }
