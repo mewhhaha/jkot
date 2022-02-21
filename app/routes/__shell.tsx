@@ -136,7 +136,7 @@ export default function HeaderTemplate() {
           </div>
         </div>
       </header>
-      <nav className="sticky top-0 flex h-12 w-full flex-none justify-end space-x-4 border-b bg-white/30 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
+      <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
         <NavLink active={page === undefined} to="/">
           Start
         </NavLink>

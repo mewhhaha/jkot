@@ -2,7 +2,13 @@ import { Combobox } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import cx from "clsx";
 import { ChangeEvent, useRef, useState } from "react";
-import { ActionFunction, Form, LoaderFunction, useLoaderData } from "remix";
+import {
+  ActionFunction,
+  Form,
+  LoaderFunction,
+  useLoaderData,
+  useTransition,
+} from "remix";
 import { Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { categories } from "~/services/category.client";
@@ -114,47 +120,50 @@ const CategoryCombobox: React.VFC<CategoryComboboxProps> = ({
 
 export default function SettingsStream() {
   const { id, title, category } = useLoaderData<StreamSettings>();
+  const transition = useTransition();
 
   return (
     <Form method="post">
-      <div className="shadow sm:overflow-hidden sm:rounded-md">
-        <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
-          <div>
-            <h3 className="text-lg font-medium leading-6 text-gray-900">
-              Stream
-            </h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Anything affecting the stream on the start page.
-            </p>
+      <fieldset disabled={transition.state !== "idle"}>
+        <div className="relative shadow sm:overflow-hidden sm:rounded-md">
+          <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
+            <div>
+              <h3 className="text-lg font-medium leading-6 text-gray-900">
+                Stream
+              </h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Anything affecting the stream on the start page.
+              </p>
+            </div>
+            <div className="grid grid-cols-6 gap-6">
+              <div className="col-span-6 sm:col-span-4">
+                <Textbox label="Stream ID" name="id" defaultValue={id} />
+              </div>
+
+              <div className="col-span-6 sm:col-span-4">
+                <Textbox label="Title" name="title" defaultValue={title} />
+              </div>
+
+              <div className="col-span-6 sm:col-span-4">
+                <CategoryCombobox
+                  label="Category"
+                  name="category"
+                  defaultValue={category}
+                />
+              </div>
+            </div>
           </div>
-          <div className="grid grid-cols-6 gap-6">
-            <div className="col-span-6 sm:col-span-4">
-              <Textbox label="Stream ID" name="id" defaultValue={id} />
-            </div>
 
-            <div className="col-span-6 sm:col-span-4">
-              <Textbox label="Title" name="title" defaultValue={title} />
-            </div>
-
-            <div className="col-span-6 sm:col-span-4">
-              <CategoryCombobox
-                label="Category"
-                name="category"
-                defaultValue={category}
-              />
-            </div>
+          <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+            <button
+              type="submit"
+              className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2"
+            >
+              Save
+            </button>
           </div>
         </div>
-
-        <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-          <button
-            type="submit"
-            className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2"
-          >
-            Save
-          </button>
-        </div>
-      </div>
+      </fieldset>
     </Form>
   );
 }
