@@ -1,4 +1,5 @@
 import {
+  ArticleSettings,
   CloudflareContext,
   LinksSettings,
   ProfileSettings,
@@ -17,7 +18,7 @@ type AllSettings = {
   stream: StreamSettings;
   created: string;
   modified: string;
-};
+} & Record<`article/${string}`, ArticleSettings>;
 
 export const all = (
   request: Request,

@@ -3,6 +3,9 @@ import * as build from "@remix-run/dev/server-build";
 import { Settings, Article } from "./durable_objects/worker";
 
 const state = () => ({
+  blockConcurrencyWhile: (f) => {
+    f();
+  },
   storage: {
     o: {},
     get(key) {
@@ -22,6 +25,12 @@ const durable = (internal) => {
     objects: {},
     idFromName(name) {
       return name;
+    },
+    idFromString(id) {
+      return id;
+    },
+    newUniqueId() {
+      return Math.floor(Math.random() * 1000000000);
     },
     get(name) {
       if (this.objects[name] === undefined) {

@@ -3,11 +3,6 @@ type = "javascript"
 compatibility_date = "2022-02-03"
 workers_dev = false
 
-[build.upload]
-dir = "dist"
-format = "modules"
-main = "./index.mjs"
-
 [durable_objects]
 bindings = [
   { name = "SETTINGS_DO", class_name = "Settings" },

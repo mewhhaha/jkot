@@ -3,6 +3,16 @@ export class Settings implements DurableObject {
 
   constructor(state: DurableObjectState) {
     this.storage = state.storage;
+
+    state.blockConcurrencyWhile(async () => {
+      if ((await this.storage.get<Date>("created")) !== undefined) return;
+
+      const now = new Date();
+      await Promise.all([
+        this.storage.put("created", now),
+        this.storage.put("modified", now),
+      ]);
+    });
   }
 
   async list(_request: Request) {
@@ -32,9 +42,6 @@ export class Settings implements DurableObject {
     now.setUTCHours(0, 0, 0, 0);
 
     const transaction = [];
-    if ((await this.storage.get<Date>("created")) === undefined) {
-      transaction.push(this.storage.put("created", now));
-    }
 
     transaction.push(this.storage.put("modified", now));
     transaction.push(this.storage.put(path, json));
@@ -54,6 +61,12 @@ export class Settings implements DurableObject {
           return this.list(request);
         } else {
           return this.get(request);
+        }
+      }
+      case "PATCH": {
+        switch (path) {
+          case "/push":
+          case "/delete":
         }
       }
       case "PUT": {

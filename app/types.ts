@@ -31,3 +31,9 @@ export type StreamSettings = {
   title?: string;
   category?: string;
 };
+
+export type ArticleSettings = {
+  slug?: string;
+  id?: string;
+  status?: "published" | "unpublished";
+};
