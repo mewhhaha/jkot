@@ -126,7 +126,7 @@ export default function Index() {
           </div>
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
             {blurbs.map((blurb) => (
-              <ArticleCard {...blurb} />
+              <ArticleCard key={blurb.title} {...blurb} />
             ))}
           </div>
         </div>

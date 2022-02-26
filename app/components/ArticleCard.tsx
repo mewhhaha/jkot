@@ -28,10 +28,7 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
   readingTime,
 }) => {
   return (
-    <div
-      key={title}
-      className="flex flex-col overflow-hidden rounded-lg shadow-lg"
-    >
+    <div className="flex flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex-shrink-0">
         <img className="h-48 w-full object-cover" src={imageUrl} alt="" />
       </div>

@@ -80,7 +80,7 @@ export default function Blog() {
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
             {user !== null && <NewArticleCard />}
             {blurbs.map((blurb) => (
-              <ArticleCard {...blurb} />
+              <ArticleCard key={blurb.title} {...blurb} />
             ))}
           </div>
         </div>
