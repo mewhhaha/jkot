@@ -1,9 +1,20 @@
 import { useState, useEffect } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
+import { requireAuthentication } from "~/services/auth.server";
+import { item } from "~/services/settings.server";
 
-export const loader: LoaderFunction = ({ params }) => {
-  return params.id;
-};
+export const loader: LoaderFunction = (args) =>
+  requireAuthentication(args, async ({ request, context, params }) => {
+    const article = await item(
+      request,
+      context,
+      `article/${params.slug}`
+    ).json();
+    if (article.id === undefined)
+      return new Response("Not found", { status: 404 });
+
+    return article.id;
+  });
 
 const useWebsocket = () => {
   const id = useLoaderData<string>();
