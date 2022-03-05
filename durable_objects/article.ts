@@ -1,40 +1,45 @@
-type A = {
-  title: "Boost your conversion rate";
-  href: "#";
-  category: { name: "Article"; href: "#" };
-  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto accusantium praesentium eius, ut atque fuga culpa, similique sequi cum eos quis dolorum.";
-  date: "Mar 16, 2020";
-  datetime: "2020-03-16";
-  imageUrl: "https://images.unsplash.com/photo-1496128858413-b36217c2ce36?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1679&q=80";
-  readingTime: "6 min";
-  author: {
-    name: "Roel Aufderehar";
-    href: "#";
-    imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80";
-  };
+import { Env, Content, Message } from "./types";
+import * as rope from "./rope";
+import { Rope } from "./rope";
+
+const byteStringToUint8Array = (byteString: string) => {
+  const ui = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; ++i) {
+    ui[i] = byteString.charCodeAt(i);
+  }
+  return ui;
 };
 
 export class Article implements DurableObject {
   storage: DurableObjectStorage;
   sessions: WebSocket[];
+  env: Env;
+  id: string | DurableObjectId;
 
-  constructor(state: DurableObjectState) {
+  constructor(state: DurableObjectState, env: Env) {
     this.storage = state.storage;
     this.sessions = [];
+    this.id = state.id;
+    this.env = env;
 
     state.blockConcurrencyWhile(async () => {
       if ((await this.storage.get<Date>("created")) !== undefined) return;
 
+      const encoder = new TextEncoder();
+      const secret = encoder.encode(crypto.randomUUID());
+
       const now = new Date();
       await Promise.all([
+        this.storage.put("secret", secret),
         this.storage.put("created", now),
         this.storage.put("modified", now),
       ]);
     });
   }
 
-  broadcast(message: string) {
+  broadcast(origin: WebSocket, message: string) {
     this.sessions = this.sessions.filter((session) => {
+      if (session === origin) return true;
       try {
         session.send(message);
         return true;
@@ -44,27 +49,87 @@ export class Article implements DurableObject {
     });
   }
 
+  async getContent(): Promise<Content> {
+    const title = this.storage.get<string>("title");
+    const category = this.storage.get<string>("category");
+    const description = this.storage.get<string>("description");
+    const created = this.storage.get<string>("created");
+    const modified = this.storage.get<string>("modified");
+    const imageUrl = this.storage.get<string>("imageUrl");
+    const imageAlt = this.storage.get<string>("imageAlt");
+    const imageAuthor = this.storage.get<string>("imageAuthor");
+    const body = this.storage.get<Rope>("body");
+
+    return {
+      title: (await title) ?? "",
+      category: (await category) ?? "",
+      description: (await description) ?? "",
+      created: (await created) ?? "",
+      modified: (await modified) ?? "",
+      imageUrl: (await imageUrl) ?? "",
+      imageAlt: (await imageAlt) ?? "",
+      imageAuthor: (await imageAuthor) ?? "",
+      body: (await body.then((b) => rope.toString(b))) ?? "",
+    };
+  }
+
   async connect(websocket: WebSocket) {
     websocket.accept();
 
-    const latest = await this.storage.list();
+    this.sessions.push(websocket);
 
-    websocket.send(
-      JSON.stringify(["latest", Object.fromEntries([...latest.entries()])])
-    );
+    const latest = await this.getContent();
+
+    websocket.send(JSON.stringify(["latest", latest]));
 
     websocket.addEventListener("message", async (msg) => {
-      const [t, data] = JSON.parse(msg.data as string);
+      const message: Message = JSON.parse(msg.data as string);
       const now = new Date();
 
-      switch (t) {
+      this.broadcast(websocket, msg.data as string);
+
+      switch (message[0]) {
         case "title":
         case "imageUrl":
-        case "description":
-        case "body": {
-          this.storage.put(t, data);
-          this.storage.put("modified", now);
-          this.broadcast(JSON.stringify([t, data, now]));
+        case "category":
+        case "description": {
+          await Promise.all([
+            this.storage.put(message[0], message[1]),
+            this.storage.put("modified", now),
+          ]);
+          break;
+        }
+        case "c-add": {
+          const [position, text] = message[1];
+
+          let body = await this.storage.get<Rope>("body");
+          if (body === undefined) {
+            body = rope.from("");
+          }
+
+          const next = rope.insert(body, position, text);
+
+          await Promise.all([
+            this.storage.put("body", next),
+            this.storage.put("modified", now),
+          ]);
+          break;
+        }
+
+        case "c-remove": {
+          const [from, to]: [number, number] = message[1];
+
+          let body = await this.storage.get<Rope>("body");
+          if (body === undefined) {
+            body = rope.from("");
+          }
+
+          const next = rope.remove(body, from, to);
+
+          await Promise.all([
+            this.storage.put("body", next),
+            this.storage.put("modified", now),
+          ]);
           break;
         }
       }
@@ -83,14 +148,98 @@ export class Article implements DurableObject {
     return new Response(null, { status: 101, webSocket: pair[0] });
   }
 
+  async generate(_request: Request) {
+    const encoder = new TextEncoder();
+
+    const minute = 1000 * 60;
+    const expiry = Date.now() + minute;
+
+    const url = new URL(
+      `wss://${this.env.ORIGIN}/articles/${this.id}/websocket`
+    );
+    url.searchParams.append("expiry", expiry.toString());
+
+    const secret = await this.storage.get<Uint8Array>("secret");
+
+    if (!secret) {
+      return new Response(null, { status: 403 });
+    }
+
+    const key: CryptoKey = await crypto.subtle.importKey(
+      "raw",
+      secret,
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
+
+    const mac = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      encoder.encode(url.pathname + "@" + expiry)
+    );
+
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(mac)));
+
+    url.searchParams.append("mac", base64);
+
+    return new Response(url.toString());
+  }
+
+  async verify(request: Request) {
+    const encoder = new TextEncoder();
+
+    const url = new URL(request.url);
+    const expiry = url.searchParams.get("expiry");
+    const mac = url.searchParams.get("mac");
+
+    if (expiry === null || mac === null) {
+      return new Response("Missing query parameter", { status: 403 });
+    }
+
+    const secret = await this.storage.get<Uint8Array>("secret");
+    if (!secret) {
+      return new Response(null, { status: 403 });
+    }
+
+    const key: CryptoKey = await crypto.subtle.importKey(
+      "raw",
+      secret,
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["verify"]
+    );
+
+    const verified = await crypto.subtle.verify(
+      "HMAC",
+      key,
+      byteStringToUint8Array(atob(mac)),
+      encoder.encode(url.pathname + "@" + expiry)
+    );
+
+    if (!verified) {
+      return new Response("Invalid MAC", { status: 403 });
+    }
+
+    if (Date.now() > Number(expiry)) {
+      const body = `URL expired at ${new Date(expiry)}`;
+      return new Response(body, { status: 403 });
+    }
+
+    return this.websocket(request);
+  }
+
   async fetch(request: Request) {
     const url = new URL(request.url);
 
-    switch (url.pathname) {
-      case "/websocket":
-        return this.websocket(request);
+    if (url.pathname.endsWith("/generate")) {
+      return this.generate(request);
     }
 
-    return new Response("Not Found", { status: 404 });
+    if (url.pathname.endsWith("/websocket")) {
+      return this.verify(request);
+    }
+
+    return new Response(null, { status: 403 });
   }
 }

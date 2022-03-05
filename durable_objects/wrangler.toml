@@ -1,14 +1,20 @@
+compatibility_date = "2022-02-03"
 name = "jkot"
 type = "javascript"
-compatibility_date = "2022-02-03"
-workers_dev = false
+
+[build.upload]
+format = "modules"
+main = "./worker.ts"
+
+[vars]
+ORIGIN = "jkot.horrible.workers.dev"
 
 [durable_objects]
 bindings = [
-  { name = "SETTINGS_DO", class_name = "Settings" },
-  { name = "ARTICLE_DO", class_name = "Article" },
+  {name = "SETTINGS_DO", class_name = "Settings"},
+  {name = "ARTICLE_DO", class_name = "Article"},
 ]
 
 [[migrations]]
-tag = "v1"
 new_classes = ["Settings", "Article"]
+tag = "v1"

@@ -13,6 +13,7 @@
     "clsx": "^1.1.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-markdown": "^8.0.0",
     "remix": "^1.2.1",
     "remix-auth": "^3.2.1",
     "remix-auth-auth0": "^1.3.2",
@@ -49,9 +50,8 @@
     "build:remix": "NODE_ENV=production remix build",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:tailwind": "tailwindcss -o ./app/tailwind.css --watch",
-    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public $(cat .env)",
+    "dev:wrangler": "cross-env NODE_ENV=development wrangler pages dev ./public --mount api=./durable_objects --do ARTICLE_DO=Article@api --do SETTINGS_DO=Settings@api $(cat .env)",
     "dev": "cross-env NODE_ENV=development remix build && tailwindcss -o ./app/tailwind.css && run-p dev:*",
-    "start": "cross-env NODE_ENV=production npm run dev:wrangler",
-    "t": "wrangler pages functions ./functions/[[path]].js"
+    "start": "cross-env NODE_ENV=production npm run dev:wrangler"
   }
 }

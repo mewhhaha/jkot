@@ -54,10 +54,10 @@ const ARTICLE_DO = durable(new Article(state()));
 const handleRequest = createPagesFunctionHandler({
   build,
   mode: process.env.NODE_ENV,
-  getLoadContext: (context) =>
-    process.env.NODE_ENV === "production"
-      ? context.env
-      : { ...context.env, SETTINGS_DO, ARTICLE_DO },
+  getLoadContext: (context) => context.env,
+  // process.env.NODE_ENV === "production"
+  //   ? context.env
+  //   : { ...context.env, SETTINGS_DO, ARTICLE_DO },
 });
 
 export function onRequest(context) {

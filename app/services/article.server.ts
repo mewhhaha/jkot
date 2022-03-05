@@ -1,7 +1,7 @@
 import { CloudflareContext } from "~/types";
 
 type ArticleDO = {
-  websocket(): Promise<Response>;
+  generate(): Promise<string>;
 };
 
 export const article = (
@@ -13,8 +13,11 @@ export const article = (
   const stub = context.ARTICLE_DO.get(doid);
 
   return {
-    websocket: () => {
-      return stub.fetch(`${new URL(request.url).origin}/websocket`);
+    generate: async () => {
+      const response = await stub.fetch(
+        `${new URL(request.url).origin}/generate`
+      );
+      return response.text();
     },
   };
 };
