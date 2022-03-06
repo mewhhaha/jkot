@@ -1,7 +1,6 @@
 import { CameraIcon } from "@heroicons/react/solid";
 
-//@ts-ignore
-import ReactMarkdown from "react-markdown/react-markdown.min";
+import Markdown from "markdown-to-jsx";
 
 type ArticleFullProps = {
   title: string;
@@ -100,7 +99,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
               <p className="text-lg text-gray-500">{description}</p>
             </div>
             <div className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none">
-              <ReactMarkdown>{children}</ReactMarkdown>
+              <Markdown>{children}</Markdown>
             </div>
           </div>
         </div>
