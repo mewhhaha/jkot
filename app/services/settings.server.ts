@@ -20,6 +20,10 @@ type AllSettings = {
   modified: string;
 } & Record<`article/${string}`, ArticleSettings>;
 
+export const isArticleKey = (key: string): key is `article/${string}` => {
+  return key.startsWith("article/");
+};
+
 export const all = (
   request: Request,
   context: CloudflareContext

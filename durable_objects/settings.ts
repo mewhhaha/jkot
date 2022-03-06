@@ -19,7 +19,6 @@ export class Settings implements DurableObject {
     const list = await this.storage.list();
     const latest = Object.fromEntries([...list.entries()]);
     return new Response(JSON.stringify(latest), {
-      status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }
@@ -29,7 +28,6 @@ export class Settings implements DurableObject {
 
     const latest = await this.storage.get(path);
     return new Response(JSON.stringify(latest ?? {}), {
-      status: 200,
       headers: { "Content-Type": "application/json" },
     });
   }

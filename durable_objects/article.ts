@@ -227,8 +227,16 @@ export class Article implements DurableObject {
     return this.websocket(request);
   }
 
+  async read(_request: Request) {
+    return new Response(JSON.stringify(this.getContent()));
+  }
+
   async fetch(request: Request) {
     const url = new URL(request.url);
+
+    if (url.pathname.endsWith("/read")) {
+      return this.read(request);
+    }
 
     if (url.pathname.endsWith("/generate")) {
       return this.generate(request);

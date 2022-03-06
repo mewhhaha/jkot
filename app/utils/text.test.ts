@@ -50,8 +50,9 @@ test("Delete all", () => {
 });
 
 test("Delete in middle", () => {
-  const expected: Message[] = [["c-remove", [0, "hello world".length]]];
-  const actual = diffs("hello world", "", 0);
+  const from = "hello world";
+  const to = "hell world";
+  const actions = diffs(from, to, "hell".length - 1);
 
-  expect(actual).toEqual(expected);
+  expect(receive(from, actions)).toEqual(to);
 });
