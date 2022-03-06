@@ -1,5 +1,7 @@
 import { CameraIcon } from "@heroicons/react/solid";
-import ReactMarkdown from "react-markdown";
+
+//@ts-ignore
+import ReactMarkdown from "react-markdown/react-markdown.min";
 
 type ArticleFullProps = {
   title: string;
