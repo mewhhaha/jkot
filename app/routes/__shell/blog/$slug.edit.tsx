@@ -149,7 +149,9 @@ export default function Edit() {
 
             messages.forEach(send);
 
-            ref.current = resolve(ref.current, messages);
+            setTimeout(() => {
+              ref.current = resolve(ref.current, messages);
+            });
 
             setContent((prev) => ({
               ...prev,
