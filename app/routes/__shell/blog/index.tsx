@@ -3,7 +3,7 @@ import { Auth0Profile } from "remix-auth-auth0";
 import { ArticleCard } from "~/components/ArticleCard";
 import { ArticleCardNew } from "~/components/ArticleCardNew";
 import { ArticleCardUnpublished } from "~/components/ArticleCardUnpublished";
-import { blurbs } from "~/services/article.server";
+import { blurbs } from "~/mocks/blurbs";
 import { createAuthenticator } from "~/services/auth.server";
 import { all, isArticleKey } from "~/services/settings.server";
 import { ArticleSettings, CloudflareDataFunctionArgs } from "~/types";
