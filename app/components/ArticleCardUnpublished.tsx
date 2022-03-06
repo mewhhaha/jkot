@@ -1,5 +1,5 @@
-import { PencilIcon, PlusIcon } from "@heroicons/react/outline";
-import { Form, Link } from "remix";
+import { PencilIcon } from "@heroicons/react/outline";
+import { Link } from "remix";
 
 type ArticleCardUnpublishedProps = {
   slug: string;

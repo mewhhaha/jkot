@@ -1,5 +1,4 @@
 import { CameraIcon } from "@heroicons/react/solid";
-
 import Markdown from "markdown-to-jsx";
 
 type ArticleFullProps = {

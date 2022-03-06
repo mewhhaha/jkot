@@ -1,4 +1,4 @@
-import { Content, Message } from "durable-objects";
+import type { Content, Message } from "durable-objects";
 import { useState, useEffect } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";

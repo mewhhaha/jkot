@@ -1,4 +1,4 @@
-import { Message } from "durable-objects";
+import type { Message } from "durable-objects";
 import fastDiff from "fast-diff";
 
 export const diffs = (
