@@ -9,7 +9,7 @@ export const ArticleCardUnpublished: React.VFC<ArticleCardUnpublishedProps> = ({
   slug,
 }) => {
   return (
-    <div className="flex flex-col justify-center overflow-hidden rounded-lg shadow-lg">
+    <article className="flex flex-col justify-center overflow-hidden rounded-lg shadow-lg">
       <div className="py-6 text-center">
         <svg
           className="mx-auto h-12 w-12 text-gray-400"
@@ -44,6 +44,6 @@ export const ArticleCardUnpublished: React.VFC<ArticleCardUnpublishedProps> = ({
           </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 };

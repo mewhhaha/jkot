@@ -1,5 +1,8 @@
 import cx from "clsx";
 import { overrideTailwindClasses } from "tailwind-override";
+import TextareaAutosize, {
+  TextareaAutosizeProps,
+} from "react-textarea-autosize";
 
 const ocx = (...args: Parameters<typeof cx>) => {
   return overrideTailwindClasses(cx(...args));
@@ -89,10 +92,7 @@ export type TextareaProps = {
   name: string;
   description: string;
 } & Omit<
-  React.DetailedHTMLProps<
-    React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-    HTMLTextAreaElement
-  >,
+  TextareaAutosizeProps & React.RefAttributes<HTMLTextAreaElement>,
   "name" | "id"
 >;
 
@@ -112,7 +112,7 @@ export const Textarea: React.VFC<TextareaProps> = ({
         {label}
       </label>
       <div className="mt-1">
-        <textarea
+        <TextareaAutosize
           {...props}
           id={name}
           name={name}
