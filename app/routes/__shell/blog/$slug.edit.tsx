@@ -1,12 +1,11 @@
 import type { Content, Message } from "durable-objects";
-import * as rope from "rope";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
-import { diffs, resolve } from "~/utils/text";
+import { diffs } from "~/utils/text";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }) => {
@@ -51,8 +50,6 @@ export default function Edit() {
     body: "",
   });
 
-  const ref = useRef(rope.from(""));
-
   const socket = useWebsocket();
 
   useEffect(() => {
@@ -61,7 +58,6 @@ export default function Edit() {
         const message: Message = JSON.parse(msg.data);
         switch (message[0]) {
           case "latest": {
-            ref.current = rope.from(message[1].body);
             setContent(message[1]);
             break;
           }
@@ -74,20 +70,19 @@ export default function Edit() {
           }
           case "c-add": {
             const [position, text] = message[1];
-            ref.current = rope.insert(ref.current, position, text);
             setContent((prev) => ({
               ...prev,
-              body: rope.toString(ref.current),
+              body:
+                prev.body.slice(0, position) + text + prev.body.slice(position),
             }));
             break;
           }
 
           case "c-remove": {
             const [from, to] = message[1];
-            ref.current = rope.remove(ref.current, from, to);
             setContent((prev) => ({
               ...prev,
-              body: rope.toString(ref.current),
+              body: prev.body.slice(0, from) + prev.body.slice(from + to),
             }));
             break;
           }
@@ -148,10 +143,6 @@ export default function Edit() {
             const messages = diffs(content.body, value, cursorPosition);
 
             messages.forEach(send);
-
-            setTimeout(() => {
-              ref.current = resolve(ref.current, messages);
-            });
 
             setContent((prev) => ({
               ...prev,

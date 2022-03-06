@@ -1,6 +1,4 @@
 import type { Message } from "durable-objects";
-import * as rope from "rope";
-import type { Rope } from "rope";
 import fastDiff from "fast-diff";
 
 export const diffs = (
@@ -32,24 +30,4 @@ export const diffs = (
   }
 
   return actions;
-};
-
-export const resolve = (body: Rope, messages: Message[]) => {
-  for (const message of messages) {
-    switch (message[0]) {
-      case "c-add": {
-        const [position, text] = message[1];
-        body = rope.insert(body, position, text);
-        break;
-      }
-
-      case "c-remove": {
-        const [from, to] = message[1];
-        body = rope.remove(body, from, to);
-        break;
-      }
-    }
-  }
-
-  return body;
 };

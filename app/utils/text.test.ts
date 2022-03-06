@@ -1,9 +1,31 @@
 import { Message } from "durable-objects";
 import * as rope from "rope";
+import { Rope } from "rope";
 import { test, expect } from "vitest";
-import { diffs, resolve } from "./text";
+import { diffs } from "./text";
 
 // Mock backend from article durable object
+
+const resolve = (body: Rope, messages: Message[]) => {
+  for (const message of messages) {
+    switch (message[0]) {
+      case "c-add": {
+        const [position, text] = message[1];
+        body = rope.insert(body, position, text);
+        break;
+      }
+
+      case "c-remove": {
+        const [from, to] = message[1];
+        body = rope.remove(body, from, to);
+        break;
+      }
+    }
+  }
+
+  return body;
+};
+
 const receive = (original: string, messages: Message[]) => {
   let body = rope.from(original);
   return rope.toString(resolve(body, messages));
