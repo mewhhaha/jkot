@@ -75,12 +75,20 @@ export default function Edit() {
           case "c-add": {
             const [position, text] = message[1];
             ref.current = rope.insert(ref.current, position, text);
+            setContent((prev) => ({
+              ...prev,
+              body: rope.toString(ref.current),
+            }));
             break;
           }
 
           case "c-remove": {
             const [from, to] = message[1];
             ref.current = rope.remove(ref.current, from, to);
+            setContent((prev) => ({
+              ...prev,
+              body: rope.toString(ref.current),
+            }));
             break;
           }
         }
