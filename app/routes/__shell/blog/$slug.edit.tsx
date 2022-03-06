@@ -129,9 +129,9 @@ export default function Edit() {
   };
 
   return (
-    <section className="flex flex-grow">
-      <div className="grid h-full w-full max-w-7xl grid-cols-2">
-        <div>
+    <section className="flex flex-grow justify-center">
+      <div className="grid h-full w-full grid-cols-2">
+        <div className="h-full w-full max-w-7xl">
           <fieldset disabled={status !== "open"}>
             <div className="relative shadow sm:overflow-hidden sm:rounded-md">
               <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
@@ -238,13 +238,13 @@ export default function Edit() {
                   type="submit"
                   className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                 >
-                  Save
+                  Publish
                 </button>
               </div>
             </div>
           </fieldset>
         </div>
-        <div className="h-full w-full">
+        <div className="h-full w-full max-w-7xl">
           <ArticleFull
             title={content.title}
             category={content.category}
