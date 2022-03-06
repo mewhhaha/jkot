@@ -168,20 +168,6 @@ export default function Edit() {
                       }}
                     />
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
-                    <Textarea
-                      label="Description"
-                      name="description"
-                      value={content.description}
-                      placeholder="This is..."
-                      description="Brief description for your article."
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["description", value]);
-                        setContent((prev) => ({ ...prev, description: value }));
-                      }}
-                    />
-                  </div>
 
                   <dl className="col-span-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:col-span-2 sm:grid-cols-2">
                     {(["created", "modified"] as const).map((field) => {
@@ -198,7 +184,7 @@ export default function Edit() {
                     })}
                   </dl>
 
-                  <div className="col-span-6 sm:col-span-2">
+                  <div className="col-span-6 sm:col-span-3">
                     <Textarea
                       label="Description"
                       name="description"
