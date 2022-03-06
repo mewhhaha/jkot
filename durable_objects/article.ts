@@ -69,7 +69,7 @@ export class Article implements DurableObject {
       imageUrl: (await imageUrl) ?? "",
       imageAlt: (await imageAlt) ?? "",
       imageAuthor: (await imageAuthor) ?? "",
-      body: (await body.then((b) => rope.toString(b))) ?? "",
+      body: await body.then(rope.toString),
     };
   }
 
@@ -137,7 +137,7 @@ export class Article implements DurableObject {
   }
 
   async websocket(request: Request) {
-    if (request.headers.get("Upgrade") != "websocket") {
+    if (request.headers.get("Upgrade") !== "websocket") {
       return new Response("expected websocket", { status: 400 });
     }
 

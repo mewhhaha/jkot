@@ -8,6 +8,7 @@ type ArticleFullProps = {
   children: string;
   imageUrl: string;
   imageAlt: string;
+  imageAuthor: string;
 };
 
 export const ArticleFull: React.FC<ArticleFullProps> = ({
@@ -16,6 +17,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   description,
   imageUrl,
   imageAlt,
+  imageAuthor,
   children,
 }) => {
   return (
@@ -86,7 +88,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="ml-2">Photograph by Marcus O’Leary</span>
+                  <span className="ml-2">Photograph by {imageAuthor}</span>
                 </figcaption>
               </figure>
             </div>

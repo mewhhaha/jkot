@@ -1,6 +1,7 @@
 import { Content, Message } from "durable_objects/types";
 import { useState, useEffect } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
+import { ArticleFull } from "~/components/ArticleFull";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
@@ -172,14 +173,22 @@ export default function Edit() {
           onChange={(event) => {
             setDocument((prev) => ({
               ...prev,
-              body: event.currentTarget.value,
+              body: event.target.value,
             }));
           }}
         />
       </div>
       <div>
-        <h1></h1>
-        <p></p>
+        <ArticleFull
+          title={document.title}
+          category={document.category}
+          description={document.description}
+          imageUrl={document.imageUrl}
+          imageAlt={document.imageAlt}
+          imageAuthor={document.imageAuthor}
+        >
+          {document.body}
+        </ArticleFull>
       </div>
     </section>
   );

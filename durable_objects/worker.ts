@@ -10,11 +10,13 @@ router.all("/articles/:id/websocket", async (request, env: Env) => {
   const doid = env.ARTICLE_DO.idFromString(id);
   const stub = env.ARTICLE_DO.get(doid);
 
-  return stub.fetch(request.url);
+  return stub.fetch(request as Request);
 });
 
 export default {
-  fetch: router.handle,
+  fetch(request: Request, ...extra: any[]) {
+    return router.handle(request, ...extra);
+  },
 };
 
 export { Settings } from "./settings";
