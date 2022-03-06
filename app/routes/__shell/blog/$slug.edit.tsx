@@ -129,9 +129,9 @@ export default function Edit() {
   };
 
   return (
-    <section className="flex flex-grow justify-center">
+    <section className="flex flex-grow justify-center p-4">
       <div className="grid h-full w-full grid-cols-2">
-        <div className="h-full w-full max-w-7xl">
+        <div className="h-full w-full">
           <fieldset disabled={status !== "open"}>
             <div className="relative shadow sm:overflow-hidden sm:rounded-md">
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
@@ -142,7 +142,7 @@ export default function Edit() {
                   Publish
                 </button>
               </div>
-              <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
+              <div className="h-full w-full space-y-6 bg-white py-6 px-4 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
