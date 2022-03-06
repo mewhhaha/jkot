@@ -133,7 +133,7 @@ export default function Edit() {
       <div className="grid h-full w-full grid-cols-2">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
-            <div className="relative h-full p-4 shadow sm:overflow-hidden sm:rounded-md">
+            <div className="relative flex h-full flex-col p-4 shadow sm:overflow-hidden sm:rounded-md">
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <button
                   type="submit"
@@ -142,7 +142,7 @@ export default function Edit() {
                   Publish
                 </button>
               </div>
-              <div className="h-full w-full space-y-6 bg-white py-6 px-4 sm:p-6">
+              <div className="flex-grow space-y-6 bg-white py-6 px-4 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
