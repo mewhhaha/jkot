@@ -134,6 +134,14 @@ export default function Edit() {
         <div className="h-full w-full max-w-7xl">
           <fieldset disabled={status !== "open"}>
             <div className="relative shadow sm:overflow-hidden sm:rounded-md">
+              <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                <button
+                  type="submit"
+                  className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                >
+                  Publish
+                </button>
+              </div>
               <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
@@ -232,14 +240,6 @@ export default function Edit() {
                     />
                   </div>
                 </div>
-              </div>
-              <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                <button
-                  type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-                >
-                  Publish
-                </button>
               </div>
             </div>
           </fieldset>
