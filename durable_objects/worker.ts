@@ -21,5 +21,4 @@ export default {
 
 export * from "./settings";
 export * from "./article";
-export * as rope from "./rope";
 export * from "./types";

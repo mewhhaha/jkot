@@ -1,6 +1,6 @@
 import { Env, Content, Message } from "./types";
-import * as rope from "./rope";
-import { Rope } from "./rope";
+import * as rope from "rope";
+import { Rope } from "rope";
 
 const byteStringToUint8Array = (byteString: string) => {
   const ui = new Uint8Array(byteString.length);

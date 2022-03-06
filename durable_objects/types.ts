@@ -17,6 +17,7 @@ export type Content = {
 };
 
 export type Message =
+  | [type: "latest", data: Content]
   | [
       type:
         | "title"

@@ -1,11 +1,12 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect } from "react";
+import * as rope from "rope";
+import { useState, useEffect, useRef } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
-import { diffs } from "~/utils/text";
+import { diffs, resolve } from "~/utils/text";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }) => {
@@ -50,15 +51,36 @@ export default function Edit() {
     body: "",
   });
 
+  const ref = useRef(rope.from(""));
+
   const socket = useWebsocket();
 
   useEffect(() => {
     socket?.addEventListener("message", (msg) => {
       try {
-        const [t, data] = JSON.parse(msg.data);
-        switch (t) {
+        const message: Message = JSON.parse(msg.data);
+        switch (message[0]) {
           case "latest": {
-            setContent(data);
+            ref.current = rope.from(message[1].body);
+            setContent(message[1]);
+            break;
+          }
+          case "title":
+          case "imageUrl":
+          case "category":
+          case "description": {
+            setContent((prev) => ({ ...prev, [message[0]]: message[1] }));
+            break;
+          }
+          case "c-add": {
+            const [position, text] = message[1];
+            ref.current = rope.insert(ref.current, position, text);
+            break;
+          }
+
+          case "c-remove": {
+            const [from, to] = message[1];
+            ref.current = rope.remove(ref.current, from, to);
             break;
           }
         }
@@ -115,13 +137,15 @@ export default function Edit() {
           onChange={(event) => {
             const value = event.target.value;
             const cursorPosition = event.currentTarget.selectionStart;
-            const actions = diffs(content.body, value, cursorPosition);
+            const messages = diffs(content.body, value, cursorPosition);
 
-            actions.forEach(send);
+            messages.forEach(send);
+
+            ref.current = resolve(ref.current, messages);
 
             setContent((prev) => ({
               ...prev,
-              body: event.target.value,
+              body: value,
             }));
           }}
         />
