@@ -1,13 +1,14 @@
 {
-  "name": "jkot",
+  "name": "durable-objects",
   "version": "1.0.0",
   "description": "",
   "type": "module",
   "main": "dist/index.mjs",
   "module": "dist/index.mjs",
+  "types": "./worker.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "esbuild worker.ts --format=esm --bundle --outfile=dist/index.mjs",
+    "build": "esbuild worker.ts --target=es2020 --format=esm --bundle --outfile=dist/index.mjs",
     "deploy": "wrangler publish worker.ts --name jkot"
   },
   "author": "",

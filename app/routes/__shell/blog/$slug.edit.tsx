@@ -1,10 +1,11 @@
-import { Content, Message } from "durable_objects/types";
+import { Content, Message } from "durable-objects";
 import { useState, useEffect } from "react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
+import { diffs } from "~/utils/text";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }) => {
@@ -37,7 +38,7 @@ const useWebsocket = () => {
 };
 
 export default function Edit() {
-  const [document, setDocument] = useState<Content>({
+  const [content, setContent] = useState<Content>({
     title: "",
     category: "",
     description: "",
@@ -57,7 +58,7 @@ export default function Edit() {
         const [t, data] = JSON.parse(msg.data);
         switch (t) {
           case "latest": {
-            setDocument(data);
+            setContent(data);
             break;
           }
         }
@@ -76,118 +77,65 @@ export default function Edit() {
       <div>
         <input
           type="text"
-          value={document?.title}
+          value={content.title}
           onChange={(event) => {
             const value = event.currentTarget.value;
             send(["title", value]);
-            setDocument((prev) => ({ ...prev, title: value }));
+            setContent((prev) => ({ ...prev, title: value }));
           }}
         />
         <input
           type="text"
-          value={document?.description}
+          value={content.description}
           onChange={(event) => {
             const value = event.currentTarget.value;
             send(["description", value]);
-            setDocument((prev) => ({ ...prev, description: value }));
+            setContent((prev) => ({ ...prev, description: value }));
           }}
         />
         <dl>
           <dt>Created</dt>
-          <dd>{document?.created}</dd>
+          <dd>{content.created}</dd>
           <dt>Modified</dt>
-          <dd>{document?.modified}</dd>
+          <dd>{content.modified}</dd>
           <dt>Category</dt>
-          <dd aria-label={document?.category}>
+          <dd aria-label={content?.category}>
             <input
-              value={document?.category}
+              value={content?.category}
               onChange={(event) => {
                 const value = event.currentTarget.value;
                 send(["category", value]);
-                setDocument((prev) => ({ ...prev, category: value }));
+                setContent((prev) => ({ ...prev, category: value }));
               }}
             ></input>
           </dd>
         </dl>
         <textarea
-          value={document?.body}
-          onKeyDown={(event) => {
-            const target = event.currentTarget;
-
-            switch (event.key) {
-              case "Delete": {
-                if (target.selectionStart !== target.selectionEnd) {
-                  send([
-                    "c-remove",
-                    [target.selectionStart, target.selectionEnd],
-                  ]);
-                } else {
-                  send([
-                    "c-remove",
-                    [target.selectionStart, target.selectionStart + 1],
-                  ]);
-                }
-              }
-
-              case "Backspace": {
-                if (target.selectionStart !== target.selectionEnd) {
-                  send([
-                    "c-remove",
-                    [target.selectionStart, target.selectionEnd],
-                  ]);
-                } else {
-                  send([
-                    "c-remove",
-                    [target.selectionStart - 1, target.selectionStart],
-                  ]);
-                }
-              }
-
-              default: {
-                if (event.key.length !== 1) return;
-
-                if (target.selectionStart !== target.selectionEnd) {
-                  send([
-                    "c-remove",
-                    [target.selectionStart, target.selectionEnd],
-                  ]);
-                }
-                send(["c-add", [target.selectionStart, event.key]]);
-                return;
-              }
-            }
-          }}
-          onPasteCapture={(event) => {
-            if (event.clipboardData.files.length > 0) return;
-
-            const target = event.currentTarget;
-            if (target.selectionStart !== target.selectionEnd) {
-              send(["c-remove", [target.selectionStart, target.selectionEnd]]);
-            }
-
-            send([
-              "c-add",
-              [target.selectionStart, event.clipboardData.getData("Text")],
-            ]);
-          }}
+          value={content.body}
           onChange={(event) => {
-            setDocument((prev) => ({
+            const value = event.target.value;
+            const cursorPosition = event.currentTarget.selectionStart;
+            const actions = diffs(content.body, value, cursorPosition);
+
+            actions.forEach(send);
+
+            setContent((prev) => ({
               ...prev,
               body: event.target.value,
             }));
           }}
         />
       </div>
-      <div>
+      <div className="h-full w-full">
         <ArticleFull
-          title={document.title}
-          category={document.category}
-          description={document.description}
-          imageUrl={document.imageUrl}
-          imageAlt={document.imageAlt}
-          imageAuthor={document.imageAuthor}
+          title={content.title}
+          category={content.category}
+          description={content.description}
+          imageUrl={content.imageUrl}
+          imageAlt={content.imageAlt}
+          imageAuthor={content.imageAuthor}
         >
-          {document.body}
+          {content.body}
         </ArticleFull>
       </div>
     </section>

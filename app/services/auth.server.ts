@@ -1,9 +1,4 @@
-import {
-  createCookie,
-  createCookieSessionStorage,
-  LoaderFunction,
-  redirect,
-} from "remix";
+import { createCookie, createCookieSessionStorage, redirect } from "remix";
 import { Authenticator } from "remix-auth";
 import { Auth0Profile, Auth0Strategy } from "remix-auth-auth0";
 import { CloudflareContext, CloudflareDataFunctionArgs } from "~/types";

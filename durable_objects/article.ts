@@ -100,13 +100,12 @@ export class Article implements DurableObject {
           break;
         }
         case "c-add": {
-          const [position, text] = message[1];
-
           let body = await this.storage.get<Rope>("body");
           if (body === undefined) {
             body = rope.from("");
           }
 
+          const [position, text] = message[1];
           const next = rope.insert(body, position, text);
 
           await Promise.all([
@@ -117,13 +116,12 @@ export class Article implements DurableObject {
         }
 
         case "c-remove": {
-          const [from, to]: [number, number] = message[1];
-
           let body = await this.storage.get<Rope>("body");
           if (body === undefined) {
             body = rope.from("");
           }
 
+          const [from, to] = message[1];
           const next = rope.remove(body, from, to);
 
           await Promise.all([
