@@ -11,7 +11,7 @@ import {
 } from "remix";
 import { Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
-import { categories } from "~/services/category.client";
+import { categories } from "~/services/category";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
 import { CloudflareDataFunctionArgs, StreamSettings } from "~/types";

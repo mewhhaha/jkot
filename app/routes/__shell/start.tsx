@@ -2,7 +2,7 @@ import { Stream } from "@cloudflare/stream-react";
 import { LoaderFunction, useLoaderData } from "remix";
 import { ArticleBlurb, ArticleCard } from "~/components/ArticleCard";
 import { blurbs } from "~/services/article.server";
-import { categories } from "~/services/category.client";
+import { categories } from "~/services/category";
 import * as settings from "~/services/settings.server";
 import { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
 
