@@ -244,7 +244,7 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <div>
+        <div className="h-full w-full">
           <ArticleFull
             title={content.title}
             category={content.category}
