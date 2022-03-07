@@ -103,7 +103,7 @@ const ActionMenu: React.VFC = () => {
                           destroy
                             ? {
                                 "bg-red-200 text-red-900": active,
-                                "text-gray-100": !active,
+                                "text-red-700": !active,
                               }
                             : {
                                 "bg-gray-100 text-gray-900": active,
