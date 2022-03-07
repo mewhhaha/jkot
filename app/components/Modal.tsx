@@ -45,7 +45,7 @@ export const Modal: ModalFC = ({ open, initialFocus, children, onClose }) => {
             &#8203;
           </span>
           <Transition.Child
-            as="div"
+            as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             enterTo="opacity-100 translate-y-0 sm:scale-100"
@@ -53,7 +53,9 @@ export const Modal: ModalFC = ({ open, initialFocus, children, onClose }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            {children}
+            <div className="relative inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle">
+              {children}
+            </div>
           </Transition.Child>
         </div>
       </Dialog>
@@ -155,21 +157,19 @@ type ConfirmProps = {
 
 const Confirm: React.FC<ConfirmProps> = ({ title, children, icon }) => {
   return (
-    <div className="relative inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle">
-      <div>
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          {icon}
-        </div>
-        <div className="mt-3 text-center sm:mt-5">
-          <Dialog.Title
-            as="h3"
-            className="text-lg font-medium leading-6 text-gray-900"
-          >
-            {title}
-          </Dialog.Title>
-          <div className="mt-2">
-            <p className="text-sm text-gray-500">{children}</p>
-          </div>
+    <div>
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
+        {icon}
+      </div>
+      <div className="mt-3 text-center sm:mt-5">
+        <Dialog.Title
+          as="h3"
+          className="text-lg font-medium leading-6 text-gray-900"
+        >
+          {title}
+        </Dialog.Title>
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">{children}</p>
         </div>
       </div>
     </div>
@@ -183,21 +183,19 @@ type WarningProps = {
 
 const Warning: React.FC<WarningProps> = ({ title, children, icon }) => {
   return (
-    <div className="relative inline-block transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6 sm:align-middle">
-      <div>
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-          {icon}
-        </div>
-        <div className="mt-3 text-center sm:mt-5">
-          <Dialog.Title
-            as="h3"
-            className="text-lg font-medium leading-6 text-gray-900"
-          >
-            {title}
-          </Dialog.Title>
-          <div className="mt-2">
-            <p className="text-sm text-gray-500">{children}</p>
-          </div>
+    <div>
+      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+        {icon}
+      </div>
+      <div className="mt-3 text-center sm:mt-5">
+        <Dialog.Title
+          as="h3"
+          className="text-lg font-medium leading-6 text-gray-900"
+        >
+          {title}
+        </Dialog.Title>
+        <div className="mt-2">
+          <p className="text-sm text-gray-500">{children}</p>
         </div>
       </div>
     </div>
