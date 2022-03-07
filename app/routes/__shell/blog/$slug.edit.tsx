@@ -46,15 +46,15 @@ const ActionMenu: React.VFC = () => {
 
   const items = [
     {
-      to: `/blog/${slug}/publish`,
+      to: `/blog/${slug}/edit/publish`,
       name: "Publish",
     },
     {
-      to: `/blog/${slug}/unpublish`,
+      to: `/blog/${slug}/edit/unpublish`,
       name: "Unpublish",
     },
     {
-      to: `/blog/${slug}/delete`,
+      to: `/blog/${slug}/edit/delete`,
       name: "Delete",
       destroy: true,
     },
