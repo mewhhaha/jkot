@@ -1,5 +1,4 @@
 import { Transition, Dialog } from "@headlessui/react";
-import { CheckIcon, ExclamationIcon } from "@heroicons/react/solid";
 import { Fragment, forwardRef } from "react";
 
 type ModalProps = {

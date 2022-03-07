@@ -47,13 +47,16 @@ const ActionMenu: React.VFC = () => {
   const items = [
     {
       to: `/blog/${slug}/publish`,
+      name: "Publish",
     },
     {
       to: `/blog/${slug}/unpublish`,
+      name: "Unpublish",
     },
     {
       to: `/blog/${slug}/delete`,
-      danger: true,
+      name: "Delete",
+      destroy: true,
     },
   ];
 
@@ -88,14 +91,14 @@ const ActionMenu: React.VFC = () => {
         >
           <Menu.Items className="absolute right-0 mt-2 -mr-1 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
-              {items.map(({ to, danger }) => {
+              {items.map(({ to, name, destroy }) => {
                 return (
-                  <Menu.Item key={item.name}>
+                  <Menu.Item key={name}>
                     {({ active }) => (
                       <Link
                         to={to}
                         className={cx(
-                          danger
+                          destroy
                             ? {
                                 "bg-red-200 text-gray-900": active,
                                 "bg-red-600 text-gray-100": !active,
@@ -107,7 +110,7 @@ const ActionMenu: React.VFC = () => {
                           "block px-4 py-2 text-sm"
                         )}
                       >
-                        {item.name}
+                        {name}
                       </Link>
                     )}
                   </Menu.Item>
