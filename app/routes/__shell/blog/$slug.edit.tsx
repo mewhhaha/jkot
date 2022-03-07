@@ -1,15 +1,29 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect } from "react";
-import { LoaderFunction, useLoaderData } from "remix";
+import { useState, useEffect, Fragment } from "react";
+import { Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { Textarea, Textbox } from "~/components/form";
+import { useWebSocket } from "~/hooks/useWebSocket";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
 import { diffs } from "~/utils/text";
+import cx from "clsx";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
+
+type LoaderData = {
+  published: boolean;
+  slug: string;
+  socketURL: string;
+};
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }) => {
+    if (params.slug === undefined) {
+      throw new Error("Invariant");
+    }
+
     const settings = await item(
       request,
       context,
@@ -20,47 +34,95 @@ export const loader: LoaderFunction = (args) =>
       throw new Response("Not found", { status: 404 });
     }
 
-    return article(request, context, settings.id).generate();
+    return {
+      published: settings.status === "published",
+      slug: params.slug,
+      socketURL: await article(request, context, settings.id).generate(),
+    };
   });
 
-type WebSocketStatus = "idle" | "error" | "closed" | "open";
+const ActionMenu: React.VFC = () => {
+  const { published, slug } = useLoaderData<LoaderData>();
 
-const useWebSocket = () => {
-  const socketURL = useLoaderData<string>();
-  const [status, setStatus] = useState<WebSocketStatus>("idle");
-  const [socket, setSocket] = useState<WebSocket>();
+  const items = [
+    {
+      to: `/blog/${slug}/publish`,
+    },
+    {
+      to: `/blog/${slug}/unpublish`,
+    },
+    {
+      to: `/blog/${slug}/delete`,
+      danger: true,
+    },
+  ];
 
-  useEffect(() => {
-    const socket = new WebSocket(socketURL);
-    const handleError = () => {
-      setStatus("error");
-    };
-
-    const handleClose = () => {
-      setStatus("closed");
-    };
-
-    const handleOpen = () => {
-      setStatus("open");
-    };
-
-    socket.addEventListener("error", handleError);
-    socket.addEventListener("close", handleClose);
-    socket.addEventListener("open", handleOpen);
-
-    setSocket(socket);
-    return () => {
-      socket.close();
-      socket.removeEventListener("error", handleError);
-      socket.removeEventListener("close", handleClose);
-      socket.removeEventListener("open", handleOpen);
-    };
-  }, [setSocket, socketURL]);
-
-  return [socket, status] as const;
+  return (
+    <span className="relative z-0 inline-flex rounded-md shadow-sm">
+      <Link
+        to={published ? `/blog/${slug}/unpublish` : `/blog/${slug}/publish`}
+      >
+        <button
+          type="button"
+          className={cx(
+            "relative inline-flex items-center rounded-l-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500",
+            published ? "bg-white" : "bg-orange-600"
+          )}
+        >
+          {published ? "Unpublish" : "Publish"}
+        </button>
+      </Link>
+      <Menu as="span" className="relative -ml-px block">
+        <Menu.Button className="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-10 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500">
+          <span className="sr-only">Open options</span>
+          <ChevronDownIcon className="h-5 w-5" aria-hidden="true" />
+        </Menu.Button>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-100"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="absolute right-0 mt-2 -mr-1 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <div className="py-1">
+              {items.map(({ to, danger }) => {
+                return (
+                  <Menu.Item key={item.name}>
+                    {({ active }) => (
+                      <Link
+                        to={to}
+                        className={cx(
+                          danger
+                            ? {
+                                "bg-red-200 text-gray-900": active,
+                                "bg-red-600 text-gray-100": !active,
+                              }
+                            : {
+                                "bg-gray-100 text-gray-900": active,
+                                "text-gray-700": !active,
+                              },
+                          "block px-4 py-2 text-sm"
+                        )}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </Menu.Item>
+                );
+              })}
+            </div>
+          </Menu.Items>
+        </Transition>
+      </Menu>
+    </span>
+  );
 };
 
 export default function Edit() {
+  const { socketURL } = useLoaderData<LoaderData>();
   const [content, setContent] = useState<Content>({
     title: "",
     category: "",
@@ -73,7 +135,7 @@ export default function Edit() {
     body: "",
   });
 
-  const [socket, status] = useWebSocket();
+  const [socket, status] = useWebSocket(socketURL);
 
   useEffect(() => {
     if (socket === undefined) return;
@@ -135,12 +197,7 @@ export default function Edit() {
           <fieldset className="h-full" disabled={status !== "open"}>
             <div className="relative flex h-full flex-col p-4 shadow sm:overflow-hidden sm:rounded-md">
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                <button
-                  type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-                >
-                  Publish
-                </button>
+                <ActionMenu />
               </div>
               <div className="flex-grow space-y-6 bg-white py-6 px-4 sm:p-6">
                 <div className="grid grid-cols-3 gap-6">
@@ -243,6 +300,7 @@ export default function Edit() {
           </ArticleFull>
         </div>
       </div>
+      <Outlet />
     </section>
   );
 }
