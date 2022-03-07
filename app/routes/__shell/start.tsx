@@ -31,7 +31,7 @@ export default function Index() {
 
   return (
     <div className="flex-grow space-y-20">
-      <section className="relative flex h-full max-h-max flex-col items-center sm:px-12 sm:pt-12">
+      <section className="relative flex flex-col items-center sm:px-12 sm:pt-12 lg:h-full lg:max-h-[693px]">
         <div className="h-full max-h-[800px] w-full max-w-[960px] rounded-lg bg-white p-10 shadow-lg">
           <div className="h-full max-h-[512px] w-full max-w-[960px] bg-black">
             <Stream
