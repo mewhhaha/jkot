@@ -68,8 +68,10 @@ const ActionMenu: React.VFC = () => {
         <button
           type="button"
           className={cx(
-            "relative inline-flex items-center rounded-l-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:z-10 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500",
-            published ? "bg-white" : "bg-orange-600"
+            "relative inline-flex items-center rounded-l-md border border-gray-300 px-4 py-2 text-sm font-medium focus:z-10 focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500",
+            published
+              ? "bg-white text-gray-700 hover:bg-gray-50"
+              : "bg-orange-600 text-gray-50 hover:bg-orange-700"
           )}
         >
           {published ? "Unpublish" : "Publish"}
@@ -100,8 +102,8 @@ const ActionMenu: React.VFC = () => {
                         className={cx(
                           destroy
                             ? {
-                                "bg-red-200 text-gray-900": active,
-                                "bg-red-600 text-gray-100": !active,
+                                "bg-red-200 text-red-900": active,
+                                "text-gray-100": !active,
                               }
                             : {
                                 "bg-gray-100 text-gray-900": active,
