@@ -1,7 +1,13 @@
 import { EyeIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
-import { useNavigate } from "remix";
+import { LoaderFunction, useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
+import { requireAuthentication } from "~/services/auth.server";
+
+export const loader: LoaderFunction = (args) =>
+  requireAuthentication(args, async ({ request, context, params }) => {
+    return null;
+  });
 
 export default function Publish() {
   const ref = useRef<HTMLButtonElement>(null);
