@@ -63,7 +63,11 @@ const ActionMenu: React.VFC = () => {
   return (
     <span className="relative z-0 inline-flex rounded-md shadow-sm">
       <Link
-        to={published ? `/blog/${slug}/unpublish` : `/blog/${slug}/publish`}
+        to={
+          published
+            ? `/blog/${slug}/edit/unpublish`
+            : `/blog/${slug}/edit/publish`
+        }
       >
         <button
           type="button"
