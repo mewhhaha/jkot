@@ -230,7 +230,8 @@ export class Article implements DurableObject {
   }
 
   async read(_request: Request) {
-    return new Response(JSON.stringify(this.getContent()));
+    const content = await this.getContent();
+    return new Response(JSON.stringify(content));
   }
 
   async destroy(_request: Request) {
