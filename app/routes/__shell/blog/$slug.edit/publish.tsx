@@ -8,10 +8,10 @@ import {
   useSubmit,
 } from "remix";
 import { Modal } from "~/components/Modal";
-import { article } from "~/services/article.server";
+import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
-import { invertTime } from "~/utils/date";
+import { PublishedContent } from "~/types";
 
 export const loader: LoaderFunction = (args) => requireAuthentication(args);
 
@@ -22,7 +22,7 @@ export const action: ActionFunction = (args) =>
     const settingsDO = item(request, context, `article/${slug}`);
     const settings = await settingsDO.json();
 
-    if (settings.id === undefined) {
+    if (settings.id === undefined || settings.slug === undefined) {
       throw new Error("Article has no reference");
     }
 
@@ -32,21 +32,23 @@ export const action: ActionFunction = (args) =>
       ? new Date(settings.published)
       : new Date();
 
-    // Invert time to order KV in descending order
-    const key = `${invertTime(published.getTime())}@${settings.slug}}`;
+    const { dateKey, slugKey } = articleKeys({
+      date: published,
+      slug: settings.slug,
+    });
+
+    const publishedContent: PublishedContent = {
+      ...content,
+      published: published.toISOString(),
+      slug: settings.slug,
+      author: user.displayName,
+      authorWebsite: user._json.website ?? "",
+      authorImage: user._json.picture ?? "",
+    };
 
     await Promise.all([
-      context.ARTICLE_KV.put(
-        key,
-        JSON.stringify({
-          ...content,
-          published: published.toISOString(),
-          slug: settings.slug,
-          author: user.displayName,
-          authorHref: user._json.website ?? "",
-          authorImage: user._json.picture ?? "",
-        })
-      ),
+      context.ARTICLE_KV.put(dateKey, JSON.stringify(publishedContent)),
+      context.ARTICLE_KV.put(slugKey, JSON.stringify(publishedContent)),
       settingsDO.put({
         ...settings,
         status: "published",

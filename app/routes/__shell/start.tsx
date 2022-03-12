@@ -8,7 +8,6 @@ import {
   PublishedContent,
   StreamSettings,
 } from "~/types";
-import { Content } from "durable-objects";
 
 type LoaderData = { stream: StreamSettings; articles: PublishedContent[] };
 
@@ -18,10 +17,15 @@ export const loader: LoaderFunction = async ({
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
   const { stream = {} } = await settings.all(request, context).json();
 
-  const latestArticles = await context.ARTICLE_KV.list({ limit: 4 });
+  const latestArticles = await context.ARTICLE_KV.list({
+    prefix: "date#",
+    limit: 4,
+  });
   const contents = await Promise.all(
     latestArticles.keys.map(({ name }) =>
-      context.ARTICLE_KV.get<PublishedContent>(name, { type: "json" })
+      context.ARTICLE_KV.get<PublishedContent>(name, {
+        type: "json",
+      })
     )
   );
 

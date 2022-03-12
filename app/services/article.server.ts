@@ -1,5 +1,6 @@
 import { CloudflareContext } from "~/types";
 import { Content } from "durable-objects";
+import { invertTime } from "~/utils/date";
 
 type ArticleDO = {
   read(): Promise<Content>;
@@ -34,3 +35,25 @@ export const article = (
     },
   };
 };
+
+export function articleKeys(params: { date: Date; slug: string }): {
+  dateKey: string;
+  slugKey: string;
+};
+export function articleKeys(params: { date: Date }): {
+  dateKey: string;
+};
+export function articleKeys(params: { slug: string }): {
+  slugKey: string;
+};
+export function articleKeys({ date, slug }: { date?: Date; slug?: string }): {
+  dateKey?: string;
+  slugKey?: string;
+} {
+  const dateKey = date
+    ? `date#${invertTime(date.getTime())}#slug#${slug}`
+    : undefined;
+  const slugKey = slug ? `slug#${slug}` : undefined;
+
+  return { dateKey, slugKey };
+}

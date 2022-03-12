@@ -8,7 +8,7 @@ import {
   useSubmit,
 } from "remix";
 import { Modal } from "~/components/Modal";
-import { article } from "~/services/article.server";
+import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
 import { invertTime } from "~/utils/date";
@@ -22,23 +22,26 @@ export const action: ActionFunction = (args) =>
     const settingsDO = item(request, context, `article/${slug}`);
     const settings = await settingsDO.json();
 
-    if (settings.id === undefined) {
+    if (settings.id === undefined || settings.slug === undefined) {
       throw new Error("Article has no reference");
     }
 
     const articleDO = article(request, context, settings.id);
 
-    if (settings.published === undefined || settings.status === "unpublished") {
-      return redirect("../");
-    }
-
-    const published = new Date(settings.published);
-
-    const key = `${invertTime(published.getTime())}-${settings.id}}`;
-
     await Promise.all([
       articleDO.destroy(),
-      context.ARTICLE_KV.delete(key),
+      settings.published
+        ? context.ARTICLE_KV.delete(
+            articleKeys({
+              date: new Date(settings.published),
+            }).dateKey
+          )
+        : Promise.resolve(),
+      context.ARTICLE_KV.delete(
+        articleKeys({
+          slug: settings.slug,
+        }).slugKey
+      ),
       settingsDO.put({
         ...settings,
         status: "unpublished",
