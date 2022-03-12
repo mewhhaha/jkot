@@ -1,4 +1,5 @@
 import { DataFunctionArgs } from "@remix-run/server-runtime";
+import { Content } from "durable-objects";
 
 export type CloudflareDataFunctionArgs = Omit<DataFunctionArgs, "context"> & {
   context: CloudflareContext;
@@ -38,4 +39,12 @@ export type ArticleSettings = {
   id?: string;
   status?: "published" | "unpublished";
   published?: string;
+};
+
+export type PublishedContent = Content & {
+  published: string;
+  slug: string;
+  author: string;
+  authorImage: string;
+  authorHref: string;
 };

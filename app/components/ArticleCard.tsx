@@ -1,32 +1,19 @@
-export type ArticleBlurb = {
-  title: string;
-  href: string;
-  category: { name: string; href: string };
-  description: string;
-  date: string;
-  datetime: string;
-  imageUrl: string;
-  readingTime: string;
-  author: {
-    name: string;
-    href: string;
-    imageUrl: string;
-  };
-};
+import { Link } from "remix";
+import { PublishedContent } from "~/types";
 
-export type ArticleProps = ArticleBlurb;
+export type ArticleProps = PublishedContent;
 
 export const ArticleCard: React.VFC<ArticleProps> = ({
   title,
   imageUrl,
   category,
-  author,
-  href,
   description,
-  date,
-  datetime,
-  readingTime,
+  slug,
+  author,
+  body,
 }) => {
+  const readingTime = `${body.split(" ").length / 200} min`;
+
   return (
     <article className="flex flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex-shrink-0">
@@ -35,14 +22,14 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
       <div className="flex flex-1 flex-col justify-between bg-white p-6">
         <div className="flex-1">
           <p className="text-sm font-medium text-orange-600">
-            <a href={category.href} className="hover:underline">
-              {category.name}
-            </a>
+            <Link to={`/blog?category=${category}`} className="hover:underline">
+              {category}
+            </Link>
           </p>
-          <a href={href} className="mt-2 block">
+          <Link to={`/blog/${slug}`} className="mt-2 block">
             <p className="text-xl font-semibold text-gray-900">{title}</p>
             <p className="mt-3 text-base text-gray-500">{description}</p>
-          </a>
+          </Link>
         </div>
         <div className="mt-6 flex items-center">
           <div className="flex-shrink-0">

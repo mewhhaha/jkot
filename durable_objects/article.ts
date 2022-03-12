@@ -91,6 +91,8 @@ export class Article implements DurableObject {
       switch (message[0]) {
         case "title":
         case "imageUrl":
+        case "imageAlt":
+        case "imageAuthor":
         case "category":
         case "description": {
           await Promise.all([

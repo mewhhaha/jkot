@@ -1,4 +1,5 @@
 import { CloudflareContext } from "~/types";
+import { Content } from "durable-objects";
 
 type ArticleDO = {
   read(): Promise<Content>;

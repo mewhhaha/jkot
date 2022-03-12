@@ -1,18 +1,36 @@
 import { Stream } from "@cloudflare/stream-react";
 import { LoaderFunction, useLoaderData } from "remix";
-import { ArticleBlurb, ArticleCard } from "~/components/ArticleCard";
-import { blurbs } from "~/mocks/blurbs";
+import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
 import * as settings from "~/services/settings.server";
-import { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
+import {
+  CloudflareDataFunctionArgs,
+  PublishedContent,
+  StreamSettings,
+} from "~/types";
+import { Content } from "durable-objects";
+
+type LoaderData = { stream: StreamSettings; articles: PublishedContent[] };
 
 export const loader: LoaderFunction = async ({
   request,
   context,
-}: CloudflareDataFunctionArgs) => {
+}: CloudflareDataFunctionArgs): Promise<LoaderData> => {
   const { stream = {} } = await settings.all(request, context).json();
 
-  return { stream, blurbs };
+  const latestArticles = await context.ARTICLE_KV.list({ limit: 4 });
+  const contents = await Promise.all(
+    latestArticles.keys.map(({ name }) =>
+      context.ARTICLE_KV.get<PublishedContent>(name, { type: "json" })
+    )
+  );
+
+  return {
+    stream,
+    articles: contents.filter(
+      (content): content is PublishedContent => content !== null
+    ),
+  };
 };
 
 const getCategoryURL = (category: string | undefined) => {
@@ -26,9 +44,25 @@ const getCategoryURL = (category: string | undefined) => {
   return undefined;
 };
 
+const placeholder: PublishedContent = {
+  title: "Not yet",
+  category: "",
+  description: "This article is yet to be created!",
+  created: new Date(0).toISOString(),
+  modified: new Date(0).toISOString(),
+  author: "Nobody",
+  authorHref: "/",
+  authorImage: "",
+  slug: "",
+  published: new Date(0).toISOString(),
+  imageUrl: "",
+  imageAlt: "",
+  imageAuthor: "",
+  body: "",
+};
+
 export default function Index() {
-  const { stream, blurbs } =
-    useLoaderData<{ stream: StreamSettings; blurbs: ArticleBlurb[] }>();
+  const { stream, articles } = useLoaderData<LoaderData>();
 
   return (
     <div className="flex-grow space-y-20">
@@ -126,9 +160,10 @@ export default function Index() {
             </p>
           </div>
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
-            {blurbs.map((blurb) => (
-              <ArticleCard key={blurb.title} {...blurb} />
-            ))}
+            {[1, 2, 3].map((i) => {
+              const article = articles[i] ?? placeholder;
+              return <ArticleCard key={article.title} {...article} />;
+            })}
           </div>
         </div>
       </section>

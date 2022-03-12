@@ -16,7 +16,7 @@ import { invertTime } from "~/utils/date";
 export const loader: LoaderFunction = (args) => requireAuthentication(args);
 
 export const action: ActionFunction = (args) =>
-  requireAuthentication(args, async ({ request, context, params }) => {
+  requireAuthentication(args, async ({ request, context, params }, user) => {
     const slug = params.slug;
 
     const settingsDO = item(request, context, `article/${slug}`);
@@ -33,10 +33,20 @@ export const action: ActionFunction = (args) =>
       : new Date();
 
     // Invert time to order KV in descending order
-    const key = `${invertTime(published.getTime())}-${settings.id}}`;
+    const key = `${invertTime(published.getTime())}@${settings.slug}}`;
 
     await Promise.all([
-      context.ARTICLE_KV.put(key, JSON.stringify(content)),
+      context.ARTICLE_KV.put(
+        key,
+        JSON.stringify({
+          ...content,
+          published: published.toISOString(),
+          slug: settings.slug,
+          author: user.displayName,
+          authorHref: user._json.website ?? "",
+          authorImage: user._json.picture ?? "",
+        })
+      ),
       settingsDO.put({
         ...settings,
         status: "published",
