@@ -48,3 +48,9 @@ export type PublishedContent = Content & {
   authorImage: string;
   authorWebsite: string;
 };
+
+export type UnpublishedContent = Content & {
+  slug: string;
+  published?: string;
+  status: "published" | "unpublished";
+};

@@ -3,15 +3,25 @@ import { Auth0Profile } from "remix-auth-auth0";
 import { ArticleCard } from "~/components/ArticleCard";
 import { ArticleCardNew } from "~/components/ArticleCardNew";
 import { ArticleCardUnpublished } from "~/components/ArticleCardUnpublished";
-import { blurbs } from "~/mocks/blurbs";
+import { article } from "~/services/article.server";
 import { createAuthenticator } from "~/services/auth.server";
 import { all, isArticleKey } from "~/services/settings.server";
-import { ArticleSettings, CloudflareDataFunctionArgs } from "~/types";
+import {
+  ArticleSettings,
+  CloudflareDataFunctionArgs,
+  PublishedContent,
+  UnpublishedContent,
+} from "~/types";
 import { required } from "~/utils/record";
+
+type ValidatedArticleSettings = Required<
+  Pick<ArticleSettings, "id" | "slug" | "status">
+> &
+  Pick<ArticleSettings, "published">;
 
 type LoaderData = {
   user: Auth0Profile | null;
-  articles: Required<ArticleSettings>[];
+  articles: (PublishedContent | UnpublishedContent)[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -21,22 +31,46 @@ export const loader: LoaderFunction = async ({
   const authenticator = createAuthenticator(request, context);
   const user = await authenticator.isAuthenticated(request);
 
-  let articles: Required<ArticleSettings>[] = [];
   if (user) {
     const settings = await all(request, context).json();
-    for (const key in settings) {
-      if (!isArticleKey(key)) continue;
+    const requests = Object.entries(settings)
+      .filter(
+        (entry): entry is [`article/${string}`, ValidatedArticleSettings] => {
+          const value = entry[1] as ArticleSettings;
+          const key = entry[0];
+          return isArticleKey(key) && required(value, ["id", "slug", "status"]);
+        }
+      )
+      .map(async ([, value]) => {
+        const content = await article(request, context, value.id).read();
 
-      const article = settings[key];
-      if (article === undefined) continue;
+        return {
+          ...content,
+          slug: value.slug,
+          published: value.published,
+          status: value.status,
+        };
+      });
 
-      if (required(article, ["id", "slug", "status"])) {
-        articles.push(article);
-      }
-    }
+    const articles = await Promise.all(requests);
+
+    return { user, articles };
+  } else {
+    const latestArticles = await context.ARTICLE_KV.list({
+      prefix: "date#",
+    });
+    const contents = await Promise.all(
+      latestArticles.keys.map(({ name }) =>
+        context.ARTICLE_KV.get<PublishedContent>(name, { type: "json" })
+      )
+    );
+    return {
+      user: null,
+      articles: contents.filter(
+        (content): content is PublishedContent => content !== null
+      ),
+    };
   }
-
-  return { user, articles };
 };
 
 export default function Blog() {
@@ -61,16 +95,15 @@ export default function Blog() {
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
             {user !== null && <ArticleCardNew />}
             {articles.map((article) => {
-              return (
+              return "author" in article ? (
+                <ArticleCard key={article.title} {...article} />
+              ) : (
                 <ArticleCardUnpublished
                   key={article.slug}
                   slug={article.slug}
                 />
               );
             })}
-            {blurbs.map((blurb) => (
-              <ArticleCard key={blurb.title} {...blurb} />
-            ))}
           </div>
         </div>
       </section>

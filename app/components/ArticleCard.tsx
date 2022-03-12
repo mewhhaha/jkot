@@ -1,6 +1,8 @@
 import { Link } from "remix";
 import { PublishedContent } from "~/types";
 
+const WPM = 200;
+
 export type ArticleProps = PublishedContent;
 
 export const ArticleCard: React.VFC<ArticleProps> = ({
@@ -15,7 +17,7 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
   authorImage,
   body,
 }) => {
-  const readingTime = `${body.split(" ").length / 200} min`;
+  const readingTime = `${body.split(" ").length / WPM} min`;
 
   return (
     <article className="flex flex-col overflow-hidden rounded-lg shadow-lg">

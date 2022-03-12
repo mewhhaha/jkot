@@ -21,6 +21,7 @@ export const loader: LoaderFunction = async ({
     prefix: "date#",
     limit: 4,
   });
+
   const contents = await Promise.all(
     latestArticles.keys.map(({ name }) =>
       context.ARTICLE_KV.get<PublishedContent>(name, {
