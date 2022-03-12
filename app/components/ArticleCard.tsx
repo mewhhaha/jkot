@@ -10,6 +10,9 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
   description,
   slug,
   author,
+  authorWebsite,
+  published,
+  authorImage,
   body,
 }) => {
   const readingTime = `${body.split(" ").length / 200} min`;
@@ -33,23 +36,25 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
         </div>
         <div className="mt-6 flex items-center">
           <div className="flex-shrink-0">
-            <a href={author.href}>
-              <span className="sr-only">{author.name}</span>
+            <a href={authorWebsite}>
+              <span className="sr-only">{author}</span>
               <img
                 className="h-10 w-10 rounded-full"
-                src={author.imageUrl}
+                src={authorImage}
                 alt=""
               />
             </a>
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-gray-900">
-              <a href={author.href} className="hover:underline">
-                {author.name}
+              <a href={authorWebsite} className="hover:underline">
+                {author}
               </a>
             </p>
             <div className="flex space-x-1 text-sm text-gray-500">
-              <time dateTime={datetime}>{date}</time>
+              <time dateTime={published}>
+                {new Date(published).toDateString()}
+              </time>
               <span aria-hidden="true">&middot;</span>
               <span>{readingTime} read</span>
             </div>

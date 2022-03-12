@@ -46,5 +46,5 @@ export type PublishedContent = Content & {
   slug: string;
   author: string;
   authorImage: string;
-  authorHref: string;
+  authorWebsite: string;
 };

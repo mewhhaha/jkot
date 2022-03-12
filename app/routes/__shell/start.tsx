@@ -51,7 +51,7 @@ const placeholder: PublishedContent = {
   created: new Date(0).toISOString(),
   modified: new Date(0).toISOString(),
   author: "Nobody",
-  authorHref: "/",
+  authorWebsite: "/",
   authorImage: "",
   slug: "",
   published: new Date(0).toISOString(),
