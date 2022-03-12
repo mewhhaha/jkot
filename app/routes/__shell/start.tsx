@@ -18,6 +18,7 @@ export const loader: LoaderFunction = async ({
 const getCategoryURL = (category: string | undefined) => {
   switch (category) {
     case "DOTA2":
+    case "Elden Ring":
     case "Humankind":
       return categories[category];
   }

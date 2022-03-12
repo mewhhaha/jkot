@@ -40,7 +40,7 @@ export const createAuthenticator = (
 
 export const requireAuthentication = async (
   args: CloudflareDataFunctionArgs,
-  f: (
+  f?: (
     args: CloudflareDataFunctionArgs
   ) => Promise<Response> | Response | Promise<unknown> | unknown
 ) => {
@@ -50,5 +50,5 @@ export const requireAuthentication = async (
     return redirect("/");
   }
 
-  return f(args);
+  return f !== undefined ? f(args) : null;
 };

@@ -12,6 +12,7 @@ export type CloudflareContext = {
   AUTH0_DOMAIN: string;
   SETTINGS_DO: DurableObjectNamespace;
   ARTICLE_DO: DurableObjectNamespace;
+  ARTICLE_KV: KVNamespace;
 };
 
 export type LinksSettings = {
@@ -36,4 +37,5 @@ export type ArticleSettings = {
   slug?: string;
   id?: string;
   status?: "published" | "unpublished";
+  published?: string;
 };

@@ -231,19 +231,36 @@ export class Article implements DurableObject {
     return new Response(JSON.stringify(this.getContent()));
   }
 
+  async destroy(_request: Request) {
+    await this.storage.deleteAll();
+    return new Response("ok");
+  }
+
   async fetch(request: Request) {
     const url = new URL(request.url);
+    const path = url.pathname;
 
-    if (url.pathname.endsWith("/read")) {
-      return this.read(request);
-    }
-
-    if (url.pathname.endsWith("/generate")) {
-      return this.generate(request);
-    }
-
-    if (url.pathname.endsWith("/websocket")) {
+    // Signed endpoint
+    if (path.endsWith("/websocket")) {
       return this.verify(request);
+    }
+
+    switch (request.method) {
+      case "GET": {
+        if (path === "/read") {
+          return this.read(request);
+        }
+      }
+      case "DELETE": {
+        if (path === "/destroy") {
+          return this.destroy(request);
+        }
+      }
+      case "POST": {
+        if (path === "/generate") {
+          return this.generate(request);
+        }
+      }
     }
 
     return new Response(null, { status: 403 });
