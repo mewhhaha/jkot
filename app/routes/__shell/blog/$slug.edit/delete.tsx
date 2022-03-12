@@ -34,12 +34,11 @@ export const action: ActionFunction = (args) =>
 
     const published = new Date(settings.published);
 
-    // Invert time to get the correct key
-    const time = invertTime(published.getTime());
+    const key = `${invertTime(published.getTime())}-${settings.id}}`;
 
     await Promise.all([
       articleDO.destroy(),
-      context.ARTICLE_KV.delete(time.toString()),
+      context.ARTICLE_KV.delete(key),
       settingsDO.put({
         ...settings,
         status: "unpublished",

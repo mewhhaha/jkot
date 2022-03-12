@@ -33,10 +33,10 @@ export const action: ActionFunction = (args) =>
       : new Date();
 
     // Invert time to order KV in descending order
-    const time = invertTime(published.getTime());
+    const key = `${invertTime(published.getTime())}-${settings.id}}`;
 
     await Promise.all([
-      context.ARTICLE_KV.put(time.toString(), JSON.stringify(content)),
+      context.ARTICLE_KV.put(key, JSON.stringify(content)),
       settingsDO.put({
         ...settings,
         status: "published",
