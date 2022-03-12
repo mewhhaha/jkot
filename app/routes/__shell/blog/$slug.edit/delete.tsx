@@ -47,7 +47,7 @@ export const action: ActionFunction = (args) =>
       }),
     ]);
 
-    return redirect("../");
+    return redirect("/blog");
   });
 
 export default function Delete() {

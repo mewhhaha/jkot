@@ -26,7 +26,7 @@ export const action: ActionFunction = (args) =>
     }
 
     if (settings.published === undefined || settings.status === "unpublished") {
-      return redirect("../");
+      return redirect("/blog");
     }
 
     const published = new Date(settings.published);
@@ -45,7 +45,7 @@ export const action: ActionFunction = (args) =>
       }),
     ]);
 
-    return redirect("../");
+    return redirect("/blog");
   });
 
 export default function Unpublish() {

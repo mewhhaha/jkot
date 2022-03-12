@@ -17,9 +17,7 @@ export const loader: LoaderFunction = (args) => requireAuthentication(args);
 
 export const action: ActionFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }, user) => {
-    const slug = params.slug;
-
-    const settingsDO = item(request, context, `article/${slug}`);
+    const settingsDO = item(request, context, `article/${params.slug}`);
     const settings = await settingsDO.json();
 
     if (settings.id === undefined || settings.slug === undefined) {
@@ -56,7 +54,7 @@ export const action: ActionFunction = (args) =>
       }),
     ]);
 
-    return redirect("../");
+    return redirect("/blog");
   });
 
 export default function Publish() {

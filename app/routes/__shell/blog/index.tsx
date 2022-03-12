@@ -76,8 +76,6 @@ export const loader: LoaderFunction = async ({
 export default function Blog() {
   const { user, articles } = useLoaderData<LoaderData>();
 
-  console.log(articles);
-
   return (
     <div className="flex flex-grow justify-center">
       <section className="relative w-full bg-gray-50 px-4 pt-16 pb-20 sm:px-6 lg:px-8 lg:pt-24 lg:pb-28">

@@ -21,7 +21,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   children,
 }) => {
   return (
-    <article className="h-full overflow-hidden bg-white">
+    <article className="h-full w-full overflow-hidden bg-white">
       <div className="relative mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute top-0 bottom-0 left-3/4 hidden w-screen bg-gray-50 lg:block" />
         <div className="mx-auto max-w-prose text-base lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-8">
