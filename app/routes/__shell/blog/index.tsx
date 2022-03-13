@@ -95,12 +95,15 @@ export default function Blog() {
           <div className="mx-auto mt-12 grid max-w-lg gap-5 lg:max-w-none lg:grid-cols-3">
             {user !== null && <ArticleCardNew />}
             {articles.map((article) => {
-              return "author" in article ? (
-                <ArticleCard key={article.title} {...article} />
-              ) : (
-                <ArticleCardUnpublished
-                  key={article.slug}
-                  slug={article.slug}
+              return (
+                <ArticleCard
+                  key={article.title}
+                  edit={user !== null}
+                  published=""
+                  author=""
+                  authorImage=""
+                  authorWebsite=""
+                  {...article}
                 />
               );
             })}
