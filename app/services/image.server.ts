@@ -1,6 +1,6 @@
 import { invertTime } from "~/utils/date";
 
-export type KVImage = { id: string; uploaded: string };
+export type KVImage = { id: string; created: string };
 
 export function imageKeys(params: { date: Date }): {
   dateKey: string;

@@ -28,11 +28,13 @@ export type SignedURLResponse = {
 };
 
 export const action: ActionFunction = (args) =>
-  requireAuthentication(args, async ({ request, context }, user) => {
+  requireAuthentication(args, async ({ context }, user) => {
+    const now = new Date();
+
     const formData = new FormData();
     formData.append(
       "metadata",
-      JSON.stringify({ user: user.id, created: new Date().toISOString() })
+      JSON.stringify({ user: user.id, created: now.toISOString() })
     );
 
     const response = await fetch(
@@ -54,10 +56,9 @@ export const action: ActionFunction = (args) =>
       result: { uploadURL, id },
     } = await response.json<SignedURLResponse>();
 
-    const now = new Date();
     const { dateKey } = imageKeys({ date: now });
 
-    const kvImage: KVImage = { id, uploaded: now.toISOString() };
+    const kvImage: KVImage = { id, created: now.toISOString() };
     await context.IMAGE_KV.put(dateKey, JSON.stringify(kvImage));
 
     return uploadURL;
