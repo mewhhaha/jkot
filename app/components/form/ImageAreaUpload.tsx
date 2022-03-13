@@ -38,6 +38,7 @@ export const ImageAreaUpload = forwardRef<
             >
               <span>Upload a file</span>
               <input
+                id="file-upload"
                 ref={ref}
                 type="file"
                 className={ocx("sr-only", className)}
