@@ -1,8 +1,7 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect, Fragment } from "react";
-import { Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import { useState, useEffect, Fragment, ChangeEvent } from "react";
+import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
-import { Textarea, Textbox } from "~/components/form";
 import { useWebSocket } from "~/hooks/useWebSocket";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
@@ -11,6 +10,8 @@ import { diffs } from "~/utils/text";
 import cx from "clsx";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
+import { CreateImageResponse, uploadImage } from "~/routes/images/upload";
+import { ImageAreaUpload, Textarea, Textbox } from "~/components/form";
 
 type LoaderData = {
   published: boolean;
@@ -249,6 +250,44 @@ export default function Edit() {
                       );
                     })}
                   </dl>
+
+                  <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:border-t sm:border-gray-200 sm:pt-5">
+                    <Form
+                      method="post"
+                      onChange={async (event) => {
+                        const fileFormData = new FormData(event.currentTarget);
+                        const url = await uploadImage(fileFormData);
+                        send(["imageUrl", url]);
+                        setContent((prev) => ({ ...prev, imageUrl: url }));
+                      }}
+                    >
+                      <ImageAreaUpload label="Title image" name="file" />
+                    </Form>
+                  </div>
+                  <div className="col-span-3 sm:col-span-2">
+                    <Textbox
+                      label="Image Author"
+                      name="imagealt"
+                      value={content.category}
+                      onChange={(event) => {
+                        const value = event.currentTarget.value;
+                        send(["imageAuthor", value]);
+                        setContent((prev) => ({ ...prev, imageAuthor: value }));
+                      }}
+                    />
+                  </div>
+                  <div className="col-span-3 sm:col-span-2">
+                    <Textbox
+                      label="Image Alt"
+                      name="imagealt"
+                      value={content.category}
+                      onChange={(event) => {
+                        const value = event.currentTarget.value;
+                        send(["imageAlt", value]);
+                        setContent((prev) => ({ ...prev, imageAlt: value }));
+                      }}
+                    />
+                  </div>
 
                   <div className="col-span-6 sm:col-span-3">
                     <Textarea

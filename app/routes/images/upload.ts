@@ -2,7 +2,21 @@ import { ActionFunction } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
 import { imageKeys, KVImage } from "~/services/image.server";
 
-type SignedURLResponse = {
+export type CreateImageResponse = {
+  result: {
+    id: string;
+    filename: string;
+    uploaded: string;
+    requireSignedURLs: boolean;
+    variants: string[];
+  };
+  result_info: unknown;
+  success: boolean;
+  errors: unknown[];
+  messages: unknown[];
+};
+
+export type SignedURLResponse = {
   result: {
     id: string;
     uploadURL: string;
@@ -48,3 +62,21 @@ export const action: ActionFunction = (args) =>
 
     return uploadURL;
   });
+
+export const uploadImage = async (formData: FormData) => {
+  const signedResponse = await fetch("/images/upload", {
+    method: "POST",
+  });
+  const url = await signedResponse.json<string>();
+
+  const uploadResponse = await fetch(url, {
+    method: "POST",
+    body: formData,
+  });
+  const {
+    result: {
+      variants: [first],
+    },
+  } = await uploadResponse.json<CreateImageResponse>();
+  return first;
+};
