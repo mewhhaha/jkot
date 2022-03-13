@@ -79,17 +79,18 @@ export default function Index() {
       <section className="relative flex flex-col items-center sm:px-12 sm:pt-12">
         <div className="flex h-full max-h-[800px] w-full min-w-0 max-w-[960px] flex-col rounded-lg bg-white p-10 shadow-lg">
           <div className="relative flex h-full max-h-[512px] w-full min-w-0 max-w-[960px] bg-black">
-            <div className="aspect-video h-full w-full min-w-0 bg-black" />
-            <Stream
-              className="absolute inset-0 z-10 aspect-video h-full w-full bg-black"
-              controls
-              loop
-              title={stream.title}
-              muted
-              autoplay
-              primaryColor="aquamarine"
-              src={stream.id ?? ""}
-            />
+            <div className="aspect-video h-full w-full min-w-0 bg-black">
+              <Stream
+                className="h-full w-full bg-black"
+                controls
+                loop
+                title={stream.title}
+                muted
+                autoplay
+                primaryColor="aquamarine"
+                src={stream.id ?? ""}
+              />
+            </div>
           </div>
           <dl className="w-full max-w-[960px] pt-2 pl-2 text-orange-600 sm:pl-0">
             <dt className="sr-only">Stream Title</dt>
