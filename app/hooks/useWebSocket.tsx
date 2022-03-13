@@ -34,6 +34,7 @@ export const useWebSocket = (socketURL: string) => {
       };
     } catch (error) {
       console.error(error);
+      setStatus("error");
     }
   }, [setSocket, socketURL]);
 
