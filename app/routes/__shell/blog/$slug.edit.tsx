@@ -1,5 +1,5 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect, Fragment, ChangeEvent } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { useWebSocket } from "~/hooks/useWebSocket";
@@ -10,7 +10,7 @@ import { diffs } from "~/utils/text";
 import cx from "clsx";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { CreateImageResponse, uploadImage } from "~/routes/images/upload";
+import { uploadImage } from "~/routes/images/upload";
 import { ImageAreaUpload, Textarea, Textbox } from "~/components/form";
 
 type LoaderData = {
@@ -238,13 +238,14 @@ export default function Edit() {
 
                   <dl className="col-span-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:col-span-2 sm:grid-cols-2">
                     {(["created", "modified"] as const).map((field) => {
+                      const date = new Date(content[field]).toDateString();
                       return (
                         <div key={field} className="sm:col-span-1">
                           <dt className="text-sm font-medium capitalize text-gray-500">
                             {field}
                           </dt>
                           <dd className="mt-1 text-sm text-gray-900">
-                            {content[field]}
+                            <time dateTime={date}>{date}</time>
                           </dd>
                         </div>
                       );
