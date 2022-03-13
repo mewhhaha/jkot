@@ -77,7 +77,7 @@ export default function Index() {
   return (
     <div className="flex-grow space-y-20">
       <section className="relative flex flex-col items-center sm:px-12 sm:pt-12">
-        <div className="h-full max-h-[800px] w-full max-w-[960px] rounded-lg bg-white p-10 shadow-lg">
+        <div className="flex h-full max-h-[800px] w-full max-w-[960px] flex-col rounded-lg bg-white p-10 shadow-lg">
           <div className="relative flex h-full max-h-[512px] w-full max-w-[960px] bg-black">
             <div className="aspect-video h-full w-full bg-black" />
             <Stream
