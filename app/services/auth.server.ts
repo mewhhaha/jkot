@@ -48,7 +48,7 @@ export const requireAuthentication = async (
   const authenticator = createAuthenticator(args.request, args.context);
   const user = await authenticator.isAuthenticated(args.request);
   if (user === null) {
-    return redirect("/");
+    throw new Response("Forbidden", { status: 403 });
   }
 
   return f !== undefined ? f(args, user) : null;

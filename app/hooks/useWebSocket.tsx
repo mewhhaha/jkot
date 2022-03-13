@@ -7,30 +7,34 @@ export const useWebSocket = (socketURL: string) => {
   const [socket, setSocket] = useState<WebSocket>();
 
   useEffect(() => {
-    const socket = new WebSocket(socketURL);
-    const handleError = () => {
-      setStatus("error");
-    };
+    try {
+      const socket = new WebSocket(socketURL);
+      const handleError = () => {
+        setStatus("error");
+      };
 
-    const handleClose = () => {
-      setStatus("closed");
-    };
+      const handleClose = () => {
+        setStatus("closed");
+      };
 
-    const handleOpen = () => {
-      setStatus("open");
-    };
+      const handleOpen = () => {
+        setStatus("open");
+      };
 
-    socket.addEventListener("error", handleError);
-    socket.addEventListener("close", handleClose);
-    socket.addEventListener("open", handleOpen);
+      socket.addEventListener("error", handleError);
+      socket.addEventListener("close", handleClose);
+      socket.addEventListener("open", handleOpen);
 
-    setSocket(socket);
-    return () => {
-      socket.close();
-      socket.removeEventListener("error", handleError);
-      socket.removeEventListener("close", handleClose);
-      socket.removeEventListener("open", handleOpen);
-    };
+      setSocket(socket);
+      return () => {
+        socket.close();
+        socket.removeEventListener("error", handleError);
+        socket.removeEventListener("close", handleClose);
+        socket.removeEventListener("open", handleOpen);
+      };
+    } catch (error) {
+      console.error(error);
+    }
   }, [setSocket, socketURL]);
 
   return [socket, status] as const;
