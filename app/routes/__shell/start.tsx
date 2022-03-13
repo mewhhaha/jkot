@@ -81,7 +81,7 @@ export default function Index() {
           <div className="relative flex h-full max-h-[512px] w-full max-w-[960px] bg-black">
             <div className="aspect-video h-full w-full bg-black" />
             <Stream
-              className="absolute aspect-video h-full w-full bg-black"
+              className="absolute inset-0 aspect-video h-full w-full bg-black"
               controls
               loop
               title={stream.title}
