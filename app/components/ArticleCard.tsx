@@ -1,8 +1,7 @@
 import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "remix";
 import { PublishedContent } from "~/types";
-
-const WPM = 200;
+import { readingTime } from "~/utils/text";
 
 export type ArticleProps = {
   edit?: boolean;
@@ -21,8 +20,6 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
   body,
   edit,
 }) => {
-  const readingTime = `${body.split(" ").length / WPM} min`;
-
   return (
     <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex-shrink-0">
@@ -62,7 +59,7 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
                 {new Date(published).toDateString()}
               </time>
               <span aria-hidden="true">&middot;</span>
-              <span>{readingTime} read</span>
+              <span>{readingTime(body)} min read</span>
             </div>
           </div>
         </div>

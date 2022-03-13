@@ -1,5 +1,6 @@
 import { Stream } from "@cloudflare/stream-react";
-import { LoaderFunction, useLoaderData } from "remix";
+import { AcademicCapIcon } from "@heroicons/react/outline";
+import { Link, LoaderFunction, useLoaderData } from "remix";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
 import * as settings from "~/services/settings.server";
@@ -8,6 +9,7 @@ import {
   PublishedContent,
   StreamSettings,
 } from "~/types";
+import { readingTime } from "~/utils/text";
 
 type LoaderData = { stream: StreamSettings; articles: PublishedContent[] };
 
@@ -60,7 +62,8 @@ const placeholder: PublishedContent = {
   authorImage: "",
   slug: "",
   published: new Date(0).toISOString(),
-  imageUrl: "",
+  imageUrl:
+    "https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80",
   imageAlt: "",
   imageAuthor: "",
   body: "",
@@ -68,6 +71,8 @@ const placeholder: PublishedContent = {
 
 export default function Index() {
   const { stream, articles } = useLoaderData<LoaderData>();
+
+  const featured = articles[0] ?? placeholder;
 
   return (
     <div className="flex-grow space-y-20">
@@ -112,41 +117,63 @@ export default function Index() {
                 <div className="aspect-w-10 aspect-h-6 sm:aspect-w-16 sm:aspect-h-7 lg:aspect-none overflow-hidden rounded-xl shadow-xl lg:h-full">
                   <img
                     className="relative z-10 object-cover lg:h-full lg:w-full"
-                    src={
-                      articles[0]?.imageUrl ??
-                      "https://images.unsplash.com/photo-1520333789090-1afc82db536a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2102&q=80"
-                    }
-                    alt={articles[0]?.imageAlt}
+                    src={featured.imageUrl}
+                    alt={featured.imageAlt}
                   />
                 </div>
               </div>
             </div>
             <div className="mt-12 lg:col-span-2 lg:m-0 lg:pl-8">
-              <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
-                <blockquote>
+              <Link to={`/blog/${featured.slug}`}>
+                <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
+                  <header>
+                    <h2 className="text-2xl font-extrabold text-white">
+                      {featured.title}
+                    </h2>
+                    <p>{featured.category}</p>
+                  </header>
                   <div>
-                    <svg
+                    <AcademicCapIcon
                       className="h-12 w-12 text-white opacity-25"
-                      fill="currentColor"
-                      viewBox="0 0 32 32"
                       aria-hidden="true"
-                    >
-                      <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                    </svg>
-                    <p className="mt-6 text-2xl font-medium text-white">
-                      {articles[0]?.description}
+                    />
+                    <p className="mt-6 text-xl font-medium text-gray-50">
+                      {featured.description}
                     </p>
                   </div>
                   <footer className="mt-6">
-                    <p className="text-base font-medium text-white">
-                      {articles[0]?.author}
-                    </p>
-                    <p className="text-base font-medium text-cyan-100">
-                      {articles[0]?.category}
-                    </p>
+                    <div className="mt-6 flex items-center">
+                      <div className="flex-shrink-0">
+                        <a href={featured.authorWebsite}>
+                          <span className="sr-only">{featured.author}</span>
+                          <img
+                            className="h-10 w-10 rounded-full"
+                            src={featured.authorImage}
+                            alt=""
+                          />
+                        </a>
+                      </div>
+                      <div className="ml-3">
+                        <p className="text-sm font-medium text-gray-900">
+                          <a
+                            href={featured.authorWebsite}
+                            className="hover:underline"
+                          >
+                            {featured.author}
+                          </a>
+                        </p>
+                        <div className="flex space-x-1 text-sm text-gray-500">
+                          <time dateTime={featured.published}>
+                            {new Date(featured.published).toDateString()}
+                          </time>
+                          <span aria-hidden="true">&middot;</span>
+                          <span>{readingTime(featured.body)} min read</span>
+                        </div>
+                      </div>
+                    </div>
                   </footer>
-                </blockquote>
-              </div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

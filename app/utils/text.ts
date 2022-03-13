@@ -31,3 +31,7 @@ export const diffs = (
 
   return actions;
 };
+
+const WPM = 200;
+export const readingTime = (body: string) =>
+  Math.max(Math.floor(body.split(" ").length / WPM), 1);
