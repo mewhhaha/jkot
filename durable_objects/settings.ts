@@ -44,10 +44,27 @@ export class Settings implements DurableObject {
     transaction.push(this.storage.put("modified", now));
     transaction.push(this.storage.put(path, json));
 
+    await Promise.all(transaction);
+
     return new Response(JSON.stringify(json), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  async delete(request: Request) {
+    const path = new URL(request.url).pathname.slice(1);
+
+    const now = new Date();
+    now.setUTCHours(0, 0, 0, 0);
+
+    const transaction = [];
+    transaction.push(this.storage.put("modified", now));
+    transaction.push(this.storage.delete(path));
+
+    await Promise.all(transaction);
+
+    return new Response(null);
   }
 
   async fetch(request: Request) {
@@ -61,10 +78,9 @@ export class Settings implements DurableObject {
           return this.get(request);
         }
       }
-      case "PATCH": {
-        switch (path) {
-          case "/push":
-          case "/delete":
+      case "DELETE": {
+        if (path !== "/") {
+          return this.delete(request);
         }
       }
       case "PUT": {

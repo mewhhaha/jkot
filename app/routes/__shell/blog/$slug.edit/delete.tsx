@@ -41,10 +41,7 @@ export const action: ActionFunction = (args) =>
           slug: settings.slug,
         }).slugKey
       ),
-      settingsDO.put({
-        ...settings,
-        status: "unpublished",
-      }),
+      settingsDO.delete(),
     ]);
 
     return redirect("/blog");

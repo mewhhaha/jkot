@@ -10,6 +10,7 @@ type SettingsDO<A> = {
   get(): Promise<Response>;
   json(): Promise<A>;
   put(value: A): Promise<Response>;
+  delete(): Promise<Response>;
 };
 
 type AllSettings = {
@@ -27,7 +28,7 @@ export const isArticleKey = (key: string): key is `article/${string}` => {
 export const all = (
   request: Request,
   context: CloudflareContext
-): Omit<SettingsDO<Partial<AllSettings>>, "put"> => {
+): Omit<SettingsDO<Partial<AllSettings>>, "put" | "delete"> => {
   const doid = context.SETTINGS_DO.idFromName("admin");
   const stub = context.SETTINGS_DO.get(doid);
 
@@ -61,6 +62,15 @@ export const item = <
         `${new URL(request.url).origin}/${name}`
       );
       return response.json();
+    },
+    delete: () => {
+      if (!isArticleKey(name)) {
+        throw new Error("Can only delete articles");
+      }
+
+      return stub.fetch(`${new URL(request.url).origin}/${name}`, {
+        method: "DELETE",
+      });
     },
     put: (value) => {
       return stub.fetch(`${new URL(request.url).origin}/${name}`, {
