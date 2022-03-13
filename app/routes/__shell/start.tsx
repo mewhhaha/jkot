@@ -76,11 +76,12 @@ export default function Index() {
 
   return (
     <div className="flex-grow space-y-20">
-      <section className="relative flex flex-col items-center sm:px-12 sm:pt-12 lg:h-full lg:max-h-[693px]">
+      <section className="relative flex flex-col items-center sm:px-12 sm:pt-12">
         <div className="h-full max-h-[800px] w-full max-w-[960px] rounded-lg bg-white p-10 shadow-lg">
-          <div className="h-full max-h-[512px] w-full max-w-[960px] bg-black">
+          <div className="relative h-full max-h-[512px] w-full max-w-[960px] bg-black">
+            <div className="aspect-video h-full w-full bg-black" />
             <Stream
-              className="aspect-video h-full w-full bg-black"
+              className="absolute aspect-video h-full w-full bg-black"
               controls
               loop
               title={stream.title}
