@@ -126,21 +126,13 @@ export default function Index() {
             <div className="mt-12 lg:col-span-2 lg:m-0 lg:pl-8">
               <Link to={`/blog/${featured.slug}`}>
                 <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
-                  <header>
-                    <h2 className="text-2xl font-extrabold text-white">
-                      {featured.title}
-                    </h2>
-                    <p>{featured.category}</p>
-                  </header>
-                  <div>
-                    <AcademicCapIcon
-                      className="h-12 w-12 text-white opacity-25"
-                      aria-hidden="true"
-                    />
-                    <p className="mt-6 text-xl font-medium text-gray-50">
-                      {featured.description}
-                    </p>
-                  </div>
+                  <h2 className="text-4xl font-extrabold text-white">
+                    {featured.title}
+                  </h2>
+                  <p className="text-gray-200">{featured.category}</p>
+                  <p className="mt-6 text-xl font-medium text-gray-50">
+                    {featured.description}
+                  </p>
                   <footer className="mt-6">
                     <div className="mt-6 flex items-center">
                       <div className="flex-shrink-0">
@@ -154,7 +146,7 @@ export default function Index() {
                         </a>
                       </div>
                       <div className="ml-3">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-white">
                           <a
                             href={featured.authorWebsite}
                             className="hover:underline"
@@ -162,7 +154,7 @@ export default function Index() {
                             {featured.author}
                           </a>
                         </p>
-                        <div className="flex space-x-1 text-sm text-gray-500">
+                        <div className="flex space-x-1 text-sm text-gray-200">
                           <time dateTime={featured.published}>
                             {new Date(featured.published).toDateString()}
                           </time>
