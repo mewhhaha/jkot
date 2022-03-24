@@ -120,7 +120,7 @@ export default function HeaderTemplate() {
         </div>
       </header>
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
-        <NavLink to="/">Start</NavLink>
+        <NavLink to="/start">Start</NavLink>
         <NavLink to="/blog">Blog</NavLink>
         <NavLink to="/clips">Clips</NavLink>
         {authed ? (
