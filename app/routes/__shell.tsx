@@ -110,10 +110,10 @@ export default function HeaderTemplate() {
                 {`${profile.username}`} Blog
               </span>
             </h2>
-            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+            <p className="mt-1 text-4xl font-extrabold text-gray-900 hidden sm:block sm:text-5xl sm:tracking-tight lg:text-6xl">
               jkot me; I fucked up!
             </p>
-            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
+            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500 hidden sm:block">
               {profile.about}
             </p>
           </div>
