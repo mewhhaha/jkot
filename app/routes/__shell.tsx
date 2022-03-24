@@ -102,18 +102,18 @@ export default function HeaderTemplate() {
 
   return (
     <div className="relative flex h-screen w-screen flex-col overflow-auto">
-      <header className="relative flex w-full flex-col bg-white">
-        <div className="relative mx-auto max-w-7xl py-1 sm:py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
+      <header className="relative w-full flex-col bg-white hidden sm:flex">
+        <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="flex justify-center text-base font-bold uppercase tracking-wide">
               <span className="bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-transparent">
                 {`${profile.username}`} Blog
               </span>
             </h2>
-            <p className="mt-1 text-4xl font-extrabold text-gray-900 hidden sm:block sm:text-5xl sm:tracking-tight lg:text-6xl">
+            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
               jkot me; I fucked up!
             </p>
-            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500 hidden sm:block">
+            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
               {profile.about}
             </p>
           </div>
