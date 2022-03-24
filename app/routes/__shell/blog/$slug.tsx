@@ -1,9 +1,16 @@
-import { LoaderFunction, useLoaderData } from "remix";
+import { LoaderFunction, MetaFunction, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { articleKeys } from "~/services/article.server";
 import { CloudflareDataFunctionArgs, PublishedContent } from "~/types";
 
 type LoaderData = PublishedContent;
+
+export const meta: MetaFunction = ({ data }: { data: LoaderData }) => {
+  return {
+    title: data.title,
+    description: data.description,
+  };
+};
 
 export const loader: LoaderFunction = async ({
   context,
