@@ -50,7 +50,7 @@
     "./packages/rope"
   ],
   "scripts": {
-    "postinstall": "remix setup cloudflare-pages",
+    "postinstall": "remix setup cloudflare",
     "build": "cross-env NODE_ENV=production run-s build:css build:packages build:durable build:remix",
     "build:durable": "npm run build -w durable-objects",
     "build:packages": "npm run build -w packages",
