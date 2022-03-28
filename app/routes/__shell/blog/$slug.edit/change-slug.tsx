@@ -21,9 +21,9 @@ type ActionData = string;
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, ({ params }): LoaderData => {
-    if (!params.slug) {
-      throw new Response("Not found", { status: 404 });
-    }
+    // if (!params.slug) {
+    //   throw new Response("Not found", { status: 404 });
+    // }
 
     return params.slug;
   });
@@ -36,7 +36,7 @@ export const action: ActionFunction = (args) =>
         .get(SLUG_NAME)
         ?.toString();
 
-      if (requestedSlug === undefined) {
+      if (!requestedSlug) {
         return "Slug is undefined";
       }
 
