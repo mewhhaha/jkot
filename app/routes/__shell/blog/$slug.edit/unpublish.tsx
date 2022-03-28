@@ -6,7 +6,6 @@ import {
   LoaderFunction,
   redirect,
   useNavigate,
-  useSubmit,
 } from "remix";
 import { Modal } from "~/components/Modal";
 import { articleKeys } from "~/services/article.server";
