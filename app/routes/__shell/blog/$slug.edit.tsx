@@ -21,15 +21,12 @@ type LoaderData = {
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context, params }) => {
-    if (params.slug === undefined) {
+    const slug = params.slug === "empty" ? "" : params.slug;
+    if (slug === undefined) {
       throw new Error("Invariant");
     }
 
-    const settings = await item(
-      request,
-      context,
-      `article/${params.slug}`
-    ).json();
+    const settings = await item(request, context, `article/${slug}`).json();
 
     if (settings.id === undefined) {
       throw new Response("Not found", { status: 404 });
@@ -37,7 +34,7 @@ export const loader: LoaderFunction = (args) =>
 
     return {
       published: settings.status === "published",
-      slug: params.slug,
+      slug,
       socketURL: await article(request, context, settings.id).generate(),
     };
   });

@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({
   context,
   params,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const slug = params.slug;
+  const slug = params.slug === "empty" ? "" : params.slug;
   if (slug === undefined) {
     throw new Error("Invariant violated");
   }
