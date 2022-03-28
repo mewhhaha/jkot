@@ -48,15 +48,19 @@ const ActionMenu: React.VFC = () => {
   const items = [
     {
       to: `/blog/${slug}/edit/publish`,
-      name: "Publish",
+      name: "Publish Article",
     },
     {
       to: `/blog/${slug}/edit/unpublish`,
-      name: "Unpublish",
+      name: "Unpublish Article",
+    },
+    {
+      to: `/blog/${slug}/edit/change-slug`,
+      name: "Change Slug",
     },
     {
       to: `/blog/${slug}/edit/delete`,
-      name: "Delete",
+      name: "Delete Article",
       destroy: true,
     },
   ];
@@ -79,7 +83,7 @@ const ActionMenu: React.VFC = () => {
               : "bg-orange-600 text-gray-50 hover:bg-orange-700"
           )}
         >
-          {published ? "Unpublish" : "Publish"}
+          {published ? "Unpublish Article" : "Publish Article"}
         </button>
       </Link>
       <Menu as="span" className="relative -ml-px block">

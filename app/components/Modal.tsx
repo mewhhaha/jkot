@@ -64,19 +64,17 @@ export const Modal: ModalFC = ({ open, initialFocus, children, onClose }) => {
 };
 
 type CancelDestroyProps = {
-  onDestroy: () => void;
   onCancel: () => void;
   children: string;
 };
 
 const CancelDestroy = forwardRef<HTMLButtonElement, CancelDestroyProps>(
-  ({ onDestroy, onCancel, children }, ref) => {
+  ({ onCancel, children }, ref) => {
     return (
       <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
         <button
-          type="button"
+          type="submit"
           className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-          onClick={onDestroy}
         >
           {children}
         </button>
@@ -96,19 +94,17 @@ const CancelDestroy = forwardRef<HTMLButtonElement, CancelDestroyProps>(
 CancelDestroy.displayName = "CancelDestroy";
 
 type CancelAcceptProps = {
-  onAccept: () => void;
   onCancel: () => void;
   children: string;
 };
 
 const CancelAccept = forwardRef<HTMLButtonElement, CancelAcceptProps>(
-  ({ onAccept, onCancel, children }, ref) => {
+  ({ onCancel, children }, ref) => {
     return (
       <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
         <button
-          type="button"
+          type="submit"
           className="inline-flex w-full justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-          onClick={onAccept}
         >
           {children}
         </button>

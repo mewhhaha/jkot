@@ -2,6 +2,7 @@ import { EyeOffIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
 import {
   ActionFunction,
+  Form,
   LoaderFunction,
   redirect,
   useNavigate,
@@ -50,16 +51,11 @@ export const action: ActionFunction = (args) =>
 
 export default function Unpublish() {
   const ref = useRef<HTMLButtonElement>(null);
-  const submit = useSubmit();
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
     navigate("../");
   }, [navigate]);
-
-  const handleAccept = useCallback(() => {
-    submit(null, { method: "post" });
-  }, [submit]);
 
   return (
     <Modal initialFocus={ref} open onClose={handleClose}>
@@ -73,13 +69,11 @@ export default function Unpublish() {
         unavailable publicly. It is possible to publish the article again after
         unpublishing but it will be published on the same date.
       </Modal.Confirm>
-      <Modal.CancelAccept
-        ref={ref}
-        onCancel={handleClose}
-        onAccept={handleAccept}
-      >
-        Unpublish
-      </Modal.CancelAccept>
+      <Form method="post">
+        <Modal.CancelAccept ref={ref} onCancel={handleClose}>
+          Unpublish
+        </Modal.CancelAccept>
+      </Form>
     </Modal>
   );
 }

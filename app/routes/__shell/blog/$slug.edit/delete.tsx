@@ -2,10 +2,10 @@ import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useRef } from "react";
 import {
   ActionFunction,
+  Form,
   LoaderFunction,
   redirect,
   useNavigate,
-  useSubmit,
 } from "remix";
 import { Modal } from "~/components/Modal";
 import { article, articleKeys } from "~/services/article.server";
@@ -49,16 +49,12 @@ export const action: ActionFunction = (args) =>
 
 export default function Delete() {
   const ref = useRef<HTMLButtonElement>(null);
-  const submit = useSubmit();
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
     navigate("../");
   }, [navigate]);
 
-  const handleDestroy = useCallback(() => {
-    submit(null, { method: "post" });
-  }, [submit]);
   return (
     <Modal initialFocus={ref} open onClose={handleClose}>
       <Modal.Warning
@@ -73,13 +69,11 @@ export default function Delete() {
         Are you sure you want to delete this article? All of your data will be
         permanently removed forever. This action cannot be undone.
       </Modal.Warning>
-      <Modal.CancelDestroy
-        ref={ref}
-        onCancel={handleClose}
-        onDestroy={handleDestroy}
-      >
-        Delete
-      </Modal.CancelDestroy>
+      <Form method="post">
+        <Modal.CancelDestroy ref={ref} onCancel={handleClose}>
+          Delete
+        </Modal.CancelDestroy>
+      </Form>
     </Modal>
   );
 }

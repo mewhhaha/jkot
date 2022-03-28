@@ -2,6 +2,7 @@ import { EyeIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
 import {
   ActionFunction,
+  Form,
   LoaderFunction,
   redirect,
   useNavigate,
@@ -60,15 +61,10 @@ export const action: ActionFunction = (args) =>
 export default function Publish() {
   const ref = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
-  const submit = useSubmit();
 
   const handleClose = useCallback(() => {
     navigate("../");
   }, [navigate]);
-
-  const handleAccept = useCallback(() => {
-    submit(null, { method: "post" });
-  }, [submit]);
 
   return (
     <Modal initialFocus={ref} open onClose={handleClose}>
@@ -80,13 +76,11 @@ export default function Publish() {
         available publicly. This action can be undone by unpublishing the
         article.
       </Modal.Confirm>
-      <Modal.CancelAccept
-        ref={ref}
-        onCancel={handleClose}
-        onAccept={handleAccept}
-      >
-        Publish
-      </Modal.CancelAccept>
+      <Form method="post">
+        <Modal.CancelAccept ref={ref} onCancel={handleClose}>
+          Publish
+        </Modal.CancelAccept>
+      </Form>
     </Modal>
   );
 }
