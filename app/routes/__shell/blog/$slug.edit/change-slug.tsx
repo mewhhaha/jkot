@@ -85,6 +85,7 @@ export default function Publish() {
   useEffect(() => {
     if (!validation) return;
     ref.current?.setCustomValidity(validation);
+    ref.current?.reportValidity();
   }, [validation]);
 
   const handleClose = useCallback(() => {
