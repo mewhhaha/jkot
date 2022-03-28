@@ -21,9 +21,11 @@ type ActionData = string;
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, ({ params }): LoaderData => {
-    // if (!params.slug) {
-    //   throw new Response("Not found", { status: 404 });
-    // }
+    if (!params.slug) {
+      throw new Response("Not found", { status: 404 });
+    }
+
+    if (params.slug === "empty") return "";
 
     return params.slug;
   });
@@ -36,15 +38,17 @@ export const action: ActionFunction = (args) =>
         .get(SLUG_NAME)
         ?.toString();
 
+      const previousSlug = params.slug === "empty" ? "" : params.slug;
+
       if (!requestedSlug) {
         return "Slug is undefined";
       }
 
-      if (requestedSlug === params.slug) {
+      if (requestedSlug === previousSlug) {
         return "Slug is identical to previous slug";
       }
 
-      const fromDO = item(request, context, `article/${params.slug}`);
+      const fromDO = item(request, context, `article/${previousSlug}`);
       const from = await fromDO.json();
 
       if (from.status !== "unpublished") {
