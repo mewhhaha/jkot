@@ -26,7 +26,7 @@ export const action: ActionFunction = (args) =>
     }
 
     if (settings.published === undefined || settings.status === "unpublished") {
-      return redirect("/blog");
+      return redirect(`/blog/${params.slug}/edit`);
     }
 
     const published = new Date(settings.published);

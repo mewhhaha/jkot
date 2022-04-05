@@ -80,8 +80,6 @@ export default function Publish() {
   const slug = useLoaderData<LoaderData>();
   const validation = useActionData<ActionData>();
 
-  console.log(validation);
-
   useEffect(() => {
     if (!validation) return;
     ref.current?.setCustomValidity(validation);
