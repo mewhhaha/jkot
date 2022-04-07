@@ -9,3 +9,5 @@ tailwind.css
 dist
 
 .env
+
+functions
