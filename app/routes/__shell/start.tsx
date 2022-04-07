@@ -1,5 +1,4 @@
 import { Stream } from "@cloudflare/stream-react";
-import { AcademicCapIcon } from "@heroicons/react/outline";
 import { Link, LoaderFunction, useLoaderData } from "remix";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
