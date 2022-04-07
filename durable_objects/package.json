@@ -22,5 +22,9 @@
     "rope": "workspace:^",
     "wrangler": "^0.0.24"
   },
+  "override": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
   "sideEffects": false
 }
