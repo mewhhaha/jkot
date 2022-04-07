@@ -30,7 +30,6 @@
     "@types/react": "^17.0.24",
     "@types/react-dom": "^17.0.9",
     "autoprefixer": "^10.4.2",
-    "cross-env": "^7.0.3",
     "durable-objects": "workspace:^",
     "eslint": "^8.9.0",
     "npm-run-all": "^4.1.5",
@@ -41,14 +40,13 @@
     "tailwindcss": "^3.0.23",
     "typescript": "^4.1.2",
     "vitest": "^0.8.4",
-    "wrangler": "0.0.18"
+    "wrangler": "0.0.24"
   },
   "engines": {
     "node": ">=16"
   },
   "sideEffects": false,
   "scripts": {
-    "postinstall": "remix setup cloudflare",
     "build": "NODE_ENV=production run-s build:css build:packages build:durable build:remix",
     "build:durable": "pnpm build --filter durable-objects",
     "build:packages": "pnpm build --filter rope",
