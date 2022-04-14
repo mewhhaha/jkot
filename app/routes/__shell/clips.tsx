@@ -89,7 +89,7 @@ export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
 
   return (
-    <div className="w-full h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="w-full h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
       {videos.map((video) => {
         return (
           <div key={video.uid} className="aspect-video">
