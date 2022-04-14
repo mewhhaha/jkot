@@ -9,7 +9,6 @@ import {
   ProfileSettings,
 } from "~/types";
 import * as settings from "~/services/settings.server";
-import Banner from "~/images/Banner.jpg";
 
 type LoaderData = {
   authed: boolean;
@@ -123,17 +122,13 @@ export default function HeaderTemplate() {
         <NavLink to="/start">Start</NavLink>
         <NavLink to="/blog">Blog</NavLink>
         <NavLink to="/clips">Clips</NavLink>
-        {authed ? (
+        {authed && (
           <>
             <NavLink to="/settings">Settings</NavLink>
             <Form action="/auth/logout" method="post">
               <NavButton>Logout</NavButton>
             </Form>
           </>
-        ) : (
-          <Form action="/auth/login" method="post">
-            <NavButton>Login</NavButton>
-          </Form>
         )}
       </nav>
       <main className="relative z-0 flex flex-grow bg-gray-100">

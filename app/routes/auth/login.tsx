@@ -1,8 +1,8 @@
-import { ActionFunction } from "remix";
+import { LoaderFunction } from "remix";
 import { createAuthenticator } from "~/services/auth.server";
 import { CloudflareDataFunctionArgs } from "~/types";
 
-export const action: ActionFunction = async ({
+export const loader: LoaderFunction = async ({
   request,
   context,
 }: CloudflareDataFunctionArgs) => {
