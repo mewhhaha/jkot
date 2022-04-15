@@ -16,26 +16,33 @@ export const loader: LoaderFunction = async ({
   request,
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const { stream = {} } = await settings.all(request, context).json();
+  const getStream = async () => {
+    const stream = await context.CACHE_KV.get("stream");
+    return JSON.parse(stream ?? "{}");
+  };
 
-  const latestArticles = await context.ARTICLE_KV.list({
-    prefix: "date#",
-    limit: 4,
-  });
+  const getArticles = async () => {
+    const latestArticles = await context.ARTICLE_KV.list({
+      prefix: "date#",
+      limit: 4,
+    });
 
-  const contents = await Promise.all(
-    latestArticles.keys.map(({ name }) =>
-      context.ARTICLE_KV.get<PublishedContent>(name, {
-        type: "json",
-      })
-    )
-  );
+    const contents = await Promise.all(
+      latestArticles.keys.map(({ name }) =>
+        context.ARTICLE_KV.get<PublishedContent>(name, {
+          type: "json",
+        })
+      )
+    );
+
+    return contents.filter(
+      (content): content is PublishedContent => content !== null
+    );
+  };
 
   return {
-    stream,
-    articles: contents.filter(
-      (content): content is PublishedContent => content !== null
-    ),
+    stream: await getStream(),
+    articles: await getArticles(),
   };
 };
 

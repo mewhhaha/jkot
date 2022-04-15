@@ -52,15 +52,6 @@ type Video = {
   };
 };
 
-type StreamListResponse = {
-  success: true;
-  errors: unknown[];
-  messages: unknown[];
-  result: Video[];
-  total: string;
-  range: string;
-};
-
 type LoaderData = {
   videos: Video[];
 };
@@ -68,21 +59,9 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const url = new URL(
-    `https://api.cloudflare.com/client/v4/accounts/${context.ACCOUNT_ID}/stream`
-  );
-  url.searchParams.append("search", "jkot-stream");
+  const videos = await context.CACHE_KV.get<Video[]>("videos", "json");
 
-  const response = await fetch(url.toString(), {
-    method: "GET",
-    headers: new Headers({
-      Authorization: `Bearer ${context.STREAM_ACCESS_TOKEN}`,
-    }),
-  });
-
-  const { result } = await response.json<StreamListResponse>();
-
-  return { videos: result };
+  return { videos: videos ?? [] };
 };
 
 export default function Clips() {

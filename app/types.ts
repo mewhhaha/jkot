@@ -18,6 +18,7 @@ export type CloudflareContext = {
   ARTICLE_DO: DurableObjectNamespace;
   ARTICLE_KV: KVNamespace;
   IMAGE_KV: KVNamespace;
+  CACHE_KV: KVNamespace;
 };
 
 export type LinksSettings = {
