@@ -16,8 +16,8 @@ export const loader: LoaderFunction = async ({
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
   const getStream = async () => {
-    const stream = await context.CACHE_KV.get("stream");
-    return JSON.parse(stream ?? "{}");
+    const stream = await context.CACHE_KV.get<StreamSettings>("stream", "json");
+    return stream ?? {};
   };
 
   const getArticles = async () => {

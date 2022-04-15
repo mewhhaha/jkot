@@ -29,8 +29,8 @@ export const action: ActionFunction = (args) =>
 
       const stream = fields(formData, ["id", "title", "category"]);
 
-      await settings.item(request, context, "stream").put(stream);
       await context.CACHE_KV.put("stream", JSON.stringify(stream));
+      return settings.item(request, context, "stream").put(stream);
     }
   );
 
