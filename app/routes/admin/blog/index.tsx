@@ -3,14 +3,9 @@ import { Auth0Profile } from "remix-auth-auth0";
 import { ArticleCard } from "~/components/ArticleCard";
 import { ArticleCardNew } from "~/components/ArticleCardNew";
 import { article } from "~/services/article.server";
-import { createAuthenticator } from "~/services/auth.server";
+import { requireAuthentication } from "~/services/auth.server";
 import { all, isArticleKey } from "~/services/settings.server";
-import {
-  ArticleSettings,
-  CloudflareDataFunctionArgs,
-  PublishedContent,
-  UnpublishedContent,
-} from "~/types";
+import { ArticleSettings, PublishedContent, UnpublishedContent } from "~/types";
 import { required } from "~/utils/record";
 
 type ValidatedArticleSettings = Required<
@@ -23,54 +18,37 @@ type LoaderData = {
   articles: (PublishedContent | UnpublishedContent)[];
 };
 
-export const loader: LoaderFunction = async ({
-  request,
-  context,
-}: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const authenticator = createAuthenticator(request, context);
-  const user = await authenticator.isAuthenticated(request);
+export const loader: LoaderFunction = (props) =>
+  requireAuthentication(
+    props,
+    async ({ request, context }, user): Promise<LoaderData> => {
+      const settings = await all(request, context).json();
+      const requests = Object.entries(settings)
+        .filter(
+          (entry): entry is [`article/${string}`, ValidatedArticleSettings] => {
+            const value = entry[1] as ArticleSettings;
+            const key = entry[0];
+            return (
+              isArticleKey(key) && required(value, ["id", "slug", "status"])
+            );
+          }
+        )
+        .map(async ([, value]) => {
+          const content = await article(request, context, value.id).read();
 
-  if (user) {
-    const settings = await all(request, context).json();
-    const requests = Object.entries(settings)
-      .filter(
-        (entry): entry is [`article/${string}`, ValidatedArticleSettings] => {
-          const value = entry[1] as ArticleSettings;
-          const key = entry[0];
-          return isArticleKey(key) && required(value, ["id", "slug", "status"]);
-        }
-      )
-      .map(async ([, value]) => {
-        const content = await article(request, context, value.id).read();
+          return {
+            ...content,
+            slug: value.slug,
+            published: value.published,
+            status: value.status,
+          };
+        });
 
-        return {
-          ...content,
-          slug: value.slug,
-          published: value.published,
-          status: value.status,
-        };
-      });
+      const articles = await Promise.all(requests);
 
-    const articles = await Promise.all(requests);
-
-    return { user, articles };
-  } else {
-    const latestArticles = await context.ARTICLE_KV.list({
-      prefix: "date#",
-    });
-    const contents = await Promise.all(
-      latestArticles.keys.map(({ name }) =>
-        context.ARTICLE_KV.get<PublishedContent>(name, { type: "json" })
-      )
-    );
-    return {
-      user: null,
-      articles: contents.filter(
-        (content): content is PublishedContent => content !== null
-      ),
-    };
-  }
-};
+      return { user, articles };
+    }
+  );
 
 export default function Blog() {
   const { user, articles } = useLoaderData<LoaderData>();
@@ -97,7 +75,7 @@ export default function Blog() {
               return (
                 <ArticleCard
                   key={article.title}
-                  edit={user !== null}
+                  edit
                   published=""
                   author=""
                   authorImage=""

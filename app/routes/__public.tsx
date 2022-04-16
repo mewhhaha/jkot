@@ -1,8 +1,7 @@
 import { useMatch } from "react-router";
-import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import { Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import cx from "clsx";
 import React from "react";
-import { createAuthenticator } from "~/services/auth.server";
 import {
   CloudflareDataFunctionArgs,
   LinksSettings,
@@ -11,7 +10,6 @@ import {
 import * as settings from "~/services/settings.server";
 
 type LoaderData = {
-  authed: boolean;
   links: LinksSettings;
   profile: ProfileSettings;
 };
@@ -20,15 +18,11 @@ export const loader: LoaderFunction = async ({
   request,
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const authenticator = createAuthenticator(request, context);
-  const user = await authenticator.isAuthenticated(request);
-
   const { links = {}, profile = {} } = await settings
     .all(request, context)
     .json();
 
   return {
-    authed: user !== null,
     links,
     profile,
   };
@@ -83,19 +77,8 @@ const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
   );
 };
 
-const NavButton: React.FC = ({ children }) => {
-  return (
-    <button
-      type="submit"
-      className="flex h-full translate-y-1 transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400"
-    >
-      {children}
-    </button>
-  );
-};
-
-export default function HeaderTemplate() {
-  const { authed, links, profile } = useLoaderData<LoaderData>();
+export default function PublicTemplate() {
+  const { links, profile } = useLoaderData<LoaderData>();
 
   const navigation = createNavigation(links);
 
@@ -122,14 +105,6 @@ export default function HeaderTemplate() {
         <NavLink to="/start">Start</NavLink>
         <NavLink to="/blog">Blog</NavLink>
         <NavLink to="/clips">Clips</NavLink>
-        {authed && (
-          <>
-            <NavLink to="/settings">Settings</NavLink>
-            <Form action="/auth/logout" method="post">
-              <NavButton>Logout</NavButton>
-            </Form>
-          </>
-        )}
       </nav>
       <main className="relative z-0 flex flex-grow bg-gray-100">
         <Outlet />

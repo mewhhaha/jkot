@@ -12,7 +12,6 @@ import { readingTime } from "~/utils/text";
 type LoaderData = { stream: StreamSettings; articles: PublishedContent[] };
 
 export const loader: LoaderFunction = async ({
-  request,
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
   const getStream = async () => {
@@ -28,9 +27,7 @@ export const loader: LoaderFunction = async ({
 
     const contents = await Promise.all(
       latestArticles.keys.map(({ name }) =>
-        context.ARTICLE_KV.get<PublishedContent>(name, {
-          type: "json",
-        })
+        context.ARTICLE_KV.get<PublishedContent>(name, "json")
       )
     );
 
