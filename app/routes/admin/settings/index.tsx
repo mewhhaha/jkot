@@ -1,15 +1,10 @@
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  useLoaderData,
-  useTransition,
-} from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, useLoaderData, useTransition } from "remix";
 import { Textarea, Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
-import { CloudflareDataFunctionArgs, ProfileSettings } from "~/types";
+import type { CloudflareDataFunctionArgs, ProfileSettings } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {

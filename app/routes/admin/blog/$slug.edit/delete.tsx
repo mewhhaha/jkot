@@ -1,12 +1,7 @@
 import { ExclamationIcon } from "@heroicons/react/outline";
 import { useCallback, useRef } from "react";
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  redirect,
-  useNavigate,
-} from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, redirect, useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";

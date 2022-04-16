@@ -1,6 +1,7 @@
 import type { Content, Message } from "durable-objects";
 import { useState, useEffect, Fragment } from "react";
-import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "remix";
+import { Form, Link, Outlet, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { useWebSocket } from "~/hooks/useWebSocket";
 import { article } from "~/services/article.server";

@@ -1,6 +1,6 @@
-import { Message } from "durable-objects";
+import type { Message } from "durable-objects";
 import * as rope from "rope";
-import { Rope } from "rope";
+import type { Rope } from "rope";
 import { test, expect } from "vitest";
 import { diffs } from "./text";
 

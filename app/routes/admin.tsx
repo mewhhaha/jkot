@@ -1,9 +1,10 @@
 import { useMatch } from "react-router";
-import { Form, Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "remix";
+import { Form, Link, Outlet, useLoaderData } from "remix";
 import cx from "clsx";
 import React from "react";
 import { requireAuthentication } from "~/services/auth.server";
-import { LinksSettings, ProfileSettings } from "~/types";
+import type { LinksSettings, ProfileSettings } from "~/types";
 import * as settings from "~/services/settings.server";
 
 type LoaderData = {

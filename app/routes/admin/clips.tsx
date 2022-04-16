@@ -1,6 +1,7 @@
 import { Stream } from "@cloudflare/stream-react";
-import { LoaderFunction, useLoaderData } from "remix";
-import { CloudflareDataFunctionArgs } from "~/types";
+import type { LoaderFunction } from "remix";
+import { useLoaderData } from "remix";
+import type { CloudflareDataFunctionArgs } from "~/types";
 
 type Video = {
   allowedOrigins: string[];

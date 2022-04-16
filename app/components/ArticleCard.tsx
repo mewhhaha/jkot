@@ -1,6 +1,6 @@
 import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "remix";
-import { PublishedContent } from "~/types";
+import type { PublishedContent } from "~/types";
 import { readingTime } from "~/utils/text";
 
 export type ArticleProps = {

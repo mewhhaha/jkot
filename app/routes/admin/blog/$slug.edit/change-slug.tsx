@@ -1,9 +1,8 @@
 import { EyeIcon } from "@heroicons/react/outline";
 import { useRef, useCallback, useEffect } from "react";
+import type { ActionFunction, LoaderFunction } from "remix";
 import {
-  ActionFunction,
   Form,
-  LoaderFunction,
   redirect,
   useActionData,
   useLoaderData,

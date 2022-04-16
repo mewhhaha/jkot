@@ -1,8 +1,9 @@
 import { useMatch } from "react-router";
-import { Link, LoaderFunction, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "remix";
+import { Link, Outlet, useLoaderData } from "remix";
 import cx from "clsx";
 import React from "react";
-import {
+import type {
   CloudflareDataFunctionArgs,
   LinksSettings,
   ProfileSettings,

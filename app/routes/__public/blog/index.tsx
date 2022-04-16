@@ -1,6 +1,7 @@
-import { LoaderFunction, useLoaderData } from "remix";
+import type { LoaderFunction } from "remix";
+import { useLoaderData } from "remix";
 import { ArticleCard } from "~/components/ArticleCard";
-import {
+import type {
   CloudflareDataFunctionArgs,
   PublishedContent,
   UnpublishedContent,

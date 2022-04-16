@@ -1,15 +1,10 @@
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  useLoaderData,
-  useTransition,
-} from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, useLoaderData, useTransition } from "remix";
 import { PrefixTextbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
-import { CloudflareDataFunctionArgs } from "~/types";
+import type { CloudflareDataFunctionArgs } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {
@@ -29,8 +24,10 @@ export const action: ActionFunction = (args) =>
   );
 
 export default function SettingsHeader() {
-  const { github, twitter } =
-    useLoaderData<{ github?: string; twitter?: string }>();
+  const { github, twitter } = useLoaderData<{
+    github?: string;
+    twitter?: string;
+  }>();
 
   const transition = useTransition();
 

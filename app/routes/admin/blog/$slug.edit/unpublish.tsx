@@ -1,12 +1,7 @@
 import { EyeOffIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  redirect,
-  useNavigate,
-} from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, redirect, useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";

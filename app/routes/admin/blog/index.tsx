@@ -1,11 +1,16 @@
-import { LoaderFunction, useLoaderData } from "remix";
-import { Auth0Profile } from "remix-auth-auth0";
+import type { LoaderFunction } from "remix";
+import { useLoaderData } from "remix";
+import type { Auth0Profile } from "remix-auth-auth0";
 import { ArticleCard } from "~/components/ArticleCard";
 import { ArticleCardNew } from "~/components/ArticleCardNew";
 import { article } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { all, isArticleKey } from "~/services/settings.server";
-import { ArticleSettings, PublishedContent, UnpublishedContent } from "~/types";
+import type {
+  ArticleSettings,
+  PublishedContent,
+  UnpublishedContent,
+} from "~/types";
 import { required } from "~/utils/record";
 
 type ValidatedArticleSettings = Required<

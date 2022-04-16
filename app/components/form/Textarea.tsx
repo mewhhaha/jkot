@@ -1,6 +1,5 @@
-import TextareaAutosize, {
-  TextareaAutosizeProps,
-} from "react-textarea-autosize";
+import type { TextareaAutosizeProps } from "react-textarea-autosize";
+import TextareaAutosize from "react-textarea-autosize";
 import { ocx } from "~/styles/cx";
 
 export type TextareaProps = {

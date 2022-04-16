@@ -1,20 +1,16 @@
 import { Combobox } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import cx from "clsx";
-import { ChangeEvent, useRef, useState } from "react";
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  useLoaderData,
-  useTransition,
-} from "remix";
+import type { ChangeEvent } from "react";
+import { useRef, useState } from "react";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, useLoaderData, useTransition } from "remix";
 import { Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { categories } from "~/services/category";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
-import { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
+import type { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {

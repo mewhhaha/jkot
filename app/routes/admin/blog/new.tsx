@@ -1,4 +1,5 @@
-import { LoaderFunction, redirect } from "remix";
+import type { LoaderFunction } from "remix";
+import { redirect } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
 

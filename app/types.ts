@@ -1,8 +1,58 @@
-import { DataFunctionArgs } from "@remix-run/server-runtime";
-import { Content } from "durable-objects";
+import type { DataFunctionArgs } from "@remix-run/server-runtime";
+import type { Content } from "durable-objects";
 
 export type CloudflareDataFunctionArgs = Omit<DataFunctionArgs, "context"> & {
   context: CloudflareContext;
+};
+
+export type Video = {
+  allowedOrigins: string[];
+  created: string;
+  duration: number;
+  input: {
+    height: number;
+    width: number;
+  };
+  maxDurationSeconds: number;
+  meta: Record<string, string>;
+  modified: string;
+  uploadExpiry: string;
+  playback: {
+    hls: string;
+    dash: string;
+  };
+  preview: string;
+  readyToStream: true;
+  requireSignedURLs: true;
+  size: number;
+  status: {
+    state: string;
+    pctComplete: number;
+    errorReasonCode: string;
+    errorReasonText: string;
+  };
+  thumbnail: string;
+  thumbnailTimestampPct: number;
+  uid: string;
+  liveInput: string;
+  uploaded: string;
+  watermark: {
+    uid: string;
+    size: number;
+    height: number;
+    width: number;
+    created: string;
+    downloadedFrom: string;
+    name: string;
+    opacity: number;
+    padding: number;
+    scale: number;
+    position: string;
+  };
+  nft: {
+    contract: string;
+    token: number;
+  };
 };
 
 export type CloudflareContext = {

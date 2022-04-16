@@ -1,17 +1,12 @@
 import { EyeIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
-import {
-  ActionFunction,
-  Form,
-  LoaderFunction,
-  redirect,
-  useNavigate,
-} from "remix";
+import type { ActionFunction, LoaderFunction } from "remix";
+import { Form, redirect, useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
-import { PublishedContent } from "~/types";
+import type { PublishedContent } from "~/types";
 
 export const loader: LoaderFunction = (args) => requireAuthentication(args);
 

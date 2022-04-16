@@ -1,8 +1,9 @@
 import { Stream } from "@cloudflare/stream-react";
-import { Link, LoaderFunction, useLoaderData } from "remix";
+import type { LoaderFunction } from "remix";
+import { Link, useLoaderData } from "remix";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
-import {
+import type {
   CloudflareDataFunctionArgs,
   PublishedContent,
   StreamSettings,

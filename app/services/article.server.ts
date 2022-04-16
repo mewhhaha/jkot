@@ -1,5 +1,5 @@
-import { CloudflareContext } from "~/types";
-import { Content } from "durable-objects";
+import type { CloudflareContext } from "~/types";
+import type { Content } from "durable-objects";
 import { invertTime } from "~/utils/date";
 
 type ArticleDO = {
