@@ -8,7 +8,7 @@ export const loader: LoaderFunction = async ({
 }: CloudflareDataFunctionArgs) => {
   const authenticator = createAuthenticator(request, context);
   await authenticator.authenticate("auth0", request, {
-    successRedirect: "/",
+    successRedirect: "/admin",
     failureRedirect: "/",
   });
 };
