@@ -17,7 +17,7 @@ export default function Id() {
   return (
     <div className="flex w-full items-center justify-center h-full p-4">
       {video && (
-        <div key={video.uid} className="aspect-video">
+        <div key={video.uid} className="aspect-video h-full w-full">
           <Stream
             className="h-full w-full bg-black"
             controls
