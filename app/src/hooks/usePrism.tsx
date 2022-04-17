@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import style from "prismjs/themes/prism-tomorrow.css";
-import Prism from "prismjs";
+import style from "~/styles/prism.css";
+import Prism from "~/styles/prism";
 
 let counter = 0;
 
