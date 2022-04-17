@@ -7,8 +7,9 @@ let counter = 0;
 export const usePrism = () => {
   useInsertionEffect(() => {
     if (counter === 0) {
-      const css = document.createElement("style");
-      css.innerText = style;
+      const css = document.createElement("link");
+      css.setAttribute("rel", "stylesheet");
+      css.setAttribute("href", style);
       document.head.appendChild(css);
 
       counter++;
