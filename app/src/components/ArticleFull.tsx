@@ -25,8 +25,8 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    ref.current?.querySelectorAll("code").forEach((block) => {
-      hljs.highlightBlock(block);
+    ref.current?.querySelectorAll("pre code").forEach((block) => {
+      hljs.highlightBlock(block as HTMLElement);
     });
   }, [children]);
 
