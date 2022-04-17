@@ -1,6 +1,6 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {
@@ -25,7 +25,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const highlight = usePrism();
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (ref.current === null || ref.current.parentNode === null) return;
     highlight(ref.current.parentNode);
   }, [children, highlight]);
