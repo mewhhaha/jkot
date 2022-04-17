@@ -1,12 +1,15 @@
-import { useCallback, useInsertionEffect, useRef } from "react";
+import { useInsertionEffect, useRef } from "react";
 import style from "~/styles/prism.css";
 import Prism from "prismjs";
 
 let counter = 0;
 
-const css = document.createElement("link");
-css.setAttribute("rel", "stylesheet");
-css.setAttribute("href", style);
+const css = (() => {
+  const el = document.createElement("link");
+  el.setAttribute("rel", "stylesheet");
+  el.setAttribute("href", style);
+  return el;
+})();
 
 export const usePrism = () => {
   useInsertionEffect(() => {
