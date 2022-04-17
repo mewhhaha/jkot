@@ -28,7 +28,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   useLayoutEffect(() => {
     if (ref.current === null || ref.current.parentNode === null) return;
     highlight(ref.current.parentNode);
-  });
+  }, [highlight, children]);
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">

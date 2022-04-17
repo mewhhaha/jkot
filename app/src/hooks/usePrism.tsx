@@ -12,8 +12,6 @@ export const usePrism = () => {
       const el = document.createElement("link");
       el.setAttribute("rel", "stylesheet");
       el.setAttribute("href", style);
-      el.setAttribute("type", "text/css");
-      el.setAttribute("media", "all");
       css = el;
     }
 
