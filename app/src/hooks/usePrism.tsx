@@ -25,7 +25,5 @@ export const usePrism = () => {
     }
   }, []);
 
-  return useCallback((node: ParentNode) => {
-    Prism.highlightAllUnder(node, true);
-  }, []);
+  return Prism.highlightAllUnder;
 };
