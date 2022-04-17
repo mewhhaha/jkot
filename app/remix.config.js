@@ -10,6 +10,6 @@ module.exports = {
   appDirectory: "src",
   assetsBuildDirectory: "../public/build",
   serverBuildPath: "../functions/[[path]].js",
-  // publicPath: "/build/",
+  publicPath: "../public/build/",
   // devServerPort: 8002
 };
