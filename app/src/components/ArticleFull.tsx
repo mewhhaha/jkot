@@ -30,9 +30,8 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
     setTimeout(() => {
       const self = ref.current?.childNodes?.[0]?.parentNode;
       if (!self) return;
+      autoloader.languages_path = "path/to/grammars";
       Prism.plugins.autoloader = autoloader;
-      Prism.plugins.autoloader.languages_path =
-        new URL(window.location.href).origin + "/components";
       Prism.highlightAllUnder(self);
     });
   });
