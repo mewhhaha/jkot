@@ -23,7 +23,7 @@ export const usePrism = () => {
         counter--;
       };
     }
-  });
+  }, []);
 
   return useCallback((node: ParentNode) => {
     Prism.highlightAllUnder(node, true);
