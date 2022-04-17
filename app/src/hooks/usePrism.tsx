@@ -1,4 +1,4 @@
-import { useInsertionEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import style from "prismjs/themes/prism-tomorrow.css";
 import Prism from "prismjs";
 
@@ -12,7 +12,7 @@ const css = (() => {
 })();
 
 export const usePrism = () => {
-  useInsertionEffect(() => {
+  useEffect(() => {
     if (counter === 0) {
       document.head.appendChild(css);
     }
