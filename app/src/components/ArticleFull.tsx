@@ -27,10 +27,12 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    const self = ref.current?.childNodes?.[0]?.parentNode;
-    if (!self) return;
-    Prism.plugins.autoloader = autoloader;
-    Prism.highlightAllUnder(self, true);
+    setTimeout(() => {
+      const self = ref.current?.childNodes?.[0]?.parentNode;
+      if (!self) return;
+      Prism.plugins.autoloader = autoloader;
+      Prism.highlightAllUnder(self);
+    });
   });
 
   return (
