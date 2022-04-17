@@ -1,7 +1,7 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
 import { useLayoutEffect, useRef } from "react";
-import { usePrism } from "~/hooks/usePrism";
+import Prism from "prismjs";
 
 type ArticleFullProps = {
   title: string;
@@ -22,13 +22,13 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   imageAuthor,
   children,
 }) => {
-  const highlight = usePrism();
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (ref.current === null || ref.current.parentNode === null) return;
-    highlight(ref.current.parentNode);
-  }, [children, highlight]);
+    const self = ref.current?.childNodes?.[0]?.parentNode;
+    if (!self) return;
+    Prism.highlightAllUnder(self, true);
+  });
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">
