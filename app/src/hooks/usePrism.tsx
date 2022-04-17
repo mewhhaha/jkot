@@ -24,7 +24,7 @@ export const usePrism = () => {
         document.head.removeChild(css);
       }
     };
-  });
+  }, []);
 
   return useCallback((node: ParentNode) => {
     Prism.highlightAllUnder(node);
