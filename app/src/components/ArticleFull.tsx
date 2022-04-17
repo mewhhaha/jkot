@@ -1,8 +1,6 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
 import { useLayoutEffect, useRef } from "react";
-import Prism from "prismjs";
-import autoloader from "prismjs/plugins/autoloader/prism-autoloader.js";
 import "prismjs/themes/prism-okaidia.min.css";
 
 type ArticleFullProps = {
@@ -27,11 +25,16 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    setTimeout(() => {
+    setTimeout(async () => {
       const self = ref.current?.childNodes?.[0]?.parentNode;
       if (!self) return;
-      autoloader.languages_path = "path/to/grammars";
+      const Prism = await import("prismjs");
+      const autoloader = await import(
+        "prismjs/plugins/autoloader/prism-autoloader.js"
+      );
+
       Prism.plugins.autoloader = autoloader;
+      Prism.plugins.languages_path = "path/to/grammars";
       Prism.highlightAllUnder(self);
     });
   });
