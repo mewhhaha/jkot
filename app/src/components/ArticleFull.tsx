@@ -5,8 +5,6 @@ import Prism from "prismjs";
 import autoloader from "prismjs/plugins/autoloader/prism-autoloader.js";
 import "prismjs/themes/prism-okaidia.min.css";
 
-Prism.plugins.autoloader = autoloader;
-
 type ArticleFullProps = {
   title: string;
   category: string;
@@ -31,6 +29,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   useLayoutEffect(() => {
     const self = ref.current?.childNodes?.[0]?.parentNode;
     if (!self) return;
+    Prism.plugins.autoloader = autoloader;
     Prism.highlightAllUnder(self, true);
   });
 
