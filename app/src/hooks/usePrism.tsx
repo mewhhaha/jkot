@@ -4,15 +4,19 @@ import Prism from "prismjs";
 
 let counter = 0;
 
-const css = (() => {
-  const el = document.createElement("link");
-  el.setAttribute("rel", "stylesheet");
-  el.setAttribute("href", style);
-  return el;
-})();
+let css: HTMLLinkElement;
 
 export const usePrism = () => {
   useEffect(() => {
+    if (css === undefined) {
+      const el = document.createElement("link");
+      el.setAttribute("rel", "stylesheet");
+      el.setAttribute("href", style);
+      el.setAttribute("type", "text/css");
+      el.setAttribute("media", "all");
+      css = el;
+    }
+
     if (counter === 0) {
       document.head.appendChild(css);
     }
