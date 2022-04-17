@@ -69,7 +69,7 @@ export const action: ActionFunction = (args) =>
         toDO.put({ ...from, slug: requestedSlug }),
       ]);
 
-      return redirect(`/blog/${requestedSlug}/edit`);
+      return redirect(`/admin/blog/${requestedSlug}/edit`);
     }
   );
 

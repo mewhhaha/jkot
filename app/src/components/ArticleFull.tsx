@@ -1,6 +1,6 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {

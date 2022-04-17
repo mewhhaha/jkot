@@ -40,7 +40,7 @@ export const action: ActionFunction = (args) =>
       }),
     ]);
 
-    return redirect("/blog");
+    return redirect("/admin/blog");
   });
 
 export default function Unpublish() {

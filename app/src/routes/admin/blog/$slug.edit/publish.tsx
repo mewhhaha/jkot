@@ -49,7 +49,7 @@ export const action: ActionFunction = (args) =>
       }),
     ]);
 
-    return redirect(`/blog/${params.slug}/edit`);
+    return redirect(`/admin/blog/${params.slug}/edit`);
   });
 
 export default function Publish() {
