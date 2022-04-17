@@ -26,8 +26,10 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    if (ref.current === null || ref.current.parentNode === null) return;
-    highlight(ref.current.parentNode);
+    setTimeout(() => {
+      if (ref.current === null || ref.current.parentNode === null) return;
+      highlight(ref.current.parentNode);
+    });
   }, [highlight, children]);
 
   return (

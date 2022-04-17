@@ -29,6 +29,6 @@ export const usePrism = () => {
   }, []);
 
   return useRef((node: ParentNode) => {
-    Prism.highlightAll(true);
+    Prism.highlightAllUnder(node);
   }).current;
 };
