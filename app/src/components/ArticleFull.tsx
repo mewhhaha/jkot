@@ -26,11 +26,10 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
-    setTimeout(() => {
-      if (ref.current === null || ref.current.parentNode === null) return;
-      highlight(ref.current.parentNode);
-    });
-  }, [highlight, children]);
+    if (ref.current === null || ref.current.parentNode === null) return;
+    console.log("HIgHLIGHTING");
+    setTimeout(() => highlight(ref.current.parentNode), 1000);
+  });
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">
