@@ -66,7 +66,7 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
       </div>
       {edit && (
         <div className="absolute top-2 right-2">
-          <Link to={`/blog/${slug}/edit`}>
+          <Link to={`/admin/blog/${slug}/edit`}>
             <button
               type="submit"
               className="inline-flex items-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
