@@ -207,6 +207,31 @@ export default function Edit() {
                 <ActionMenu />
               </div>
               <div className="flex-grow space-y-6 bg-white py-6 px-4 sm:p-6">
+                <div className="col-span-3">
+                  <Textarea
+                    label="Body"
+                    name="body"
+                    value={content.body}
+                    placeholder="It all started with..."
+                    description="The main text of the article."
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      const cursorPosition = event.currentTarget.selectionStart;
+                      const messages = diffs(
+                        content.body,
+                        value,
+                        cursorPosition
+                      );
+
+                      messages.forEach(send);
+
+                      setContent((prev) => ({
+                        ...prev,
+                        body: value,
+                      }));
+                    }}
+                  />
+                </div>
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
@@ -298,33 +323,6 @@ export default function Edit() {
                         const value = event.currentTarget.value;
                         send(["description", value]);
                         setContent((prev) => ({ ...prev, description: value }));
-                      }}
-                    />
-                  </div>
-
-                  <div className="col-span-3">
-                    <Textarea
-                      label="Body"
-                      name="body"
-                      value={content.body}
-                      placeholder="It all started with..."
-                      description="The main text of the article."
-                      onChange={(event) => {
-                        const value = event.target.value;
-                        const cursorPosition =
-                          event.currentTarget.selectionStart;
-                        const messages = diffs(
-                          content.body,
-                          value,
-                          cursorPosition
-                        );
-
-                        messages.forEach(send);
-
-                        setContent((prev) => ({
-                          ...prev,
-                          body: value,
-                        }));
                       }}
                     />
                   </div>
