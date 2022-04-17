@@ -211,6 +211,7 @@ export default function Edit() {
                   <Textarea
                     label="Body"
                     name="body"
+                    rows={10}
                     value={content.body}
                     placeholder="It all started with..."
                     description="The main text of the article."
