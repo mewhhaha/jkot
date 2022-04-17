@@ -27,9 +27,8 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
 
   useLayoutEffect(() => {
     if (ref.current === null || ref.current.parentNode === null) return;
-    console.log("HIgHLIGHTING");
-    setTimeout(() => highlight(ref.current.parentNode), 1000);
-  });
+    highlight(ref.current.parentNode);
+  }, [children, highlight]);
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">

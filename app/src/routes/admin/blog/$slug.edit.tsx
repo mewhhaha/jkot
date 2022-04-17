@@ -347,7 +347,7 @@ export default function Edit() {
           </ArticleFull>
         </div>
       </div>
-      {/* <Outlet /> */}
+      <Outlet />
     </section>
   );
 }
