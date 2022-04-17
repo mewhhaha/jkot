@@ -270,8 +270,8 @@ export default function Edit() {
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
                       label="Image Author"
-                      name="imagealt"
-                      value={content.category}
+                      name="imageauthor"
+                      value={content.imageAuthor}
                       onChange={(event) => {
                         const value = event.currentTarget.value;
                         send(["imageAuthor", value]);
@@ -283,7 +283,7 @@ export default function Edit() {
                     <Textbox
                       label="Image Alt"
                       name="imagealt"
-                      value={content.category}
+                      value={content.imageAlt}
                       onChange={(event) => {
                         const value = event.currentTarget.value;
                         send(["imageAlt", value]);
