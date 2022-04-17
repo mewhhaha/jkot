@@ -29,7 +29,6 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
     setTimeout(async () => {
       const self = ref.current?.childNodes?.[0]?.parentNode;
       if (!self) return;
-      Prism.plugins.autoloader.language_path = "/asdasd";
       Prism.highlightAllUnder(self);
     });
   });
