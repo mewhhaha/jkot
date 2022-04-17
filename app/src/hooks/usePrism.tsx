@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import style from "~/styles/prism.css";
-import Prism from "~/styles/prism";
 
 let counter = 0;
 
@@ -28,7 +27,8 @@ export const usePrism = () => {
     };
   }, []);
 
-  return useRef((node: ParentNode) => {
+  return useRef(async (node: ParentNode) => {
+    const Prism = await import("~/styles/prism");
     Prism.highlightAllUnder(node);
   }).current;
 };
