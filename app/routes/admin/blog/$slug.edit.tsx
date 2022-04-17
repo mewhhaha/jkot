@@ -16,29 +16,34 @@ import { ImageAreaUpload, Textarea, Textbox } from "~/components/form";
 
 type LoaderData = {
   published: boolean;
+  defaultContent: Content;
   slug: string;
   socketURL: string;
 };
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async ({ request, context, params }) => {
-    const slug = params.slug === "empty" ? "" : params.slug;
-    if (slug === undefined) {
-      throw new Error("Invariant");
+  requireAuthentication(
+    args,
+    async ({ request, context, params }): Promise<LoaderData> => {
+      const slug = params.slug === "empty" ? "" : params.slug;
+      if (slug === undefined) {
+        throw new Error("Invariant");
+      }
+
+      const settings = await item(request, context, `article/${slug}`).json();
+
+      if (settings.id === undefined) {
+        throw new Response("Not found", { status: 404 });
+      }
+
+      return {
+        published: settings.status === "published",
+        slug,
+        defaultContent: await article(request, context, settings.id).read(),
+        socketURL: await article(request, context, settings.id).generate(),
+      };
     }
-
-    const settings = await item(request, context, `article/${slug}`).json();
-
-    if (settings.id === undefined) {
-      throw new Response("Not found", { status: 404 });
-    }
-
-    return {
-      published: settings.status === "published",
-      slug,
-      socketURL: await article(request, context, settings.id).generate(),
-    };
-  });
+  );
 
 const ActionMenu: React.VFC = () => {
   const { published, slug } = useLoaderData<LoaderData>();
@@ -134,18 +139,8 @@ const ActionMenu: React.VFC = () => {
 };
 
 export default function Edit() {
-  const { socketURL } = useLoaderData<LoaderData>();
-  const [content, setContent] = useState<Content>({
-    title: "",
-    category: "",
-    description: "",
-    created: "",
-    modified: "",
-    imageUrl: "",
-    imageAlt: "",
-    imageAuthor: "",
-    body: "",
-  });
+  const { socketURL, defaultContent } = useLoaderData<LoaderData>();
+  const [content, setContent] = useState<Content>(defaultContent);
 
   const [socket, status] = useWebSocket(socketURL);
 
