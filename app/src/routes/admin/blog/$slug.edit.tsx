@@ -50,19 +50,19 @@ const ActionMenu: React.VFC = () => {
 
   const items = [
     {
-      to: `/blog/${slug}/edit/publish`,
+      to: `/admin/blog/${slug}/edit/publish`,
       name: "Publish Article",
     },
     {
-      to: `/blog/${slug}/edit/unpublish`,
+      to: `/admin/blog/${slug}/edit/unpublish`,
       name: "Unpublish Article",
     },
     {
-      to: `/blog/${slug}/edit/change-slug`,
+      to: `/admin/blog/${slug}/edit/change-slug`,
       name: "Change Slug",
     },
     {
-      to: `/blog/${slug}/edit/delete`,
+      to: `/admin/blog/${slug}/edit/delete`,
       name: "Delete Article",
       destroy: true,
     },
@@ -73,8 +73,8 @@ const ActionMenu: React.VFC = () => {
       <Link
         to={
           published
-            ? `/blog/${slug}/edit/unpublish`
-            : `/blog/${slug}/edit/publish`
+            ? `/admin/blog/${slug}/edit/unpublish`
+            : `/admin/blog/${slug}/edit/publish`
         }
       >
         <button
@@ -332,7 +332,7 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <div className="h-full w-full max-w-7xl">
+        <div className="h-full w-full">
           <ArticleFull
             title={content.title}
             category={content.category}

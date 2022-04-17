@@ -88,7 +88,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
                     className="h-5 w-5 flex-none text-gray-400"
                     aria-hidden="true"
                   />
-                  <span className="ml-2">Photograph by {imageAuthor}</span>
+                  <span className="ml-2">Image by {imageAuthor}</span>
                 </figcaption>
               </figure>
             </div>
