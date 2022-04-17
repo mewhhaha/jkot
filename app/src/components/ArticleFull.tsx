@@ -2,6 +2,10 @@ import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
 import { useLayoutEffect, useRef } from "react";
 import Prism from "prismjs";
+import autoloader from "prismjs/plugins/autoloader/prism-autoloader.js";
+import "prismjs/themes/prism-okaidia.min.css";
+
+Prism.plugins.autoloader = autoloader;
 
 type ArticleFullProps = {
   title: string;
