@@ -1,7 +1,7 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
-import hljs from "highlight.js";
 import { useEffect, useRef } from "react";
+import { usePrismCSS } from "~/hooks/usePrismCSS";
 
 type ArticleFullProps = {
   title: string;
@@ -22,16 +22,16 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   imageAuthor,
   children,
 }) => {
-  const ref = useRef<HTMLElement>(null);
+  const highlight = usePrismCSS();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    ref.current?.querySelectorAll("pre code").forEach((block) => {
-      hljs.highlightBlock(block as HTMLElement);
-    });
-  }, [children]);
+    if (ref.current === null || ref.current.parentNode === null) return;
+    highlight(ref.current.parentNode);
+  }, [children, highlight]);
 
   return (
-    <article className="h-full w-full overflow-hidden bg-white" ref={ref}>
+    <article className="h-full w-full overflow-hidden bg-white">
       <div className="relative mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
         <div className="absolute top-0 bottom-0 left-3/4 hidden w-screen bg-gray-50 lg:block" />
         <div className="mx-auto max-w-prose text-base lg:grid lg:max-w-none lg:grid-cols-2 lg:gap-8">
@@ -107,7 +107,10 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
             <div className="mx-auto max-w-prose text-base lg:max-w-none">
               <p className="text-lg text-gray-500">{description}</p>
             </div>
-            <div className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none">
+            <div
+              className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none"
+              ref={ref}
+            >
               <Markdown>{children}</Markdown>
             </div>
           </div>
