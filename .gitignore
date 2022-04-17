@@ -2,7 +2,7 @@ node_modules
 
 /app/.cache
 /functions/[[path]].js
-/app/public/build
+/public/build
 
 tailwind.css
 
