@@ -3,6 +3,9 @@ lockfileVersion: 5.3
 importers:
 
   .:
+    specifiers: {}
+
+  app:
     specifiers:
       '@cloudflare/stream-react': ^1.6.1
       '@cloudflare/workers-types': ^3.2.0
@@ -56,7 +59,7 @@ importers:
       remix: 1.3.5
       remix-auth: 3.2.1_7fc877c096f45ae8691c280ce45d8fe8
       remix-auth-auth0: 1.3.5_9b31751b840d717b1cd6066d054b7350
-      rope: link:packages/rope
+      rope: link:../packages/rope
       tailwind-override: 0.6.1
     devDependencies:
       '@cloudflare/workers-types': 3.4.0
@@ -66,7 +69,7 @@ importers:
       '@types/react': 17.0.43
       '@types/react-dom': 17.0.14
       autoprefixer: 10.4.4_postcss@8.4.12
-      durable-objects: link:durable_objects
+      durable-objects: link:../durable_objects
       eslint: 8.12.0
       npm-run-all: 4.1.5
       postcss: 8.4.12
