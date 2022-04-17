@@ -31,6 +31,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
       const self = ref.current?.childNodes?.[0]?.parentNode;
       if (!self) return;
       Prism.plugins.autoloader = autoloader;
+      Prism.plugins.autoloader.languages_path = "/components";
       Prism.highlightAllUnder(self);
     });
   });
