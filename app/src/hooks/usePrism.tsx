@@ -1,4 +1,4 @@
-import { useInsertionEffect } from "react";
+import { useCallback, useInsertionEffect, useRef } from "react";
 import style from "~/styles/prism.css";
 import Prism from "prismjs";
 
@@ -23,5 +23,7 @@ export const usePrism = () => {
     };
   }, []);
 
-  return Prism.highlightAllUnder;
+  return useRef((node: ParentNode) => {
+    Prism.highlightAllUnder(node);
+  }).current;
 };
