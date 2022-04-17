@@ -36,11 +36,13 @@ export const loader: LoaderFunction = (args) =>
         throw new Response("Not found", { status: 404 });
       }
 
+      const articleItem = article(request, context, settings.id);
+
       return {
         published: settings.status === "published",
         slug,
-        defaultContent: await article(request, context, settings.id).read(),
-        socketURL: await article(request, context, settings.id).generate(),
+        defaultContent: await articleItem.read(),
+        socketURL: await articleItem.generate(),
       };
     }
   );
@@ -345,7 +347,7 @@ export default function Edit() {
           </ArticleFull>
         </div>
       </div>
-      <Outlet />
+      {/* <Outlet /> */}
     </section>
   );
 }
