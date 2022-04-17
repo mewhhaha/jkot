@@ -1,10 +1,10 @@
 import { useCallback, useInsertionEffect } from "react";
-import style from "~/styles/prims.css";
+import style from "~/styles/prism.css";
 import Prism from "prismjs";
 
 let counter = 0;
 
-export const usePrismCSS = () => {
+export const usePrism = () => {
   useInsertionEffect(() => {
     if (counter === 0) {
       const css = document.createElement("style");

@@ -1,7 +1,7 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
 import { useEffect, useRef } from "react";
-import { usePrismCSS } from "~/hooks/usePrismCSS";
+import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {
   title: string;
@@ -22,7 +22,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   imageAuthor,
   children,
 }) => {
-  const highlight = usePrismCSS();
+  const highlight = usePrism();
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
