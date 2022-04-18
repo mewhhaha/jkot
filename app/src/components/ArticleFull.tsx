@@ -17,6 +17,8 @@ type ArticleFullProps = {
   imageAuthor: string;
 };
 
+const isBrowser = typeof document !== "undefined";
+
 export const ArticleFull: React.FC<ArticleFullProps> = ({
   title,
   category,
@@ -115,40 +117,42 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
               <p className="text-lg text-gray-500">{description}</p>
             </div>
             <div className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none">
-              <Remark
-              // rehypeReactOptions={{
-              //   components: {
-              //     code: (
-              //       props: Omit<
-              //         React.DetailedHTMLProps<
-              //           React.HTMLAttributes<HTMLElement>,
-              //           HTMLElement
-              //         >,
-              //         "ref"
-              //       >
-              //     ) => {
-              //       const match = /language-(\w+)/.exec(
-              //         props.className || ""
-              //       );
-              //       return match ? (
-              //         <SyntaxHighlighter
-              //           children={String(children).replace(/\n$/, "")}
-              //           style={dark}
-              //           preTag="div"
-              //           language={match[1]}
-              //           {...props}
-              //         />
-              //       ) : (
-              //         <code className={props.className} {...props}>
-              //           {children}
-              //         </code>
-              //       );
-              //     },
-              //   },
-              // }}
-              >
-                {children}
-              </Remark>
+              {isBrowser && (
+                <Remark
+                // rehypeReactOptions={{
+                //   components: {
+                //     code: (
+                //       props: Omit<
+                //         React.DetailedHTMLProps<
+                //           React.HTMLAttributes<HTMLElement>,
+                //           HTMLElement
+                //         >,
+                //         "ref"
+                //       >
+                //     ) => {
+                //       const match = /language-(\w+)/.exec(
+                //         props.className || ""
+                //       );
+                //       return match ? (
+                //         <SyntaxHighlighter
+                //           children={String(children).replace(/\n$/, "")}
+                //           style={dark}
+                //           preTag="div"
+                //           language={match[1]}
+                //           {...props}
+                //         />
+                //       ) : (
+                //         <code className={props.className} {...props}>
+                //           {children}
+                //         </code>
+                //       );
+                //     },
+                //   },
+                // }}
+                >
+                  {children}
+                </Remark>
+              )}
             </div>
           </div>
         </div>
