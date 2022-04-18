@@ -3,7 +3,7 @@ import { CameraIcon } from "@heroicons/react/solid";
 // import { Remark } from "react-remark";
 import Markdown from "markdown-to-jsx";
 // import { useRef } from "react";
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 // import { usePrism } from "~/hooks/usePrism";
 
