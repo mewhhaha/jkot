@@ -2,7 +2,7 @@ import { CameraIcon } from "@heroicons/react/solid";
 // import Markdown from "markdown-to-jsx";
 // import { useRef } from "react";
 import { Remark } from "react-remark";
-import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 // import { usePrism } from "~/hooks/usePrism";
 
@@ -115,36 +115,36 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
             </div>
             <div className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none">
               <Remark
-                rehypeReactOptions={{
-                  components: {
-                    code: (
-                      props: Omit<
-                        React.DetailedHTMLProps<
-                          React.HTMLAttributes<HTMLElement>,
-                          HTMLElement
-                        >,
-                        "ref"
-                      >
-                    ) => {
-                      const match = /language-(\w+)/.exec(
-                        props.className || ""
-                      );
-                      return match ? (
-                        <SyntaxHighlighter
-                          children={String(children).replace(/\n$/, "")}
-                          style={dark}
-                          preTag="div"
-                          language={match[1]}
-                          {...props}
-                        />
-                      ) : (
-                        <code className={props.className} {...props}>
-                          {children}
-                        </code>
-                      );
-                    },
-                  },
-                }}
+              // rehypeReactOptions={{
+              //   components: {
+              //     code: (
+              //       props: Omit<
+              //         React.DetailedHTMLProps<
+              //           React.HTMLAttributes<HTMLElement>,
+              //           HTMLElement
+              //         >,
+              //         "ref"
+              //       >
+              //     ) => {
+              //       const match = /language-(\w+)/.exec(
+              //         props.className || ""
+              //       );
+              //       return match ? (
+              //         <SyntaxHighlighter
+              //           children={String(children).replace(/\n$/, "")}
+              //           style={dark}
+              //           preTag="div"
+              //           language={match[1]}
+              //           {...props}
+              //         />
+              //       ) : (
+              //         <code className={props.className} {...props}>
+              //           {children}
+              //         </code>
+              //       );
+              //     },
+              //   },
+              // }}
               >
                 {children}
               </Remark>
