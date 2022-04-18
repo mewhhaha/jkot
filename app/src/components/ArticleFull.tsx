@@ -31,7 +31,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
       if (!self) return;
       highlight(self);
     });
-  });
+  }, [children, highlight]);
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">
