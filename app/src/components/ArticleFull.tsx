@@ -1,8 +1,8 @@
 import { CameraIcon } from "@heroicons/react/solid";
 // import Markdown from "markdown-to-jsx";
-import { useRef } from "react";
+// import { useRef } from "react";
 import { Remark } from "react-remark";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 // import { usePrism } from "~/hooks/usePrism";
 
@@ -25,7 +25,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   imageAuthor,
   children,
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  // const ref = useRef<HTMLDivElement>(null);
   // const highlight = usePrism();
 
   // useLayoutEffect(() => {
