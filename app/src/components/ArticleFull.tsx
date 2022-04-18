@@ -1,5 +1,6 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import { lazy, useEffect } from "react";
+import { Remark } from "react-remark";
 // import Markdown from "markdown-to-jsx";
 // import { useRef } from "react";
 // import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -15,10 +16,6 @@ type ArticleFullProps = {
   imageAlt: string;
   imageAuthor: string;
 };
-
-const Remark = lazy(() =>
-  import("react-remark").then((m) => ({ default: m.Remark }))
-);
 
 export const ArticleFull: React.FC<ArticleFullProps> = ({
   title,
