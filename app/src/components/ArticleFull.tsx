@@ -119,10 +119,23 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
                 options={{
                   overrides: {
                     code: {
-                      component: SyntaxHighlighter,
-                      props: {
-                        style: dark,
-                        preTag: "div",
+                      component: (props) => {
+                        const match = /language-(\w+)/.exec(
+                          props.className || ""
+                        );
+
+                        return match ? (
+                          <SyntaxHighlighter
+                            style={dark}
+                            preTag="div"
+                            language={match[1]}
+                            {...props}
+                          />
+                        ) : (
+                          <code className={props.className} {...props}>
+                            {props.children}
+                          </code>
+                        );
                       },
                     },
                   },
@@ -147,9 +160,9 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
                 //           {...props}
                 //         />
                 //       ) : (
-                //         <code className={props.className} {...props}>
-                //           {children}
-                //         </code>
+                // <code className={props.className} {...props}>
+                //   {children}
+                // </code>
                 //       );
                 //     },
                 //   },
