@@ -1,7 +1,10 @@
 import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
-import { useLayoutEffect, useRef } from "react";
-import { usePrism } from "~/hooks/usePrism";
+import { useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+// import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {
   title: string;
@@ -23,15 +26,15 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   children,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const highlight = usePrism();
+  // const highlight = usePrism();
 
-  useLayoutEffect(() => {
-    setTimeout(async () => {
-      const self = ref.current?.childNodes?.[0]?.parentNode;
-      if (!self) return;
-      highlight(self);
-    });
-  }, [highlight]);
+  // useLayoutEffect(() => {
+  //   setTimeout(async () => {
+  //     const self = ref.current?.childNodes?.[0]?.parentNode;
+  //     if (!self) return;
+  //     highlight(self);
+  //   });
+  // }, [highlight]);
 
   return (
     <article className="h-full w-full overflow-hidden bg-white">
@@ -110,11 +113,28 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
             <div className="mx-auto max-w-prose text-base lg:max-w-none">
               <p className="text-lg text-gray-500">{description}</p>
             </div>
-            <div
-              className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none"
-              ref={ref}
-            >
-              <Markdown>{children}</Markdown>
+            <div className="prose prose-orange mx-auto mt-5 text-gray-500 lg:col-start-1 lg:row-start-1 lg:max-w-none">
+              <ReactMarkdown
+                components={{
+                  code({ node, inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    return !inline && match ? (
+                      <SyntaxHighlighter
+                        children={String(children).replace(/\n$/, "")}
+                        style={dark}
+                        language={match[1]}
+                        {...props}
+                      />
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
+                {children}
+              </ReactMarkdown>
             </div>
           </div>
         </div>
