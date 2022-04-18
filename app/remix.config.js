@@ -3,7 +3,6 @@
  */
 module.exports = {
   serverBuildTarget: "cloudflare-pages",
-  serverDependenciesToBundle: ["remark"],
   server: "./server.js",
   devServerBroadcastDelay: 1000,
   ignoredRouteFiles: [".*"],
