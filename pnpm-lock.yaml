@@ -41,7 +41,6 @@ importers:
       remix: ^1.4.1
       remix-auth: ^3.2.1
       remix-auth-auth0: ^1.3.6
-      rope: workspace:^1.0.0
       tailwind-override: ^0.6.1
       tailwindcss: ^3.0.24
       typescript: ^4.6.3
@@ -67,7 +66,6 @@ importers:
       remix: 1.4.1
       remix-auth: 3.2.1_905178db6df2ab74216cbb14215ddd46
       remix-auth-auth0: 1.3.6_8825f0761b189d9737a62a08b5b12f5f
-      rope: link:../packages/rope
       tailwind-override: 0.6.1
     devDependencies:
       '@cloudflare/workers-types': 3.5.1
@@ -96,7 +94,6 @@ importers:
       esbuild: ^0.14.36
       itty-router: 2.6.1
       prettier: ^2.6.2
-      rope: workspace:^1.0.0
       typescript: ^4.6.3
       wrangler: 0.0.26
     dependencies:
@@ -105,19 +102,8 @@ importers:
       '@cloudflare/workers-types': 3.5.1
       esbuild: 0.14.36
       prettier: 2.6.2
-      rope: link:../packages/rope
       typescript: 4.6.3
       wrangler: 0.0.26
-
-  packages/rope:
-    specifiers:
-      esbuild: ^0.14.36
-      prettier: ^2.6.2
-      typescript: ^4.6.3
-    devDependencies:
-      esbuild: 0.14.36
-      prettier: 2.6.2
-      typescript: 4.6.3
 
 packages:
 
