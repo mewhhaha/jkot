@@ -1,4 +1,4 @@
-import { createCookie, createCookieSessionStorage } from "remix";
+import { createCookie, createCookieSessionStorage, redirect } from "remix";
 import { Authenticator } from "remix-auth";
 import type { Auth0Profile } from "remix-auth-auth0";
 import { Auth0Strategy } from "remix-auth-auth0";
@@ -49,7 +49,9 @@ export const requireAuthentication = async (
   const authenticator = createAuthenticator(args.request, args.context);
   const user = await authenticator.isAuthenticated(args.request);
   if (user === null) {
-    throw new Response("Forbidden", { status: 403 });
+    return redirect(
+      `/auth/login?callback=${new URL(args.request.url).pathname}`
+    );
   }
 
   return f !== undefined ? f(args, user) : null;

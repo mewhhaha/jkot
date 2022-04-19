@@ -15,6 +15,7 @@ export class Article implements DurableObject {
   sessions: WebSocket[];
   env: Env;
   id: string | DurableObjectId;
+  timeout: number | undefined;
 
   constructor(state: DurableObjectState, env: Env) {
     this.storage = state.storage;
@@ -110,10 +111,14 @@ export class Article implements DurableObject {
           const [position, text] = message[1];
           const next = rope.insert(body, position, text);
 
-          await Promise.all([
-            this.storage.put("body", next),
-            this.storage.put("modified", now),
-          ]);
+          if (this.timeout !== undefined) clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            Promise.all([
+              this.storage.put("body", next),
+              this.storage.put("modified", now),
+            ]);
+          }, 2000);
+
           break;
         }
 
@@ -126,10 +131,14 @@ export class Article implements DurableObject {
           const [from, to] = message[1];
           const next = rope.remove(body, from, to);
 
-          await Promise.all([
-            this.storage.put("body", next),
-            this.storage.put("modified", now),
-          ]);
+          if (this.timeout !== undefined) clearTimeout(this.timeout);
+          this.timeout = setTimeout(() => {
+            Promise.all([
+              this.storage.put("body", next),
+              this.storage.put("modified", now),
+            ]);
+          }, 2000);
+
           break;
         }
       }
