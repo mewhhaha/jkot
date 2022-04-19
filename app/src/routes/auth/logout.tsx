@@ -1,6 +1,6 @@
-import { ActionFunction } from "remix";
+import type { ActionFunction } from "remix";
 import { createAuthenticator } from "~/services/auth.server";
-import { CloudflareDataFunctionArgs } from "~/types";
+import type { CloudflareDataFunctionArgs } from "~/types";
 
 export const action: ActionFunction = async ({
   request,

@@ -1,6 +1,6 @@
-import { LoaderFunction } from "remix";
+import type { LoaderFunction } from "remix";
 import { createAuthenticator } from "~/services/auth.server";
-import { CloudflareDataFunctionArgs } from "~/types";
+import type { CloudflareDataFunctionArgs } from "~/types";
 
 export const loader: LoaderFunction = async ({
   request,
@@ -8,7 +8,7 @@ export const loader: LoaderFunction = async ({
 }: CloudflareDataFunctionArgs) => {
   const authenticator = createAuthenticator(request, context);
   await authenticator.authenticate("auth0", request, {
-    successRedirect: "/",
+    successRedirect: "/admin",
     failureRedirect: "/",
   });
 };
