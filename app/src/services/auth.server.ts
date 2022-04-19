@@ -6,7 +6,8 @@ import type { CloudflareContext, CloudflareDataFunctionArgs } from "~/types";
 
 export const createAuthenticator = (
   request: Request,
-  context: CloudflareContext
+  context: CloudflareContext,
+  callbackURL: string
 ) => {
   const sessionCookie = createCookie("_session", {
     sameSite: "lax", // this helps with CSRF
@@ -23,8 +24,7 @@ export const createAuthenticator = (
   const authenticator = new Authenticator<Auth0Profile>(sessionStorage);
   const auth0Strategy = new Auth0Strategy(
     {
-      callbackURL:
-        new URL(request.url).origin + "/" + context.AUTH0_CALLBACK_URL,
+      callbackURL,
       clientID: context.AUTH0_CLIENT_ID,
       clientSecret: context.AUTH0_CLIENT_SECRET,
       domain: context.AUTH0_DOMAIN,
@@ -46,7 +46,14 @@ export const requireAuthentication = async (
     user: Auth0Profile
   ) => Promise<Response> | Response | Promise<unknown> | unknown
 ) => {
-  const authenticator = createAuthenticator(args.request, args.context);
+  const url = new URL(args.request.url);
+  const callbackURL = url.origin + "/" + url.searchParams.get("callback");
+
+  const authenticator = createAuthenticator(
+    args.request,
+    args.context,
+    callbackURL
+  );
   const user = await authenticator.isAuthenticated(args.request);
   if (user === null) {
     return redirect(
