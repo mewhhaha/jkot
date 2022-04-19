@@ -120,7 +120,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
                   overrides: {
                     code: {
                       component: (props) => {
-                        const match = /language-(\w+)/.exec(
+                        const match = /lang(uage)?-(\w+)/.exec(
                           props.className || ""
                         );
 
