@@ -20,7 +20,6 @@
     "@cloudflare/workers-types": "^3.5.1",
     "esbuild": "^0.14.36",
     "prettier": "^2.6.2",
-    "rope": "workspace:^1.0.0",
     "typescript": "^4.6.3",
     "wrangler": "0.0.26"
   },

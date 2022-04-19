@@ -1,6 +1,4 @@
 import { Env, Content, Message } from "./types";
-import * as rope from "rope";
-import { Rope } from "rope";
 
 const byteStringToUint8Array = (byteString: string) => {
   const ui = new Uint8Array(byteString.length);
@@ -58,7 +56,7 @@ export class Article implements DurableObject {
     const imageUrl = this.storage.get<string>("imageUrl");
     const imageAlt = this.storage.get<string>("imageAlt");
     const imageAuthor = this.storage.get<string>("imageAuthor");
-    const body = this.storage.get<Rope>("body");
+    const body = this.storage.get<string>("body");
 
     return {
       title: (await title) ?? "",
@@ -69,7 +67,7 @@ export class Article implements DurableObject {
       imageUrl: (await imageUrl) ?? "",
       imageAlt: (await imageAlt) ?? "",
       imageAuthor: (await imageAuthor) ?? "",
-      body: await body.then(rope.toString),
+      body: (await body) ?? "",
     };
   }
 
@@ -102,13 +100,13 @@ export class Article implements DurableObject {
           break;
         }
         case "c-add": {
-          let body = await this.storage.get<Rope>("body");
+          let body = await this.storage.get<string>("body");
           if (body === undefined) {
-            body = rope.from("");
+            body = "";
           }
 
           const [position, text] = message[1];
-          const next = rope.insert(body, position, text);
+          const next = body.slice(0, position) + text + body.slice(position);
 
           await Promise.all([
             this.storage.put("body", next),
@@ -119,13 +117,13 @@ export class Article implements DurableObject {
         }
 
         case "c-remove": {
-          let body = await this.storage.get<Rope>("body");
+          let body = await this.storage.get<string>("body");
           if (body === undefined) {
-            body = rope.from("");
+            body = "";
           }
 
           const [from, to] = message[1];
-          const next = rope.remove(body, from, to);
+          const next = body.slice(0, from) + body.slice(to);
 
           await Promise.all([
             this.storage.put("body", next),

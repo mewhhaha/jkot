@@ -178,7 +178,7 @@ export default function Edit() {
             const [from, to] = message[1];
             setContent((prev) => ({
               ...prev,
-              body: prev.body.slice(0, from) + prev.body.slice(from + to),
+              body: prev.body.slice(0, from) + prev.body.slice(to),
             }));
             break;
           }
