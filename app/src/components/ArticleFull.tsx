@@ -4,7 +4,7 @@ import { CameraIcon } from "@heroicons/react/solid";
 import Markdown from "markdown-to-jsx";
 // import { useRef } from "react";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
 // import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {
@@ -126,7 +126,7 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
 
                         return match ? (
                           <SyntaxHighlighter
-                            style={dark}
+                            style={okaidia}
                             preTag="div"
                             language={match[1]}
                             {...props}
