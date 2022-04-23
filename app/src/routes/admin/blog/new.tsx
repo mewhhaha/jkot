@@ -15,5 +15,5 @@ export const action: LoaderFunction = (args) =>
       status: "unpublished",
     });
 
-    return redirect(`/blog/${doid}/edit`);
+    return redirect(`/admin/blog/${doid}/edit`);
   });
