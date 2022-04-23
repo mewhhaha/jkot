@@ -34,7 +34,7 @@ export const action: ActionFunction = (args) =>
       ...content,
       published: published.toISOString(),
       slug: settings.slug,
-      author: user.displayName,
+      author: user._json.name,
       authorWebsite: user._json.website ?? "",
       authorImage: user._json.picture ?? "",
     };
