@@ -27,7 +27,7 @@ export const ArticleCardNew = () => {
           Get started by creating a new article.
         </p>
         <div className="mt-6">
-          <Form action="/blog/new" method="post">
+          <Form action="/admin/blog/new" method="post">
             <button
               type="submit"
               className="inline-flex items-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
