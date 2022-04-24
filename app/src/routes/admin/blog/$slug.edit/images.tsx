@@ -26,7 +26,7 @@ export const loader: LoaderFunction = (args) =>
         .map(({ created, id }) => {
           return {
             created,
-            url: `https://imagedelivery.net/${context.ACCOUNT_ID}/${id}/public`,
+            url: `https://imagedelivery.net/${context.IMAGES_ID}/${id}/public`,
           };
         }),
     };

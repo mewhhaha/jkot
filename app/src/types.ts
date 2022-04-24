@@ -62,6 +62,7 @@ export type CloudflareContext = {
   AUTH0_CLIENT_SECRET: string;
   AUTH0_DOMAIN: string;
   IMAGES_ACCESS_TOKEN: string;
+  IMAGES_ID: string;
   STREAM_ACCESS_TOKEN: string;
   ACCOUNT_ID: string;
   SETTINGS_DO: DurableObjectNamespace;
