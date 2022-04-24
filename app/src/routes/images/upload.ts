@@ -1,6 +1,7 @@
-import { ActionFunction } from "remix";
+import type { ActionFunction } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
-import { imageKeys, KVImage } from "~/services/image.server";
+import type { KVImage } from "~/services/image.server";
+import { imageKeys } from "~/services/image.server";
 
 export type CreateImageResponse = {
   result: {
