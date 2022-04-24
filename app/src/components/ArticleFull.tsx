@@ -1,11 +1,7 @@
 import { CameraIcon } from "@heroicons/react/solid";
-// import { lazy, useEffect } from "react";
-// import { Remark } from "react-remark";
 import Markdown from "markdown-to-jsx";
-// import { useRef } from "react";
 import { PrismAsyncLight as SyntaxHighlighter } from "react-syntax-highlighter";
 import { okaidia } from "react-syntax-highlighter/dist/esm/styles/prism";
-// import { usePrism } from "~/hooks/usePrism";
 
 type ArticleFullProps = {
   title: string;
@@ -26,17 +22,6 @@ export const ArticleFull: React.FC<ArticleFullProps> = ({
   imageAuthor,
   children,
 }) => {
-  // const ref = useRef<HTMLDivElement>(null);
-  // const highlight = usePrism();
-
-  // useLayoutEffect(() => {
-  //   setTimeout(async () => {
-  //     const self = ref.current?.childNodes?.[0]?.parentNode;
-  //     if (!self) return;
-  //     highlight(self);
-  //   });
-  // }, [highlight]);
-
   return (
     <article className="h-full w-full overflow-hidden bg-white">
       <div className="relative mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
