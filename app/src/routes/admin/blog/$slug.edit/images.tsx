@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import type { ActionFunction, LoaderFunction } from "remix";
+import type { LoaderFunction } from "remix";
 import { useLoaderData } from "remix";
 import { useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
@@ -32,10 +32,7 @@ export const loader: LoaderFunction = (args) =>
     };
   });
 
-export const action: ActionFunction = (args) =>
-  requireAuthentication(args, async ({ request, context, params }) => {});
-
-export default function Delete() {
+export default function Images() {
   const { images } = useLoaderData<LoaderData>();
   const ref = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
