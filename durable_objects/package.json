@@ -17,11 +17,11 @@
     "itty-router": "2.6.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^3.5.1",
-    "esbuild": "^0.14.36",
+    "@cloudflare/workers-types": "^3.10.0",
+    "esbuild": "^0.14.39",
     "prettier": "^2.6.2",
-    "typescript": "^4.6.3",
-    "wrangler": "0.0.26"
+    "typescript": "^4.6.4",
+    "wrangler": "2.0.5"
   },
   "override": {
     "react": "^18.0.0",

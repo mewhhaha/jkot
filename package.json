@@ -11,8 +11,8 @@
   "sideEffects": false,
   "scripts": {
     "postinstall": "remix setup cloudflare",
-    "build": "pnpm build --filter app",
-    "dev": "pnpm dev --filter app",
-    "test": "pnpm test --filter app"
+    "build": "pnpm --filter app build",
+    "dev": "pnpm --filter app dev",
+    "test": "pnpm --filter app test"
   }
 }
