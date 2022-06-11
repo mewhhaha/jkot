@@ -39,11 +39,13 @@ export default function Settings() {
                     current
                       ? "text-orange-500 group-hover:text-orange-500"
                       : "text-gray-400 group-hover:text-gray-500",
-                    "-ml-1 mr-3 h-6 w-6 flex-shrink-0"
+                    "-ml-1 h-6 w-6 flex-shrink-0"
                   )}
                   aria-hidden="true"
                 />
-                <span className="hidden truncate lg:block">{item.name}</span>
+                <span className="ml-3 hidden truncate sm:block">
+                  {item.name}
+                </span>
               </Link>
             );
           })}
