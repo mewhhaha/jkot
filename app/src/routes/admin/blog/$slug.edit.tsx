@@ -425,7 +425,7 @@ const Preview: React.FC<PreviewProps> = ({
     <div className="relative h-full w-12 sm:w-full">
       <div
         className={ocx(
-          "absolute right-0 top-0 transform sm:block sm:w-screen",
+          "absolute right-0 top-0 h-full w-screen transform sm:block sm:w-full",
           show ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -444,9 +444,11 @@ const Preview: React.FC<PreviewProps> = ({
         className="relative flex h-full w-12 items-center sm:hidden"
         onClick={() => setShow((p) => !p)}
       >
+        <div className="w-8 flex-grow rounded-br-xl border-r border-b" />
         <div className="absolute rotate-90 transform">
           {show ? "Close" : "Preview"}
         </div>
+        <div className="w-8 flex-grow rounded-br-xl border-r border-t" />
       </button>
     </div>
   );
