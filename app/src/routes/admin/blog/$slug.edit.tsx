@@ -425,8 +425,8 @@ const RadioImage: React.FC<RadioImageProps> = ({ url, checked }) => {
   return (
     <div
       className={ocx(
-        "h-32 w-32 cursor-pointer rounded-md border-2",
-        checked ? "border-orange-500" : "border-transparent"
+        "h-32 w-32 cursor-pointer rounded-md ring-2",
+        checked ? "ring-orange-500" : "ring-transparent"
       )}
     >
       <img src={url} className="h-full w-full object-cover" alt={url} />
