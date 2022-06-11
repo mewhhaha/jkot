@@ -283,7 +283,7 @@ export default function Edit() {
                     <Button>Gallery</Button>
                   </Link>
                 </div>
-                <div className="grid grid-cols-4 gap-6">
+                <div className="col-span-3 grid grid-cols-4 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
                       label="Category"
