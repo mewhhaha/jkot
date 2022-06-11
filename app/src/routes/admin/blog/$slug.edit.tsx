@@ -394,6 +394,7 @@ export default function Edit() {
                     />
                   </div>
                 </div>
+                <div className="col-span-3 h-full" />
               </div>
             </div>
           </fieldset>
