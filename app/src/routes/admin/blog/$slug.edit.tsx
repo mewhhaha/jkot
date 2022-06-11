@@ -331,7 +331,9 @@ export default function Edit() {
                         setContent((prev) => ({ ...prev, imageUrl: value }));
                       }}
                     >
-                      <RadioGroup.Label></RadioGroup.Label>
+                      <RadioGroup.Label className="block text-sm font-medium text-gray-700">
+                        Title Image
+                      </RadioGroup.Label>
                       <div className="flex flex-wrap gap-4">
                         {images.map(({ url }) => {
                           return (
