@@ -51,7 +51,7 @@ export default function Images() {
 
   return (
     <Modal initialFocus={ref} open onClose={handleClose}>
-      <div className="grid h-full w-full grid-cols-1 gap-4 overflow-auto p-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid h-full w-full gap-4 overflow-auto p-4">
         {images.map((image) => {
           return (
             <button
