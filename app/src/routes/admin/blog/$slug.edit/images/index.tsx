@@ -5,6 +5,7 @@ import { useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
+import { createImageKey } from "~/services/image.server";
 import { item } from "~/services/settings.server";
 
 type LoaderImage = { created: string; url: string };
@@ -31,7 +32,7 @@ export const loader: LoaderFunction = (args) =>
       }
 
       const list = await context.IMAGE_KV.list<KVImage>({
-        prefix: `id#${articleSettings.id}`,
+        prefix: createImageKey({ group: articleSettings.id }),
       });
 
       const images = await Promise.all(

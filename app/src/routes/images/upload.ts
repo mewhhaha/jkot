@@ -1,7 +1,7 @@
 import type { ActionFunction } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
-import { imageKeys } from "~/services/image.server";
+import { createImageKey } from "~/services/image.server";
 
 export type CreateImageResponse = {
   result: {
@@ -57,10 +57,10 @@ export const action: ActionFunction = (args) =>
       result: { uploadURL, id },
     } = await response.json<SignedURLResponse>();
 
-    const { dateKey } = imageKeys({ date: now, group: "global" });
+    const imageKey = createImageKey({ date: now, group: "global" });
 
     const kvImage: KVImage = { id, created: now.toISOString() };
-    await context.IMAGE_KV.put(dateKey, JSON.stringify(kvImage));
+    await context.IMAGE_KV.put(imageKey, JSON.stringify(kvImage));
 
     return uploadURL;
   });
