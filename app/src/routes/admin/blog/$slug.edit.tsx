@@ -398,23 +398,59 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <div className="h-full w-full">
-          <ArticleFull
-            title={content.title}
-            category={content.category}
-            description={content.description}
-            imageUrl={content.imageUrl}
-            imageAlt={content.imageAlt}
-            imageAuthor={content.imageAuthor}
-          >
-            {content.body}
-          </ArticleFull>
-        </div>
+        <Preview content={content} />
       </div>
       <Outlet />
     </section>
   );
 }
+
+type PreviewProps = {
+  content: Content;
+};
+const Preview: React.FC<PreviewProps> = ({
+  content: {
+    title,
+    category,
+    description,
+    imageUrl,
+    imageAlt,
+    imageAuthor,
+    body,
+  },
+}) => {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div className="relative h-full w-12 sm:w-full">
+      <div
+        className={ocx(
+          "absolute right-0 top-0 transform sm:block sm:w-screen",
+          show ? "translate-x-0" : "translate-x-full"
+        )}
+      >
+        <ArticleFull
+          title={title}
+          category={category}
+          description={description}
+          imageUrl={imageUrl}
+          imageAlt={imageAlt}
+          imageAuthor={imageAuthor}
+        >
+          {body}
+        </ArticleFull>
+      </div>
+      <button
+        className="relative hidden w-12 items-center sm:flex"
+        onClick={() => setShow((p) => !p)}
+      >
+        <div className="absolute rotate-90 transform">
+          {show ? "Close" : "Preview"}
+        </div>
+      </button>
+    </div>
+  );
+};
 
 type RadioImageProps = {
   url: string;
