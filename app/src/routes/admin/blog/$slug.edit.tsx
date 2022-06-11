@@ -13,6 +13,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
 import { uploadImage } from "~/routes/images/upload";
 import { ImageAreaUpload, Textarea, Textbox } from "~/components/form";
+import { Button } from "~/components/Button";
 
 type LoaderData = {
   published: boolean;
@@ -240,7 +241,7 @@ export default function Edit() {
                     className="font-medium text-orange-600 hover:text-orange-500"
                     to="images"
                   >
-                    Images
+                    <Button>Images</Button>
                   </Link>
                 </div>
                 <div className="grid grid-cols-3 gap-6">
