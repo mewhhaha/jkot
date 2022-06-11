@@ -344,7 +344,7 @@ export default function Edit() {
                                 return (
                                   <div
                                     className={ocx(
-                                      "h-32 w-32 rounded-md border-2",
+                                      "h-32 w-32 cursor-pointer rounded-md border-2",
                                       checked
                                         ? "border-black"
                                         : "border-transparent"
@@ -352,7 +352,7 @@ export default function Edit() {
                                   >
                                     <img
                                       src={url}
-                                      className="rounded-md"
+                                      className="h-full w-full rounded-md object-cover"
                                       alt={url}
                                     />
                                   </div>
