@@ -229,7 +229,7 @@ export default function Edit() {
 
   return (
     <section className="flex flex-grow justify-center">
-      <div className="flex h-full w-full">
+      <div className="relative flex h-full w-full">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
             <div className="relative flex h-full flex-col p-4 md:overflow-hidden">
@@ -419,40 +419,22 @@ const Preview: React.FC<PreviewProps> = ({
     body,
   },
 }) => {
-  const [show, setShow] = useState(false);
-
   return (
     <div
       className={ocx(
-        "relative h-full w-4 md:w-full",
-        show ? "overflow-visible" : "overflow-hidden"
+        "absolute right-0 top-0 h-full w-screen translate-x-full transform md:block md:w-full md:translate-x-0 md:transform-none"
       )}
     >
-      <div
-        className={ocx(
-          "absolute right-0 top-0 h-full w-screen transform md:block md:w-full md:translate-x-0 md:transform-none",
-          show ? "translate-x-0" : "translate-x-full"
-        )}
+      <ArticleFull
+        title={title}
+        category={category}
+        description={description}
+        imageUrl={imageUrl}
+        imageAlt={imageAlt}
+        imageAuthor={imageAuthor}
       >
-        <ArticleFull
-          title={title}
-          category={category}
-          description={description}
-          imageUrl={imageUrl}
-          imageAlt={imageAlt}
-          imageAuthor={imageAuthor}
-        >
-          {body}
-        </ArticleFull>
-      </div>
-      <button
-        className="relative flex h-full w-4 items-center md:hidden"
-        onClick={() => setShow((p) => !p)}
-      >
-        <div className="absolute -translate-x-full rotate-90 transform rounded-b-xl border-x border-b border-black bg-gray-100 p-4">
-          {show ? "Close" : "Preview"}
-        </div>
-      </button>
+        {body}
+      </ArticleFull>
     </div>
   );
 };
