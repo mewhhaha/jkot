@@ -8,7 +8,7 @@ export type ArticleProps = {
   edit?: boolean;
 } & PublishedContent;
 
-export const ArticleCard: React.VFC<ArticleProps> = ({
+export const ArticleCard: React.FC<ArticleProps> = ({
   title,
   imageUrl,
   category,

@@ -11,7 +11,7 @@ export type TextboxProps = {
   "name" | "id" | "type"
 >;
 
-export const Textbox: React.VFC<TextboxProps> = ({
+export const Textbox: React.FC<TextboxProps> = ({
   name,
   label,
   className,

@@ -37,7 +37,7 @@ type CategoryComboboxProps = {
   name: string;
 };
 
-const CategoryCombobox: React.VFC<CategoryComboboxProps> = ({
+const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
   defaultValue,
   label,
   name,

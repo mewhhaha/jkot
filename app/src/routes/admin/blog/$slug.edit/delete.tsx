@@ -5,6 +5,8 @@ import { Form, redirect, useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";
+import type { KVImage } from "~/services/image.server";
+import { createImageKey } from "~/services/image.server";
 import { item } from "~/services/settings.server";
 
 export const loader: LoaderFunction = (args) => requireAuthentication(args);
@@ -22,6 +24,10 @@ export const action: ActionFunction = (args) =>
 
     const articleDO = article(request, context, settings.id);
 
+    const list = await context.IMAGE_KV.list<KVImage>({
+      prefix: createImageKey({ group: settings.id }),
+    });
+
     await Promise.all([
       articleDO.destroy(),
       settings.published
@@ -37,6 +43,9 @@ export const action: ActionFunction = (args) =>
         }).slugKey
       ),
       settingsDO.delete(),
+      ...list.keys.map((image) => {
+        return context.IMAGE_KV.delete(image.name);
+      }),
     ]);
 
     return redirect("/blog");

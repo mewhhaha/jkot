@@ -6,7 +6,7 @@ type ArticleCardUnpublishedProps = {
   slug: string;
 };
 
-export const ArticleCardUnpublished: React.VFC<ArticleCardUnpublishedProps> = ({
+export const ArticleCardUnpublished: React.FC<ArticleCardUnpublishedProps> = ({
   slug,
 }) => {
   return (

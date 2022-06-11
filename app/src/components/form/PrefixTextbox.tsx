@@ -12,7 +12,7 @@ export type PrefixTextboxProps = {
   "name" | "id" | "type"
 >;
 
-export const PrefixTextbox: React.VFC<PrefixTextboxProps> = ({
+export const PrefixTextbox: React.FC<PrefixTextboxProps> = ({
   name,
   prefix,
   label,

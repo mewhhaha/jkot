@@ -1,6 +1,7 @@
 import type { Content, Message } from "durable-objects";
 import { useState, useEffect, Fragment } from "react";
 import type { LoaderFunction } from "remix";
+import { useNavigate } from "remix";
 import { Form, Link, Outlet, useLoaderData } from "remix";
 import { ArticleFull } from "~/components/ArticleFull";
 import { useWebSocket } from "~/hooks/useWebSocket";
@@ -9,17 +10,22 @@ import { requireAuthentication } from "~/services/auth.server";
 import { item } from "~/services/settings.server";
 import { diffs } from "~/utils/text";
 import cx from "clsx";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, RadioGroup, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { uploadImage } from "~/routes/images/upload";
+import { uploadImage } from "~/routes/images.$group/upload";
 import { ImageAreaUpload, Textarea, Textbox } from "~/components/form";
 import { Button } from "~/components/Button";
+import type { KVImage } from "~/services/image.server";
+import { createImageKey } from "~/services/image.server";
+import { ocx } from "~/styles/cx";
 
 type LoaderData = {
+  articleId: string;
   published: boolean;
   defaultContent: Content;
   slug: string;
   socketURL: string;
+  images: { created: string; url: string }[];
 };
 
 export const loader: LoaderFunction = (args) =>
@@ -39,16 +45,35 @@ export const loader: LoaderFunction = (args) =>
 
       const articleItem = article(request, context, settings.id);
 
+      const list = await context.IMAGE_KV.list<KVImage>({
+        prefix: createImageKey({ group: settings.id }),
+      });
+
+      const images = await Promise.all(
+        list.keys.map((id) => {
+          return context.IMAGE_KV.get<KVImage>(id.name, "json");
+        })
+      );
+
       return {
+        articleId: settings.id,
         published: settings.status === "published",
         slug,
         defaultContent: await articleItem.read(),
         socketURL: await articleItem.generate(),
+        images: images
+          .filter((i): i is KVImage => i !== null)
+          .map(({ created, id }) => {
+            return {
+              created,
+              url: `https://imagedelivery.net/${context.IMAGES_ID}/${id}/public`,
+            };
+          }),
       };
     }
   );
 
-const ActionMenu: React.VFC = () => {
+const ActionMenu: React.FC = () => {
   const { published, slug } = useLoaderData<LoaderData>();
 
   const items = [
@@ -142,7 +167,9 @@ const ActionMenu: React.VFC = () => {
 };
 
 export default function Edit() {
-  const { socketURL, defaultContent } = useLoaderData<LoaderData>();
+  const navigate = useNavigate();
+  const { images, articleId, socketURL, defaultContent } =
+    useLoaderData<LoaderData>();
   const [content, setContent] = useState<Content>(defaultContent);
 
   const [socket, status] = useWebSocket(socketURL);
@@ -237,11 +264,21 @@ export default function Edit() {
                   />
                 </div>
                 <div className="col-span-3">
+                  <Form
+                    method="post"
+                    onChange={async (event) => {
+                      const fileFormData = new FormData(event.currentTarget);
+                      await uploadImage(fileFormData, articleId);
+                      navigate("images");
+                    }}
+                  >
+                    <ImageAreaUpload label="Upload image" name="file" />
+                  </Form>
                   <Link
                     className="font-medium text-orange-600 hover:text-orange-500"
                     to="images"
                   >
-                    <Button>Images</Button>
+                    <Button>Gallery</Button>
                   </Link>
                 </div>
                 <div className="grid grid-cols-3 gap-6">
@@ -287,21 +324,45 @@ export default function Edit() {
                   </dl>
 
                   <div className="col-span-3">
-                    <Form
-                      method="post"
-                      onChange={async (event) => {
-                        const fileFormData = new FormData(event.currentTarget);
-                        const url = await uploadImage(fileFormData);
-                        send(["imageUrl", url]);
-                        setContent((prev) => ({ ...prev, imageUrl: url }));
+                    <RadioGroup
+                      value={content.imageUrl}
+                      onChange={(value) => {
+                        send(["imageUrl", value]);
+                        setContent((prev) => ({ ...prev, imageUrl: value }));
                       }}
                     >
-                      <ImageAreaUpload label="Title image" name="file" />
-                    </Form>
+                      <RadioGroup.Label></RadioGroup.Label>
+                      <div className="flex flex-wrap gap-4">
+                        {images.map(({ url }) => {
+                          return (
+                            <RadioGroup.Option value={url} key={url}>
+                              {({ checked }) => {
+                                return (
+                                  <div
+                                    className={ocx(
+                                      "h-64 w-64 rounded-md border-2",
+                                      checked
+                                        ? "border-black"
+                                        : "border-transparent"
+                                    )}
+                                  >
+                                    <img
+                                      src="url"
+                                      className="rounded-md"
+                                      alt={url}
+                                    />
+                                  </div>
+                                );
+                              }}
+                            </RadioGroup.Option>
+                          );
+                        })}
+                      </div>
+                    </RadioGroup>
                   </div>
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
-                      label="Image Author"
+                      label="Title Image Author"
                       name="imageauthor"
                       value={content.imageAuthor}
                       onChange={(event) => {
@@ -313,7 +374,7 @@ export default function Edit() {
                   </div>
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
-                      label="Image Alt"
+                      label="Title Image Alt"
                       name="imagealt"
                       value={content.imageAlt}
                       onChange={(event) => {

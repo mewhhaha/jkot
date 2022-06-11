@@ -11,7 +11,7 @@ export type TextareaProps = {
   "name" | "id"
 >;
 
-export const Textarea: React.VFC<TextareaProps> = ({
+export const Textarea: React.FC<TextareaProps> = ({
   name,
   description,
   label,

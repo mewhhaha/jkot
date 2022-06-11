@@ -2,21 +2,6 @@ import type { ActionFunction } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
 import { createImageKey } from "~/services/image.server";
-import { item } from "~/services/settings.server";
-
-export type CreateImageResponse = {
-  result: {
-    id: string;
-    filename: string;
-    uploaded: string;
-    requireSignedURLs: boolean;
-    variants: string[];
-  };
-  result_info: unknown;
-  success: boolean;
-  errors: unknown[];
-  messages: unknown[];
-};
 
 export type SignedURLResponse = {
   result: {
@@ -30,20 +15,11 @@ export type SignedURLResponse = {
 };
 
 export const action: ActionFunction = (args) =>
-  requireAuthentication(args, async ({ context, params, request }, user) => {
-    const slug = params.slug === "empty" ? "" : params.slug;
-    if (slug === undefined) {
+  requireAuthentication(args, async ({ context, params }, user) => {
+    const group = params.group;
+
+    if (group === undefined) {
       throw new Error("Invariant");
-    }
-
-    const articleSettings = await item(
-      request,
-      context,
-      `article/${slug}`
-    ).json();
-
-    if (articleSettings.id === undefined) {
-      throw new Response("Not found", { status: 404 });
     }
 
     const now = new Date();
@@ -73,7 +49,7 @@ export const action: ActionFunction = (args) =>
       result: { uploadURL, id },
     } = await response.json<SignedURLResponse>();
 
-    const imageKey = createImageKey({ date: now, group: id });
+    const imageKey = createImageKey({ date: now, group });
 
     const kvImage: KVImage = { id, created: now.toISOString() };
     await context.IMAGE_KV.put(imageKey, JSON.stringify(kvImage));
@@ -81,10 +57,25 @@ export const action: ActionFunction = (args) =>
     return uploadURL;
   });
 
-export const uploadImage = async (formData: FormData) => {
-  const signedResponse = await fetch("/images/upload", {
+export type CreateImageResponse = {
+  result: {
+    id: string;
+    filename: string;
+    uploaded: string;
+    requireSignedURLs: boolean;
+    variants: string[];
+  };
+  result_info: unknown;
+  success: boolean;
+  errors: unknown[];
+  messages: unknown[];
+};
+
+export const uploadImage = async (formData: FormData, group: string) => {
+  const signedResponse = await fetch(`/images/${group}/upload`, {
     method: "POST",
   });
+
   const url = await signedResponse.json<string>();
 
   const uploadResponse = await fetch(url, {
