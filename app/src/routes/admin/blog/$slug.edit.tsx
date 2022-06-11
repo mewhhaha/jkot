@@ -232,7 +232,7 @@ export default function Edit() {
       <div className="flex h-full w-full">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
-            <div className="relative flex h-full flex-col p-4 shadow sm:overflow-hidden sm:rounded-md">
+            <div className="relative flex h-full flex-col p-4 sm:overflow-hidden">
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <ActionMenu />
               </div>
@@ -283,7 +283,7 @@ export default function Edit() {
                     <Button>Gallery</Button>
                   </Link>
                 </div>
-                <div className="grid grid-cols-3 gap-6">
+                <div className="grid grid-cols-4 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
                       label="Category"
@@ -425,7 +425,7 @@ const Preview: React.FC<PreviewProps> = ({
     <div className="relative h-full w-12 sm:w-full">
       <div
         className={ocx(
-          "absolute right-0 top-0 h-full w-screen transform sm:block sm:w-full",
+          "absolute right-0 top-0 h-full w-screen transform sm:block sm:w-full sm:translate-x-0 sm:transform-none",
           show ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -441,11 +441,11 @@ const Preview: React.FC<PreviewProps> = ({
         </ArticleFull>
       </div>
       <button
-        className="relative flex h-full w-12 items-center sm:hidden"
+        className="relative flex h-full w-12 items-center bg-gray-400 sm:hidden"
         onClick={() => setShow((p) => !p)}
       >
         <div className="w-8 flex-grow rounded-br-xl border-r border-b" />
-        <div className="absolute rotate-90 transform">
+        <div className="absolute rotate-90 transform border-t bg-gray-400">
           {show ? "Close" : "Preview"}
         </div>
         <div className="w-8 flex-grow rounded-br-xl border-r border-t" />
