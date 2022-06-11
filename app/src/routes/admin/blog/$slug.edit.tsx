@@ -229,7 +229,7 @@ export default function Edit() {
 
   return (
     <section className="flex flex-grow justify-center">
-      <div className="grid h-full w-full grid-cols-2">
+      <div className="flex h-full w-full">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
             <div className="relative flex h-full flex-col p-4 shadow sm:overflow-hidden sm:rounded-md">
@@ -441,7 +441,7 @@ const Preview: React.FC<PreviewProps> = ({
         </ArticleFull>
       </div>
       <button
-        className="relative hidden w-12 items-center sm:flex"
+        className="relative flex h-full w-12 items-center sm:hidden"
         onClick={() => setShow((p) => !p)}
       >
         <div className="absolute rotate-90 transform">
