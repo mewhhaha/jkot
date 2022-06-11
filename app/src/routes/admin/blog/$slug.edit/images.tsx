@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { LoaderFunction } from "remix";
 import { useLoaderData } from "remix";
 import { useNavigate } from "remix";
@@ -57,7 +57,7 @@ export default function Images() {
             <button
               key={image.url}
               onClick={handleCopy(image.url)}
-              className="ring-orange-400 hover:ring-1"
+              className="relative ring-orange-400 hover:ring-1"
             >
               <img src={image.url} alt={image.url}></img>
               {copied !== undefined && (

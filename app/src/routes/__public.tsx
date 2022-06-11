@@ -55,6 +55,7 @@ const createNavigation = ({ github, twitter }: LinksSettings) => [
 ];
 
 type NavLinkProps = {
+  children: React.ReactNode;
   to: string;
 };
 
@@ -85,7 +86,7 @@ export default function PublicTemplate() {
 
   return (
     <div className="relative flex h-screen w-screen flex-col overflow-auto">
-      <header className="relative w-full flex-col bg-white hidden sm:flex">
+      <header className="relative hidden w-full flex-col bg-white sm:flex">
         <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="flex justify-center text-base font-bold uppercase tracking-wide">

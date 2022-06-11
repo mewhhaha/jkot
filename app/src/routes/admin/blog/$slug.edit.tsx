@@ -235,6 +235,14 @@ export default function Edit() {
                     }}
                   />
                 </div>
+                <div className="col-span-3">
+                  <Link
+                    className="font-medium text-orange-600 hover:text-orange-500"
+                    to="images"
+                  >
+                    Images
+                  </Link>
+                </div>
                 <div className="grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
