@@ -283,7 +283,7 @@ export default function Edit() {
                     <Button>Gallery</Button>
                   </Link>
                 </div>
-                <div className="col-span-3 grid grid-cols-4 gap-6">
+                <div className="col-span-3 grid grid-cols-3 gap-6">
                   <div className="col-span-3 sm:col-span-2">
                     <Textbox
                       label="Category"
@@ -379,7 +379,7 @@ export default function Edit() {
                     />
                   </div>
 
-                  <div className="col-span-6 sm:col-span-3">
+                  <div className="col-span-3">
                     <Textarea
                       label="Description"
                       name="description"
