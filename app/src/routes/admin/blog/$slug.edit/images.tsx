@@ -57,11 +57,15 @@ export default function Images() {
             <button
               key={image.url}
               onClick={handleCopy(image.url)}
-              className="relative ring-orange-400 hover:ring-1"
+              className="relative bg-black"
             >
-              <img src={image.url} alt={image.url}></img>
+              <img
+                src={image.url}
+                alt={image.url}
+                className="hover:opacity-30"
+              ></img>
               {copied !== undefined && (
-                <span className="absolute inset-0 flex items-center justify-center bg-black opacity-10">
+                <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-10">
                   Copied
                 </span>
               )}
