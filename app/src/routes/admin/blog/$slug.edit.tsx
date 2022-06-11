@@ -422,7 +422,12 @@ const Preview: React.FC<PreviewProps> = ({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="relative h-full w-4 md:w-full">
+    <div
+      className={ocx(
+        "relative h-full w-4 md:w-full",
+        show ? "overflow-visible" : "overflow-hidden"
+      )}
+    >
       <div
         className={ocx(
           "absolute right-0 top-0 h-full w-screen transform md:block md:w-full md:translate-x-0 md:transform-none",
@@ -444,7 +449,7 @@ const Preview: React.FC<PreviewProps> = ({
         className="relative flex h-full w-4 items-center md:hidden"
         onClick={() => setShow((p) => !p)}
       >
-        <div className="absolute rotate-90 transform rounded-xl border-x border-b bg-gray-100 p-4">
+        <div className="absolute -translate-x-full rotate-90 transform rounded-b-xl border-x border-b border-black bg-gray-100 p-4">
           {show ? "Close" : "Preview"}
         </div>
       </button>
