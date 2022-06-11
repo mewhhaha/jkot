@@ -441,7 +441,7 @@ const Preview: React.FC<PreviewProps> = ({
         </ArticleFull>
       </div>
       <button
-        className="relative flex h-full w-12 items-center sm:hidden"
+        className="relative flex h-full w-4 items-center sm:hidden"
         onClick={() => setShow((p) => !p)}
       >
         <div className="absolute rotate-90 transform rounded-xl border-x border-b bg-gray-100 p-4">
