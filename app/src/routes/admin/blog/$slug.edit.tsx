@@ -336,7 +336,7 @@ export default function Edit() {
                       <RadioGroup.Label className="block text-sm font-medium text-gray-700">
                         Title Image
                       </RadioGroup.Label>
-                      <div className="flex flex-wrap gap-4">
+                      <div className="mt-1 flex flex-wrap gap-4">
                         {images.length === 0 && (
                           <RadioImage url={defaultContent.imageUrl} checked />
                         )}
