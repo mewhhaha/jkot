@@ -338,33 +338,14 @@ export default function Edit() {
                       </RadioGroup.Label>
                       <div className="flex flex-wrap gap-4">
                         {images.length === 0 && (
-                          <div className="h-32 w-32 cursor-pointer rounded-md border-2 border-black">
-                            <img
-                              src={defaultContent.imageUrl}
-                              className="h-full w-full rounded-md object-cover"
-                              alt={defaultContent.imageUrl}
-                            />
-                          </div>
+                          <RadioImage url={defaultContent.imageUrl} checked />
                         )}
                         {images.map(({ url }) => {
                           return (
                             <RadioGroup.Option value={url} key={url}>
                               {({ checked }) => {
                                 return (
-                                  <div
-                                    className={ocx(
-                                      "h-32 w-32 cursor-pointer rounded-md border-2",
-                                      checked
-                                        ? "border-black"
-                                        : "border-transparent"
-                                    )}
-                                  >
-                                    <img
-                                      src={url}
-                                      className="h-full w-full object-cover"
-                                      alt={url}
-                                    />
-                                  </div>
+                                  <RadioImage url={url} checked={checked} />
                                 );
                               }}
                             </RadioGroup.Option>
@@ -434,3 +415,21 @@ export default function Edit() {
     </section>
   );
 }
+
+type RadioImageProps = {
+  url: string;
+  checked: boolean;
+};
+
+const RadioImage: React.FC<RadioImageProps> = ({ url, checked }) => {
+  return (
+    <div
+      className={ocx(
+        "h-32 w-32 cursor-pointer rounded-md border-2",
+        checked ? "border-orange-500" : "border-transparent"
+      )}
+    >
+      <img src={url} className="h-full w-full object-cover" alt={url} />
+    </div>
+  );
+};
