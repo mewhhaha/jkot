@@ -337,6 +337,15 @@ export default function Edit() {
                         Title Image
                       </RadioGroup.Label>
                       <div className="flex flex-wrap gap-4">
+                        {images.length === 0 && (
+                          <div className="h-32 w-32 cursor-pointer rounded-md border-2 border-black">
+                            <img
+                              src={defaultContent.imageUrl}
+                              className="h-full w-full rounded-md object-cover"
+                              alt={defaultContent.imageUrl}
+                            />
+                          </div>
+                        )}
                         {images.map(({ url }) => {
                           return (
                             <RadioGroup.Option value={url} key={url}>
@@ -352,7 +361,7 @@ export default function Edit() {
                                   >
                                     <img
                                       src={url}
-                                      className="h-full w-full rounded-md object-cover"
+                                      className="h-full w-full object-cover"
                                       alt={url}
                                     />
                                   </div>
