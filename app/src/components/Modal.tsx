@@ -1,5 +1,6 @@
 import { Transition, Dialog } from "@headlessui/react";
 import { Fragment, forwardRef } from "react";
+import { Button } from "./Button";
 
 type ModalProps = {
   children: React.ReactNode;
@@ -73,20 +74,21 @@ const CancelDestroy = forwardRef<HTMLButtonElement, CancelDestroyProps>(
   ({ onCancel, children }, ref) => {
     return (
       <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-        <button
+        <Button
           type="submit"
-          className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+          danger
+          className="text-base sm:col-start-2 sm:text-sm"
         >
           {children}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
+          className="mt-3 text-base sm:col-start-1 sm:mt-0 sm:text-sm"
           onClick={onCancel}
           ref={ref}
         >
           Cancel
-        </button>
+        </Button>
       </div>
     );
   }
@@ -103,20 +105,21 @@ const CancelAccept = forwardRef<HTMLButtonElement, CancelAcceptProps>(
   ({ onCancel, children }, ref) => {
     return (
       <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-        <button
+        <Button
           type="submit"
-          className="inline-flex w-full justify-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+          primary
+          className="text-base sm:col-start-2 sm:text-sm"
         >
           {children}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
-          className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:col-start-1 sm:mt-0 sm:text-sm"
+          className="mt-3 text-base sm:col-start-1 sm:mt-0 sm:text-sm"
           onClick={onCancel}
           ref={ref}
         >
           Cancel
-        </button>
+        </Button>
       </div>
     );
   }
@@ -132,14 +135,14 @@ const Cancel = forwardRef<HTMLButtonElement, CancelProps>(
   ({ onCancel }, ref) => {
     return (
       <div className="mt-5 sm:mt-6">
-        <button
+        <Button
           ref={ref}
           type="button"
-          className="inline-flex w-full justify-center rounded-md border border-transparent bg-white px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 sm:text-sm"
+          className="mt-3 text-base sm:col-start-1 sm:mt-0 sm:text-sm"
           onClick={onCancel}
         >
           Cancel
-        </button>
+        </Button>
       </div>
     );
   }

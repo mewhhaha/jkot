@@ -1,5 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "remix";
 import { Form, useLoaderData, useTransition } from "remix";
+import { Button } from "~/components/Button";
 import { PrefixTextbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
@@ -36,12 +37,9 @@ export default function SettingsHeader() {
       <fieldset disabled={transition.state !== "idle"}>
         <div className="relative shadow sm:overflow-hidden sm:rounded-md">
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-            <button
-              type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-            >
+            <Button type="submit" primary>
               Save
-            </button>
+            </Button>
           </div>
           <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
             <div>

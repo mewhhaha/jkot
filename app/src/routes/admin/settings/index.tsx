@@ -1,5 +1,6 @@
 import type { ActionFunction, LoaderFunction } from "remix";
 import { Form, useLoaderData, useTransition } from "remix";
+import { Button } from "~/components/Button";
 import { Textarea, Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
@@ -34,12 +35,9 @@ export default function SettingsIndex() {
       <fieldset disabled={transition.state !== "idle"}>
         <div className="relative shadow sm:overflow-hidden sm:rounded-md">
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-            <button
-              type="submit"
-              className="inline-flex justify-center rounded-md border border-transparent bg-orange-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-            >
+            <Button type="submit" primary>
               Save
-            </button>
+            </Button>
           </div>
           <div className="space-y-6 bg-white py-6 px-4 sm:p-6">
             <div>
@@ -85,12 +83,9 @@ export default function SettingsIndex() {
                       <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </span>
-                  <button
-                    type="button"
-                    className="ml-5 rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-                  >
+                  <Button type="button" className="ml-5">
                     Change
-                  </button>
+                  </Button>
                 </div>
               </div>
 

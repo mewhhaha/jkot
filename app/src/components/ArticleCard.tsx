@@ -2,6 +2,7 @@ import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "remix";
 import type { PublishedContent } from "~/types";
 import { readingTime } from "~/utils/text";
+import { Button } from "./Button";
 
 export type ArticleProps = {
   edit?: boolean;
@@ -67,13 +68,10 @@ export const ArticleCard: React.VFC<ArticleProps> = ({
       {edit && (
         <div className="absolute top-2 right-2">
           <Link to={`/admin/blog/${slug}/edit`}>
-            <button
-              type="submit"
-              className="inline-flex items-center rounded-md border border-transparent bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
-            >
+            <Button type="submit">
               <PencilIcon className="-mx-1 h-5 w-5" aria-hidden="true" />
               <span className="sr-only">Edit Article</span>
-            </button>
+            </Button>
           </Link>
         </div>
       )}
