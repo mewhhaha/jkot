@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { LoaderFunction } from "remix";
 import { useLoaderData } from "remix";
 import { useNavigate } from "remix";
@@ -36,18 +36,43 @@ export default function Images() {
   const { images } = useLoaderData<LoaderData>();
   const ref = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
+  const [copied, setCopied] = useState<string>();
 
   const handleClose = useCallback(() => {
     navigate("../");
   }, [navigate]);
 
+  const handleCopy = useCallback((url: string) => {
+    return () => {
+      navigator.clipboard.writeText(markdownImage(url));
+      setCopied(url);
+    };
+  }, []);
+
   return (
     <Modal initialFocus={ref} open onClose={handleClose}>
-      <div className="w-full h-full overflow-auto grid gap-4 p-4">
+      <div className="grid h-full w-full gap-4 overflow-auto p-4">
         {images.map((image) => {
-          return <img key={image.url} src={image.url} alt={image.url}></img>;
+          return (
+            <button
+              key={image.url}
+              onClick={handleCopy(image.url)}
+              className="ring-orange-400 hover:ring-1"
+            >
+              <img src={image.url} alt={image.url}></img>
+              {copied !== undefined && (
+                <span className="absolute inset-0 flex items-center justify-center bg-black opacity-10">
+                  Copied
+                </span>
+              )}
+            </button>
+          );
         })}
       </div>
     </Modal>
   );
 }
+
+const markdownImage = (url: string) => {
+  return `![${url}](${url})`;
+};
