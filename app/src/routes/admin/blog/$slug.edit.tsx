@@ -420,7 +420,7 @@ const Preview: React.FC<PreviewProps> = ({
   },
 }) => {
   return (
-    <div className="absolute right-0 top-0 h-full w-screen translate-x-full transform md:block md:w-full md:translate-x-0 md:transform-none">
+    <div className="absolute right-0 top-0 h-full w-screen translate-x-full transform md:static md:block md:w-full md:transform-none">
       <ArticleFull
         title={title}
         category={category}
