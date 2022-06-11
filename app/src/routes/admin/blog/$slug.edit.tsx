@@ -232,11 +232,11 @@ export default function Edit() {
       <div className="flex h-full w-full">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
-            <div className="relative flex h-full flex-col p-4 sm:overflow-hidden">
-              <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
+            <div className="relative flex h-full flex-col p-4 md:overflow-hidden">
+              <div className="bg-gray-50 px-4 py-3 text-right md:px-6">
                 <ActionMenu />
               </div>
-              <div className="grid flex-grow grid-cols-3 space-y-6 bg-white py-6 px-4 sm:p-6">
+              <div className="grid flex-grow grid-cols-3 space-y-6 bg-white py-6 px-4 md:p-6">
                 <div className="col-span-3">
                   <Textarea
                     label="Body"
@@ -284,7 +284,7 @@ export default function Edit() {
                   </Link>
                 </div>
                 <div className="col-span-3 grid grid-cols-3 gap-6">
-                  <div className="col-span-3 sm:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Textbox
                       label="Category"
                       name="username"
@@ -296,7 +296,7 @@ export default function Edit() {
                       }}
                     />
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Textbox
                       label="Title"
                       name="title"
@@ -309,11 +309,11 @@ export default function Edit() {
                     />
                   </div>
 
-                  <dl className="col-span-3 grid grid-cols-1 gap-x-4 gap-y-8 sm:col-span-2 sm:grid-cols-2">
+                  <dl className="col-span-3 grid grid-cols-1 gap-x-4 gap-y-8 md:col-span-2 md:grid-cols-2">
                     {(["created", "modified"] as const).map((field) => {
                       const date = new Date(content[field]).toDateString();
                       return (
-                        <div key={field} className="sm:col-span-1">
+                        <div key={field} className="md:col-span-1">
                           <dt className="text-sm font-medium capitalize text-gray-500">
                             {field}
                           </dt>
@@ -354,7 +354,7 @@ export default function Edit() {
                       </div>
                     </RadioGroup>
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Textbox
                       label="Title Image Author"
                       name="imageauthor"
@@ -366,7 +366,7 @@ export default function Edit() {
                       }}
                     />
                   </div>
-                  <div className="col-span-3 sm:col-span-2">
+                  <div className="col-span-3 md:col-span-2">
                     <Textbox
                       label="Title Image Alt"
                       name="imagealt"
@@ -422,10 +422,10 @@ const Preview: React.FC<PreviewProps> = ({
   const [show, setShow] = useState(false);
 
   return (
-    <div className="relative h-full w-4 sm:w-full">
+    <div className="relative h-full w-4 md:w-full">
       <div
         className={ocx(
-          "absolute right-0 top-0 h-full w-screen transform sm:block sm:w-full sm:translate-x-0 sm:transform-none",
+          "absolute right-0 top-0 h-full w-screen transform md:block md:w-full md:translate-x-0 md:transform-none",
           show ? "translate-x-0" : "translate-x-full"
         )}
       >
@@ -441,7 +441,7 @@ const Preview: React.FC<PreviewProps> = ({
         </ArticleFull>
       </div>
       <button
-        className="relative flex h-full w-4 items-center sm:hidden"
+        className="relative flex h-full w-4 items-center md:hidden"
         onClick={() => setShow((p) => !p)}
       >
         <div className="absolute rotate-90 transform rounded-xl border-x border-b bg-gray-100 p-4">
