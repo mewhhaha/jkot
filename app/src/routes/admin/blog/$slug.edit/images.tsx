@@ -62,10 +62,10 @@ export default function Images() {
               <img
                 src={image.url}
                 alt={image.url}
-                className="hover:opacity-30"
+                className="hover:opacity-70"
               ></img>
-              {copied !== undefined && (
-                <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-10">
+              {copied === image.url && (
+                <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 font-medium text-white">
                   Copied
                 </span>
               )}
