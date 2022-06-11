@@ -274,6 +274,8 @@ export default function Edit() {
                   >
                     <ImageAreaUpload label="Upload image" name="file" />
                   </Form>
+                </div>
+                <div className="col-span-3">
                   <Link
                     className="font-medium text-orange-600 hover:text-orange-500"
                     to="images"
