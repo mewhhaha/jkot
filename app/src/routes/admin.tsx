@@ -52,6 +52,7 @@ const createNavigation = ({ github, twitter }: LinksSettings) => [
 
 type NavLinkProps = {
   to: string;
+  children: React.ReactNode;
 };
 
 const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
@@ -74,7 +75,11 @@ const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
   );
 };
 
-const NavButton: React.FC = ({ children }) => {
+type NavButtonProps = {
+  children: React.ReactNode;
+};
+
+const NavButton: React.FC<NavButtonProps> = ({ children }) => {
   return (
     <button
       type="submit"

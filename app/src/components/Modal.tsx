@@ -2,6 +2,7 @@ import { Transition, Dialog } from "@headlessui/react";
 import { Fragment, forwardRef } from "react";
 
 type ModalProps = {
+  children: React.ReactNode;
   open: boolean;
   onClose: () => void;
   initialFocus: React.RefObject<HTMLElement>;
@@ -147,6 +148,7 @@ const Cancel = forwardRef<HTMLButtonElement, CancelProps>(
 Cancel.displayName = "Cancel";
 
 type ConfirmProps = {
+  children: React.ReactNode;
   title: string;
   icon: React.ReactNode;
 };
@@ -173,6 +175,7 @@ const Confirm: React.FC<ConfirmProps> = ({ title, children, icon }) => {
 };
 
 type WarningProps = {
+  children: React.ReactNode;
   title: string;
   icon: React.ReactNode;
 };
