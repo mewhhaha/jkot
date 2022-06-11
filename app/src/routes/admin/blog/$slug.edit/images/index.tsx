@@ -5,47 +5,68 @@ import { useNavigate } from "remix";
 import { Modal } from "~/components/Modal";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
+import { item } from "~/services/settings.server";
 
 type LoaderImage = { created: string; url: string };
 
 type LoaderData = { images: LoaderImage[] };
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async ({ context }): Promise<LoaderData> => {
-    const list = await context.IMAGE_KV.list<KVImage>();
+  requireAuthentication(
+    args,
+    async ({ context, params, request }): Promise<LoaderData> => {
+      const slug = params.slug === "empty" ? "" : params.slug;
+      if (slug === undefined) {
+        throw new Error("Invariant");
+      }
 
-    const images = await Promise.all(
-      list.keys.map((id) => {
-        return context.IMAGE_KV.get<KVImage>(id.name, "json");
-      })
-    );
+      const articleSettings = await item(
+        request,
+        context,
+        `article/${slug}`
+      ).json();
 
-    return {
-      images: images
-        .filter((i): i is KVImage => i !== null)
-        .map(({ created, id }) => {
-          return {
-            created,
-            url: `https://imagedelivery.net/${context.IMAGES_ID}/${id}/public`,
-          };
-        }),
-    };
-  });
+      if (articleSettings.id === undefined) {
+        throw new Response("Not found", { status: 404 });
+      }
+
+      const list = await context.IMAGE_KV.list<KVImage>({
+        prefix: `id#${articleSettings.id}`,
+      });
+
+      const images = await Promise.all(
+        list.keys.map((id) => {
+          return context.IMAGE_KV.get<KVImage>(id.name, "json");
+        })
+      );
+
+      return {
+        images: images
+          .filter((i): i is KVImage => i !== null)
+          .map(({ created, id }) => {
+            return {
+              created,
+              url: `https://imagedelivery.net/${context.IMAGES_ID}/${id}/public`,
+            };
+          }),
+      };
+    }
+  );
 
 export default function Images() {
   const { images } = useLoaderData<LoaderData>();
   const ref = useRef<HTMLButtonElement>(null);
   const navigate = useNavigate();
-  const [copied, setCopied] = useState<string>();
+  const [copied, setCopied] = useState<LoaderImage>();
 
   const handleClose = useCallback(() => {
     navigate("../");
   }, [navigate]);
 
-  const handleCopy = useCallback((url: string) => {
+  const handleCopy = useCallback((image: LoaderImage) => {
     return () => {
-      navigator.clipboard.writeText(markdownImage(url));
-      setCopied(url);
+      navigator.clipboard.writeText(markdownImage(image));
+      setCopied(image);
     };
   }, []);
 
@@ -56,7 +77,7 @@ export default function Images() {
           return (
             <button
               key={image.url}
-              onClick={handleCopy(image.url)}
+              onClick={handleCopy(image)}
               className="relative bg-black"
             >
               <img
@@ -64,7 +85,7 @@ export default function Images() {
                 alt={image.url}
                 className="hover:opacity-70"
               ></img>
-              {copied === image.url && (
+              {copied === image && (
                 <span className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 font-medium text-white">
                   Copied
                 </span>
@@ -77,6 +98,6 @@ export default function Images() {
   );
 }
 
-const markdownImage = (url: string) => {
-  return `![${url}](${url})`;
+const markdownImage = ({ url, created }: LoaderImage) => {
+  return `![${created}](${url})`;
 };

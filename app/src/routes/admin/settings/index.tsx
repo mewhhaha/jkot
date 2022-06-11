@@ -25,8 +25,7 @@ export const action: ActionFunction = (args) =>
   );
 
 export default function SettingsIndex() {
-  const { username, about, photo, coverphoto } =
-    useLoaderData<ProfileSettings>();
+  const { username, about } = useLoaderData<ProfileSettings>();
 
   const transition = useTransition();
 

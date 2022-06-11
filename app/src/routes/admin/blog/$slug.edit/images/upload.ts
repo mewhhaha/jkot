@@ -2,6 +2,7 @@ import type { ActionFunction } from "remix";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
 import { imageKeys } from "~/services/image.server";
+import { item } from "~/services/settings.server";
 
 export type CreateImageResponse = {
   result: {
@@ -29,7 +30,22 @@ export type SignedURLResponse = {
 };
 
 export const action: ActionFunction = (args) =>
-  requireAuthentication(args, async ({ context }, user) => {
+  requireAuthentication(args, async ({ context, params, request }, user) => {
+    const slug = params.slug === "empty" ? "" : params.slug;
+    if (slug === undefined) {
+      throw new Error("Invariant");
+    }
+
+    const articleSettings = await item(
+      request,
+      context,
+      `article/${slug}`
+    ).json();
+
+    if (articleSettings.id === undefined) {
+      throw new Response("Not found", { status: 404 });
+    }
+
     const now = new Date();
 
     const formData = new FormData();
@@ -57,7 +73,7 @@ export const action: ActionFunction = (args) =>
       result: { uploadURL, id },
     } = await response.json<SignedURLResponse>();
 
-    const { dateKey } = imageKeys({ date: now, group: "global" });
+    const { dateKey } = imageKeys({ date: now, group: id });
 
     const kvImage: KVImage = { id, created: now.toISOString() };
     await context.IMAGE_KV.put(dateKey, JSON.stringify(kvImage));
