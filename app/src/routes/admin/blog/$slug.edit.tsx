@@ -229,7 +229,7 @@ export default function Edit() {
 
   return (
     <section className="flex flex-grow justify-center">
-      <div className="relative flex h-full w-full">
+      <div className="relative grid h-full w-full grid-cols-1 md:grid-cols-2">
         <div className="h-full w-full">
           <fieldset className="h-full" disabled={status !== "open"}>
             <div className="relative flex h-full flex-col p-4 md:overflow-hidden">
@@ -420,11 +420,7 @@ const Preview: React.FC<PreviewProps> = ({
   },
 }) => {
   return (
-    <div
-      className={ocx(
-        "absolute right-0 top-0 h-full w-screen translate-x-full transform md:block md:w-full md:translate-x-0 md:transform-none"
-      )}
-    >
+    <div className="absolute right-0 top-0 h-full w-screen translate-x-full transform md:block md:w-full md:translate-x-0 md:transform-none">
       <ArticleFull
         title={title}
         category={category}
