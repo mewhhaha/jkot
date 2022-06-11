@@ -43,7 +43,7 @@ export default function Settings() {
                   )}
                   aria-hidden="true"
                 />
-                <span className="truncate">{item.name}</span>
+                <span className="hidden truncate lg:block">{item.name}</span>
               </Link>
             );
           })}
