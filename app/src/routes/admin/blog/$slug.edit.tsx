@@ -236,7 +236,7 @@ export default function Edit() {
               <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                 <ActionMenu />
               </div>
-              <div className="flex-grow space-y-6 bg-white py-6 px-4 sm:p-6">
+              <div className="grid flex-grow grid-cols-3 space-y-6 bg-white py-6 px-4 sm:p-6">
                 <div className="col-span-3">
                   <Textarea
                     label="Body"
@@ -441,14 +441,12 @@ const Preview: React.FC<PreviewProps> = ({
         </ArticleFull>
       </div>
       <button
-        className="relative flex h-full w-12 items-center bg-gray-400 sm:hidden"
+        className="relative flex h-full w-12 items-center sm:hidden"
         onClick={() => setShow((p) => !p)}
       >
-        <div className="w-8 flex-grow rounded-br-xl border-r border-b" />
-        <div className="absolute rotate-90 transform border-t bg-gray-400">
+        <div className="absolute rotate-90 transform rounded-xl border-x border-b bg-gray-100">
           {show ? "Close" : "Preview"}
         </div>
-        <div className="w-8 flex-grow rounded-br-xl border-r border-t" />
       </button>
     </div>
   );
