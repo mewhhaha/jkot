@@ -14,7 +14,11 @@ export const links: LinksFunction = () => {
 };
 
 export const meta: MetaFunction = () => {
-  return { title: "jkot me; i fucked up" };
+  return {
+    title: "jkot me; i fucked up",
+    description:
+      "This is the jkot me blog, with all the fancy details about my technology and life!",
+  };
 };
 
 export default function App() {
