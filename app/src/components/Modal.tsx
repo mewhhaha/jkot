@@ -104,7 +104,7 @@ type CancelAcceptProps = {
 const CancelAccept = forwardRef<HTMLButtonElement, CancelAcceptProps>(
   ({ onCancel, children }, ref) => {
     return (
-      <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
+      <div className="mt-5 sm:mt-6 grid grid-flow-row-dense grid-cols-2 gap-3">
         <Button
           type="submit"
           primary
