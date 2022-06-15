@@ -66,7 +66,7 @@ export const loader: LoaderFunction = (args) =>
           .map(({ created, id }) => {
             return {
               created,
-              url: `https://imagedelivery.net/${context.IMAGES_ID}/${id}/public`,
+              url: `https://jkot.me/cdn-cgi/imagedelivery/${context.IMAGES_ID}/${id}/public`,
             };
           }),
       };
