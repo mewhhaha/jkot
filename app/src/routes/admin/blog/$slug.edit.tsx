@@ -448,7 +448,7 @@ const RadioImage: React.FC<RadioImageProps> = ({ url, checked }) => {
   return (
     <div
       className={ocx(
-        "h-32 w-32 cursor-pointer overflow-hidden rounded-md ring-2",
+        "h-32 w-32 cursor-pointer overflow-hidden rounded-md ring-2 ring-offset-2",
         checked ? "ring-orange-500" : "ring-transparent"
       )}
     >
