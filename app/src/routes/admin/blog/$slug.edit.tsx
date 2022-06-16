@@ -266,11 +266,10 @@ export default function Edit() {
                 <div className="col-span-3">
                   <Form
                     method="post"
-                    reloadDocument
                     onChange={async (event) => {
                       const fileFormData = new FormData(event.currentTarget);
                       await uploadImage(fileFormData, articleId);
-                      event.currentTarget.submit();
+                      navigate(".", { replace: true });
                     }}
                   >
                     <ImageAreaUpload label="Upload image" name="file" />
@@ -332,7 +331,6 @@ export default function Edit() {
                       onChange={(value) => {
                         send(["imageUrl", value]);
                         setContent((prev) => ({ ...prev, imageUrl: value }));
-                        navigate(".", { replace: true });
                       }}
                     >
                       <RadioGroup.Label className="block text-sm font-medium text-gray-700">
