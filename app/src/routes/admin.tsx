@@ -56,7 +56,7 @@ type NavLinkProps = {
 };
 
 const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
-  const match = useMatch("/:page/*");
+  const match = useMatch("/admin/:page/*");
   const page = match?.params?.page ?? "";
   const active = `/${page}` === to;
 
@@ -97,7 +97,7 @@ export default function HeaderTemplate() {
 
   return (
     <div className="relative flex h-screen w-screen flex-col overflow-auto">
-      <header className="relative w-full flex-col bg-white hidden sm:flex">
+      <header className="relative hidden w-full flex-col bg-white sm:flex">
         <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="flex justify-center text-base font-bold uppercase tracking-wide">
