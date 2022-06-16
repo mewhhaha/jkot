@@ -167,10 +167,10 @@ const ActionMenu: React.FC = () => {
 };
 
 export default function Edit() {
-  const navigate = useNavigate();
   const { images, articleId, socketURL, defaultContent } =
     useLoaderData<LoaderData>();
   const [content, setContent] = useState<Content>(defaultContent);
+  const navigate = useNavigate();
 
   const [socket, status] = useWebSocket(socketURL);
 
@@ -266,10 +266,11 @@ export default function Edit() {
                 <div className="col-span-3">
                   <Form
                     method="post"
+                    reloadDocument
                     onChange={async (event) => {
                       const fileFormData = new FormData(event.currentTarget);
                       await uploadImage(fileFormData, articleId);
-                      navigate("images");
+                      event.currentTarget.submit();
                     }}
                   >
                     <ImageAreaUpload label="Upload image" name="file" />
@@ -331,6 +332,7 @@ export default function Edit() {
                       onChange={(value) => {
                         send(["imageUrl", value]);
                         setContent((prev) => ({ ...prev, imageUrl: value }));
+                        navigate(".", { replace: true });
                       }}
                     >
                       <RadioGroup.Label className="block text-sm font-medium text-gray-700">
