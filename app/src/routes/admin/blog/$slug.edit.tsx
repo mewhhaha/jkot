@@ -328,6 +328,7 @@ export default function Edit() {
                   <div className="col-span-3">
                     <RadioGroup
                       value={content.imageUrl}
+                      defaultValue={content.imageUrl}
                       onChange={(value) => {
                         send(["imageUrl", value]);
                         setContent((prev) => ({ ...prev, imageUrl: value }));
