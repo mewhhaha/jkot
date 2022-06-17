@@ -1,4 +1,8 @@
-import { createCookie, createCookieSessionStorage, redirect } from "remix";
+import {
+  createCookie,
+  createCookieSessionStorage,
+  redirect,
+} from "@remix-run/cloudflare";
 import { Authenticator } from "remix-auth";
 import type { Auth0Profile } from "remix-auth-auth0";
 import { Auth0Strategy } from "remix-auth-auth0";

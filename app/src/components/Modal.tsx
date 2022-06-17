@@ -73,17 +73,17 @@ type CancelDestroyProps = {
 const CancelDestroy = forwardRef<HTMLButtonElement, CancelDestroyProps>(
   ({ onCancel, children }, ref) => {
     return (
-      <div className="mt-5 sm:mt-6 grid grid-flow-row-dense grid-cols-2 gap-3">
+      <div className="mt-5 grid grid-flow-row-dense grid-cols-2 gap-3 sm:mt-6">
         <Button
           type="submit"
           danger
-          className="mt-3 text-base col-start-2 text-sm"
+          className="col-start-2 mt-3 text-base sm:text-sm"
         >
           {children}
         </Button>
         <Button
           type="button"
-          className="mt-3 text-base col-start-1 text-sm"
+          className="col-start-1 mt-3 text-base sm:text-sm"
           onClick={onCancel}
           ref={ref}
         >
@@ -104,17 +104,17 @@ type CancelAcceptProps = {
 const CancelAccept = forwardRef<HTMLButtonElement, CancelAcceptProps>(
   ({ onCancel, children }, ref) => {
     return (
-      <div className="mt-5 sm:mt-6 grid grid-flow-row-dense grid-cols-2 gap-3">
+      <div className="mt-5 grid grid-flow-row-dense grid-cols-2 gap-3 sm:mt-6">
         <Button
           type="submit"
           primary
-          className="mt-3 text-base col-start-2 text-sm"
+          className="col-start-2 mt-3 text-base sm:text-sm"
         >
           {children}
         </Button>
         <Button
           type="button"
-          className="mt-3 text-base col-start-1 text-sm"
+          className="col-start-1 mt-3 text-base sm:text-sm"
           onClick={onCancel}
           ref={ref}
         >

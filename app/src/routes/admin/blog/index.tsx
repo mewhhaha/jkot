@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "remix";
-import { useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
 import type { Auth0Profile } from "remix-auth-auth0";
 import { ArticleCard } from "~/components/ArticleCard";
 import { ArticleCardNew } from "~/components/ArticleCardNew";

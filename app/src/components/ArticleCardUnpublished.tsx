@@ -1,5 +1,5 @@
 import { PencilIcon } from "@heroicons/react/outline";
-import { Link } from "remix";
+import { Link } from "@remix-run/react";
 import { Button } from "./Button";
 
 type ArticleCardUnpublishedProps = {

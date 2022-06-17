@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "remix";
-import { redirect } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
 
 export const loader: LoaderFunction = async () => {
   return redirect("/admin/settings");

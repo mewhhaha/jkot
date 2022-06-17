@@ -1,5 +1,5 @@
 import { PlusIcon } from "@heroicons/react/outline";
-import { Form } from "remix";
+import { Form } from "@remix-run/react";
 import { Button } from "./Button";
 
 export const ArticleCardNew = () => {

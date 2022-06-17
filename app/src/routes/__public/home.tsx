@@ -1,6 +1,6 @@
 import { Stream } from "@cloudflare/stream-react";
-import type { LoaderFunction } from "remix";
-import { Link, useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
 import type {
@@ -9,7 +9,6 @@ import type {
   StreamSettings,
 } from "~/types";
 import { readingTime } from "~/utils/text";
-
 
 type LoaderData = { stream: StreamSettings; articles: PublishedContent[] };
 

@@ -5,8 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "remix";
-import type { MetaFunction, LinksFunction } from "remix";
+} from "@remix-run/react";
+import type { MetaFunction, LinksFunction } from "@remix-run/react";
 import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => {

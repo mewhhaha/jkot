@@ -1,6 +1,6 @@
 import { useMatch } from "react-router";
-import type { LoaderFunction } from "remix";
-import { Form, Link, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/react";
+import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
 import cx from "clsx";
 import React from "react";
 import { requireAuthentication } from "~/services/auth.server";

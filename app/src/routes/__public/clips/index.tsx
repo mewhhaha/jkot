@@ -1,6 +1,6 @@
-import type { LoaderFunction } from "remix";
-import { Link } from "remix";
-import { useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/react";
+import { Link } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import type { CloudflareDataFunctionArgs, Video } from "~/types";
 
 type LoaderData = {
@@ -19,7 +19,7 @@ export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
 
   return (
-    <div className="w-full h-full grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4">
+    <div className="grid h-full w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {videos.map((video) => {
         return (
           <div key={video.uid} className="aspect-video">

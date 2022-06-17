@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import { createAuthenticator } from "~/services/auth.server";
 import type { CloudflareDataFunctionArgs } from "~/types";
 

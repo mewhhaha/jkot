@@ -1,5 +1,5 @@
-import type { LoaderFunction } from "remix";
-import { useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { ArticleCard } from "~/components/ArticleCard";
 import type {
   CloudflareDataFunctionArgs,

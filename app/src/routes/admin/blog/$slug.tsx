@@ -1,5 +1,5 @@
-import type { LoaderFunction, MetaFunction } from "remix";
-import { useLoaderData } from "remix";
+import type { LoaderFunction, MetaFunction } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
 import { ArticleFull } from "~/components/ArticleFull";
 import { articleKeys } from "~/services/article.server";
 import type { CloudflareDataFunctionArgs, PublishedContent } from "~/types";

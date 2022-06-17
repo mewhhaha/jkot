@@ -1,6 +1,6 @@
 import { Stream } from "@cloudflare/stream-react";
-import type { LoaderFunction } from "remix";
-import { useLoaderData, useSearchParams } from "remix";
+import type { LoaderFunction } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import type { CloudflareDataFunctionArgs, Video } from "~/types";
 
 export const loader: LoaderFunction = async ({
@@ -15,7 +15,7 @@ export default function Id() {
   const video = useLoaderData<Video | undefined>();
   const [searchParams] = useSearchParams();
   return (
-    <div className="flex w-full items-center justify-center h-full p-4">
+    <div className="flex h-full w-full items-center justify-center p-4">
       {video && (
         <div key={video.uid} className="aspect-video h-full w-full">
           <Stream

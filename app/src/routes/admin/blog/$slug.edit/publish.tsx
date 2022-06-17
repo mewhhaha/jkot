@@ -1,7 +1,8 @@
 import { EyeIcon } from "@heroicons/react/outline";
 import { useRef, useCallback } from "react";
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, redirect, useNavigate } from "remix";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
+import { redirect } from "@remix-run/cloudflare";
+import { Form, useNavigate } from "@remix-run/react";
 import { Modal } from "~/components/Modal";
 import { article, articleKeys } from "~/services/article.server";
 import { requireAuthentication } from "~/services/auth.server";

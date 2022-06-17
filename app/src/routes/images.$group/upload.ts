@@ -1,4 +1,4 @@
-import type { ActionFunction } from "remix";
+import type { ActionFunction } from "@remix-run/cloudflare";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";
 import { createImageKey } from "~/services/image.server";

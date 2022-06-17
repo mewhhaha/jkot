@@ -1,4 +1,4 @@
-import type { ActionFunction } from "remix";
+import type { ActionFunction } from "@remix-run/cloudflare";
 import { createAuthenticator } from "~/services/auth.server";
 import type { CloudflareDataFunctionArgs } from "~/types";
 

@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
-import type { LoaderFunction } from "remix";
-import { useLoaderData } from "remix";
-import { useNavigate } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import { useLoaderData } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
 import { Modal } from "~/components/Modal";
 import { requireAuthentication } from "~/services/auth.server";
 import type { KVImage } from "~/services/image.server";

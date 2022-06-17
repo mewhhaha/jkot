@@ -1,8 +1,13 @@
 import type { Content, Message } from "durable-objects";
 import { useState, useEffect, Fragment } from "react";
-import type { LoaderFunction } from "remix";
-import { useNavigate } from "remix";
-import { Form, Link, Outlet, useLoaderData } from "remix";
+import type { LoaderFunction } from "@remix-run/cloudflare";
+import {
+  Form,
+  Link,
+  Outlet,
+  useLoaderData,
+  useNavigate,
+} from "@remix-run/react";
 import { ArticleFull } from "~/components/ArticleFull";
 import { useWebSocket } from "~/hooks/useWebSocket";
 import { article } from "~/services/article.server";
