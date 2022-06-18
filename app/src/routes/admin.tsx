@@ -58,7 +58,7 @@ type NavLinkProps = {
 const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
   const match = useMatch("/admin/:page/*");
   const page = match?.params?.page ?? "";
-  const active = `/${page}` === to;
+  const active = `/admin/${page}` === to;
 
   return (
     <Link
