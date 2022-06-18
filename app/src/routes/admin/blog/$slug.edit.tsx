@@ -241,7 +241,7 @@ export default function Edit() {
               <div className="bg-gray-50 px-4 py-3 text-right md:px-6">
                 <ActionMenu />
               </div>
-              <div className="grid flex-grow grid-cols-3 space-y-6 bg-white py-6 px-4 md:p-6">
+              <div className="grid flex-grow auto-rows-min grid-cols-3 space-y-6 bg-white py-6 px-4 md:p-6">
                 <div className="col-span-3">
                   <Textarea
                     label="Body"
@@ -403,7 +403,6 @@ export default function Edit() {
                     />
                   </div>
                 </div>
-                <div className="col-span-3 h-full" />
               </div>
             </div>
           </fieldset>
