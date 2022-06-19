@@ -1,5 +1,5 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useDeferredValue } from "react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
   Form,
@@ -407,7 +407,7 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <Preview content={content} />
+        <Preview content={useDeferredValue(content)} />
       </div>
       <Outlet />
     </section>
