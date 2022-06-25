@@ -87,17 +87,17 @@ export default function Index() {
       <section className="relative flex flex-col items-center">
         <div
           aria-label={category[0]}
-          className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center bg-[left_-50%_center] shadow-lg"
+          className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
         >
           <div className="absolute inset-0 flex">
             <div
-              className="-z-10 flex-grow"
+              className="-z-10 flex-grow bg-right"
               style={{
                 backgroundImage: `url("${category[1]}")`,
               }}
             />
             <div
-              className="-z-10flex-grow"
+              className="-z-10 flex-grow bg-left"
               style={{
                 backgroundImage: `url("${category[1]}")`,
               }}
