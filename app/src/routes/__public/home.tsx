@@ -88,13 +88,13 @@ export default function Index() {
         <div
           aria-label={category[0]}
           className={ocx(
-            "flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
+            "flex h-full max-h-[540px] w-full min-w-0 justify-center bg-cover shadow-lg"
           )}
           style={{
             backgroundImage: `url("${category[1]}")`,
           }}
         >
-          <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black bg-cover">
+          <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
             <div className="aspect-video h-full w-full min-w-0 bg-black">
               <Stream
                 className="h-full w-full bg-black"
