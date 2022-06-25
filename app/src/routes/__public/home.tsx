@@ -3,6 +3,7 @@ import type { LoaderFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
+import { ocx } from "~/styles/cx";
 import type {
   CloudflareDataFunctionArgs,
   PublishedContent,
@@ -43,15 +44,17 @@ export const loader: LoaderFunction = async ({
   };
 };
 
-const getCategoryURL = (category: string | undefined) => {
+const getCategory = (category: string | undefined) => {
   switch (category) {
     case "DOTA2":
     case "Elden Ring":
     case "Humankind":
+    case "V-Rising":
+    case "Citizen Sleeper":
       return categories[category];
   }
 
-  return undefined;
+  return categories["Disco Elysium"];
 };
 
 const placeholder: PublishedContent = {
@@ -77,11 +80,21 @@ export default function Index() {
 
   const featured = articles[0] ?? placeholder;
 
+  const category = getCategory(stream.category);
+
   return (
     <div className="flex-grow space-y-20">
-      <section className="relative flex flex-col items-center sm:px-12 sm:pt-12">
-        <div className="flex h-full max-h-[800px] w-full min-w-0 max-w-[960px] flex-col bg-white bg-opacity-10 p-10 shadow-lg sm:rounded-lg">
-          <div className="relative flex h-full max-h-[512px] w-full min-w-0 max-w-[960px] bg-black">
+      <section className="relative flex flex-col items-center">
+        <div
+          aria-label={category[0]}
+          className={ocx(
+            "flex h-full max-h-[540px] w-full min-w-0 max-w-[1440px] justify-center bg-red-600 shadow-lg"
+          )}
+          style={{
+            backgroundImage: `url(${category[1]}})`,
+          }}
+        >
+          <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
             <div className="aspect-video h-full w-full min-w-0 bg-black">
               <Stream
                 className="h-full w-full bg-black"
@@ -95,19 +108,6 @@ export default function Index() {
               />
             </div>
           </div>
-          <dl className="w-full max-w-[960px] pt-2 pl-2 text-orange-600 sm:pl-0">
-            <dt className="sr-only">Stream Title</dt>
-            <dd className="text-lg font-semibold">{stream.title}</dd>
-            <dt className="sr-only">Category</dt>
-            <dd>
-              <a
-                href={getCategoryURL(stream.category)}
-                className="text-blue-800 underline-offset-2 hover:underline"
-              >
-                {stream.category}
-              </a>
-            </dd>
-          </dl>
         </div>
       </section>
       <section className="relative">
