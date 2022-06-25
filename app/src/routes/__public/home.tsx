@@ -1,6 +1,7 @@
 import { Stream } from "@cloudflare/stream-react";
 import type { LoaderFunction } from "@remix-run/react";
 import { Link, useLoaderData } from "@remix-run/react";
+import { useRef } from "react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
 import { ocx } from "~/styles/cx";
@@ -82,6 +83,10 @@ export default function Index() {
 
   const category = getCategory(stream.category);
 
+  const { current: backgroundImage } = useRef({
+    backgroundImage: `url("${category[1]}")`,
+  });
+
   return (
     <div className="flex-grow space-y-20">
       <section className="relative flex flex-col items-center">
@@ -90,18 +95,8 @@ export default function Index() {
           className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
         >
           <div className="absolute inset-0 flex">
-            <div
-              className="-z-10 flex-grow bg-right"
-              style={{
-                backgroundImage: `url("${category[1]}")`,
-              }}
-            />
-            <div
-              className="-z-10 flex-grow bg-left"
-              style={{
-                backgroundImage: `url("${category[1]}")`,
-              }}
-            />
+            <div className="-z-10 flex-grow bg-right" style={backgroundImage} />
+            <div className="-z-10 flex-grow bg-left" style={backgroundImage} />
           </div>
 
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
