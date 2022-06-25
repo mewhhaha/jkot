@@ -87,13 +87,23 @@ export default function Index() {
       <section className="relative flex flex-col items-center">
         <div
           aria-label={category[0]}
-          className={ocx(
-            "flex h-full max-h-[540px] w-full min-w-0 justify-center bg-[left_-50%_center] shadow-lg"
-          )}
-          style={{
-            backgroundImage: `url("${category[1]}")`,
-          }}
+          className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center bg-[left_-50%_center] shadow-lg"
         >
+          <div className="absolute inset-0 flex">
+            <div
+              className="-z-10 flex-grow"
+              style={{
+                backgroundImage: `url("${category[1]}")`,
+              }}
+            />
+            <div
+              className="-z-10flex-grow"
+              style={{
+                backgroundImage: `url("${category[1]}")`,
+              }}
+            />
+          </div>
+
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
             <div className="aspect-video h-full w-full min-w-0 bg-black">
               <Stream
