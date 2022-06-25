@@ -94,7 +94,7 @@ export default function Index() {
             backgroundImage: `url("${category[1]}")`,
           }}
         >
-          <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
+          <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black bg-cover">
             <div className="aspect-video h-full w-full min-w-0 bg-black">
               <Stream
                 className="h-full w-full bg-black"
