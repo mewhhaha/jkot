@@ -88,10 +88,10 @@ export default function Index() {
         <div
           aria-label={category[0]}
           className={ocx(
-            "flex h-full max-h-[540px] w-full min-w-0 max-w-[1440px] justify-center bg-red-600 shadow-lg"
+            "flex h-full max-h-[540px] w-full min-w-0 max-w-[1440px] justify-center shadow-lg"
           )}
           style={{
-            backgroundImage: `url(${category[1]}})`,
+            backgroundImage: `url("${category[1]}")`,
           }}
         >
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
