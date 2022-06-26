@@ -485,14 +485,16 @@ const Preview: React.FC<PreviewProps> = ({
       >
         {body}
       </ArticleFull>
-      {outdated && (
-        <button
-          onClick={onUpdate}
-          className="absolute top-0 right-0 flex w-full items-center justify-center bg-black bg-opacity-30 md:w-1/2"
-        >
-          <RefreshIcon className="h-12 w-12" />
-        </button>
-      )}
+
+      <button
+        onClick={onUpdate}
+        className={ocx(
+          "absolute top-0 right-0 flex w-full origin-top items-center justify-center bg-black bg-opacity-30 transition-transform md:w-1/2",
+          outdated ? "scale-y-0" : "scale-y-100"
+        )}
+      >
+        <RefreshIcon className="h-12 w-12" />
+      </button>
     </div>
   );
 };
