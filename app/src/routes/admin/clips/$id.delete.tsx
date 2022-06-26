@@ -15,7 +15,7 @@ export default function Delete() {
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
-    navigate(".", { replace: true });
+    navigate("/admin/clips", { replace: true });
   }, [navigate]);
 
   return (
