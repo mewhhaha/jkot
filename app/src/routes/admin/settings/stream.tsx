@@ -143,7 +143,7 @@ export default function SettingsStream() {
 
               <div className="col-span-3">
                 <CategoryListbox
-                  className="w-full max-w-xs"
+                  className="w-60"
                   label="Category"
                   name="category"
                   defaultValue={category}
