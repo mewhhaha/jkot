@@ -58,7 +58,7 @@ export default function Publish() {
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
-    navigate("../");
+    navigate("../", { replace: true });
   }, [navigate]);
 
   return (

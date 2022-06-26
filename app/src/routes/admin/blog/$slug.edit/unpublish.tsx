@@ -49,7 +49,7 @@ export default function Unpublish() {
   const navigate = useNavigate();
 
   const handleClose = useCallback(() => {
-    navigate("../");
+    navigate("../", { replace: true });
   }, [navigate]);
 
   return (

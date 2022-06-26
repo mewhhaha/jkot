@@ -61,7 +61,7 @@ export default function Images() {
   const [copied, setCopied] = useState<LoaderImage>();
 
   const handleClose = useCallback(() => {
-    navigate("../");
+    navigate("../", { replace: true });
   }, [navigate]);
 
   const handleCopy = useCallback((image: LoaderImage) => {

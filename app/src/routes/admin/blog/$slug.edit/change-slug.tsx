@@ -86,7 +86,7 @@ export default function Publish() {
   }, [validation]);
 
   const handleClose = useCallback(() => {
-    navigate("../");
+    navigate("../", { replace: true });
   }, [navigate]);
 
   return (
