@@ -1,6 +1,6 @@
-import { useMatch } from "react-router";
 import type { LoaderFunction } from "@remix-run/react";
-import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
+import { Form, Outlet, useLoaderData } from "@remix-run/react";
 import cx from "clsx";
 import React from "react";
 import { requireAuthentication } from "~/services/auth.server";
@@ -50,28 +50,26 @@ const createNavigation = ({ github, twitter }: LinksSettings) => [
   },
 ];
 
-type NavLinkProps = {
+type PageLinkProps = {
   to: string;
   children: React.ReactNode;
 };
 
-const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
-  const match = useMatch("/admin/:page/*");
-  const page = match?.params?.page ?? "";
-  const active = `/admin/${page}` === to;
-
+const PageLink: React.FC<PageLinkProps> = ({ children, to }) => {
   return (
-    <Link
-      className={cx(
-        "flex h-full transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400",
-        active
-          ? "translate-y-0 border-orange-400"
-          : "translate-y-1 border-transparent"
-      )}
+    <NavLink
+      className={({ isActive }) =>
+        cx(
+          "flex h-full transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400",
+          isActive
+            ? "translate-y-0 border-orange-400"
+            : "translate-y-1 border-transparent"
+        )
+      }
       to={to}
     >
       {children}
-    </Link>
+    </NavLink>
   );
 };
 
@@ -115,9 +113,9 @@ export default function HeaderTemplate() {
         </div>
       </header>
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
-        <NavLink to="/admin/blog">Blog</NavLink>
-        <NavLink to="/admin/clips">Clips</NavLink>
-        <NavLink to="/admin/settings">Settings</NavLink>
+        <PageLink to="/admin/blog">Blog</PageLink>
+        <PageLink to="/admin/clips">Clips</PageLink>
+        <PageLink to="/admin/settings">Settings</PageLink>
         <Form action="/auth/logout" method="post">
           <NavButton>Logout</NavButton>
         </Form>

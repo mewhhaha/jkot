@@ -4,7 +4,6 @@ import { Link, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
-import { ocx } from "~/styles/cx";
 import type {
   CloudflareDataFunctionArgs,
   PublishedContent,

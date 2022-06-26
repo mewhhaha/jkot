@@ -1,6 +1,5 @@
-import { useMatch } from "react-router";
 import type { LoaderFunction } from "@remix-run/react";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import cx from "clsx";
 import React from "react";
 import type {
@@ -54,28 +53,26 @@ const createNavigation = ({ github, twitter }: LinksSettings) => [
   },
 ];
 
-type NavLinkProps = {
+type PageLinkProps = {
   children: React.ReactNode;
   to: string;
 };
 
-const NavLink: React.FC<NavLinkProps> = ({ children, to }) => {
-  const match = useMatch("/:page/*");
-  const page = match?.params?.page ?? "";
-  const active = `/${page}` === to;
-
+const PageLink: React.FC<PageLinkProps> = ({ children, to }) => {
   return (
-    <Link
-      className={cx(
-        "flex h-full transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400",
-        active
-          ? "translate-y-0 border-orange-400"
-          : "translate-y-1 border-transparent"
-      )}
+    <NavLink
+      className={({ isActive }) =>
+        cx(
+          "flex h-full transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400",
+          isActive
+            ? "translate-y-0 border-orange-400"
+            : "translate-y-1 border-transparent"
+        )
+      }
       to={to}
     >
       {children}
-    </Link>
+    </NavLink>
   );
 };
 
@@ -104,9 +101,9 @@ export default function PublicTemplate() {
         </div>
       </header>
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
-        <NavLink to="/home">Home</NavLink>
-        <NavLink to="/blog">Blog</NavLink>
-        <NavLink to="/clips">Clips</NavLink>
+        <PageLink to="/home">Home</PageLink>
+        <PageLink to="/blog">Blog</PageLink>
+        <PageLink to="/clips">Clips</PageLink>
       </nav>
       <main className="relative z-0 flex flex-grow bg-gray-100">
         <Outlet />
