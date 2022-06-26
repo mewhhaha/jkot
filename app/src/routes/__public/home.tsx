@@ -89,19 +89,22 @@ export default function Index() {
   return (
     <div className="flex-grow space-y-20">
       <section className="relative flex flex-col items-center pt-20">
-        <div
-          aria-label={category[0]}
-          className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
-        >
+        <div className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg">
           <div className="absolute inset-0 flex">
-            <div
-              className="-z-10 flex-grow bg-cover bg-left"
-              style={backgroundImage}
-            />
-            <div
-              className="-z-10 flex-grow bg-cover bg-right"
-              style={backgroundImage}
-            />
+            <Link to={category[0]} target="_blank">
+              <div
+                role="img"
+                aria-label={stream.category}
+                className="-z-10 flex-grow bg-cover bg-left"
+                style={backgroundImage}
+              />
+              <div
+                role="img"
+                aria-label={stream.category}
+                className="-z-10 flex-grow bg-cover bg-right"
+                style={backgroundImage}
+              />
+            </Link>
           </div>
 
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
