@@ -70,7 +70,7 @@ export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
 
   return (
-    <ul className="flex flex-col items-center space-y-10">
+    <ul className="flex w-full flex-col items-center space-y-10">
       {videos.map((video) => {
         return (
           <li
@@ -91,7 +91,9 @@ export default function Clips() {
             </div>
             <div className="pt-12">
               <Link to={`${video.uid}/delete`} type="post">
-                <Button type="submit"></Button>
+                <Button type="submit" danger>
+                  Delete
+                </Button>
               </Link>
             </div>
           </li>
