@@ -81,23 +81,23 @@ export const loader: LoaderFunction = (args) =>
   );
 
 const ActionMenu: React.FC = () => {
-  const { published, slug } = useLoaderData<LoaderData>();
+  const { published } = useLoaderData<LoaderData>();
 
   const items = [
     {
-      to: `/admin/blog/${slug}/edit/publish`,
+      to: "publish",
       name: "Publish Article",
     },
     {
-      to: `/admin/blog/${slug}/edit/unpublish`,
+      to: "unpublish",
       name: "Unpublish Article",
     },
     {
-      to: `/admin/blog/${slug}/edit/change-slug`,
+      to: "change-slug",
       name: "Change Slug",
     },
     {
-      to: `/admin/blog/${slug}/edit/delete`,
+      to: "delete",
       name: "Delete Article",
       destroy: true,
     },
@@ -105,13 +105,7 @@ const ActionMenu: React.FC = () => {
 
   return (
     <span className="relative z-0 inline-flex rounded-md shadow-sm">
-      <Link
-        to={
-          published
-            ? `/admin/blog/${slug}/edit/unpublish`
-            : `/admin/blog/${slug}/edit/publish`
-        }
-      >
+      <Link to={published ? "unpublish" : "publish"}>
         <button
           type="button"
           className={cx(

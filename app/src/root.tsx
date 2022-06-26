@@ -10,7 +10,10 @@ import type { MetaFunction, LinksFunction } from "@remix-run/react";
 import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: styles }];
+  return [
+    { rel: "stylesheet", href: styles },
+    { rel: "stylesheet", href: "https://rsms.me/inter/inter.css" },
+  ];
 };
 
 export const meta: MetaFunction = () => {

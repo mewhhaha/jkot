@@ -1,6 +1,7 @@
 import { Stream } from "@cloudflare/stream-react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
+import { Button } from "~/components/Button";
 import type { CloudflareDataFunctionArgs } from "~/types";
 
 type Video = {
@@ -69,20 +70,33 @@ export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
 
   return (
-    <div className="grid h-full w-full grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <ul className="flex flex-col items-center space-y-10">
       {videos.map((video) => {
         return (
-          <div key={video.uid} className="aspect-video">
-            <Stream
-              className="h-full w-full bg-black"
-              controls
-              title={video.meta.title}
-              primaryColor="aquamarine"
-              src={video.uid}
-            />
-          </div>
+          <li
+            key={video.uid}
+            className="flex w-full max-w-md flex-col rounded-md border"
+          >
+            <label className="text-lg font-semibold">
+              This is a video description
+            </label>
+            <div className="aspect-video">
+              <Stream
+                className="h-full w-full bg-black"
+                controls
+                title={video.meta.title}
+                primaryColor="aquamarine"
+                src={video.uid}
+              />
+            </div>
+            <div className="pt-12">
+              <Link to={`${video.uid}/delete`} type="post">
+                <Button type="submit"></Button>
+              </Link>
+            </div>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
