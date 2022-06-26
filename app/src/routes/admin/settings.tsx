@@ -7,7 +7,7 @@ import {
 import cx from "clsx";
 
 const navigation = [
-  { name: "Profile", to: "", icon: UserCircleIcon },
+  { name: "Profile", to: "profile", icon: UserCircleIcon },
   { name: "Links", to: "links", icon: LinkIcon },
   { name: "Stream", to: "stream", icon: VideoCameraIcon },
 ];
