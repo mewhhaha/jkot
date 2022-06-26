@@ -1,6 +1,6 @@
 import { Stream } from "@cloudflare/stream-react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import type { CloudflareDataFunctionArgs } from "~/types";
 
@@ -77,7 +77,7 @@ export default function Clips() {
             key={video.uid}
             className="flex w-full max-w-md flex-col rounded-md border"
           >
-            <label className="text-lg font-semibold">
+            <label className="px-4 pt-4 text-lg font-semibold">
               This is a video description
             </label>
             <div className="aspect-video">
@@ -89,7 +89,7 @@ export default function Clips() {
                 src={video.uid}
               />
             </div>
-            <div className="pt-12">
+            <div className="p-4">
               <Link to={`${video.uid}/delete`} type="post">
                 <Button type="submit" danger>
                   Delete
@@ -99,6 +99,7 @@ export default function Clips() {
           </li>
         );
       })}
+      <Outlet />
     </ul>
   );
 }
