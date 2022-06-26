@@ -30,13 +30,13 @@ export const action: ActionFunction = (args) =>
     }
   );
 
-type CategoryComboboxProps = {
+type CategoryListboxProps = {
   defaultValue: string | undefined;
   label: string;
   name: string;
 };
 
-const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
+const CategoryListbox: React.FC<CategoryListboxProps> = ({
   defaultValue,
   label,
   name,
@@ -49,7 +49,7 @@ const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
         {label}
       </Listbox.Label>
       <div className="relative mt-1">
-        <Listbox.Button className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm">
+        <Listbox.Button className="relative w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm">
           <span className="block truncate">{selected}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <SelectorIcon
@@ -109,7 +109,7 @@ export default function SettingsStream() {
   return (
     <Form method="post">
       <fieldset disabled={transition.state !== "idle"}>
-        <div className="relative shadow sm:overflow-hidden sm:rounded-md">
+        <div className="relative shadow sm:rounded-md">
           <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
             <Button type="submit" primary>
               Save
@@ -133,8 +133,8 @@ export default function SettingsStream() {
                 <Textbox label="Title" name="title" defaultValue={title} />
               </div>
 
-              <div className="col-span-6 sm:col-span-4">
-                <CategoryCombobox
+              <div className="col-span-3">
+                <CategoryListbox
                   label="Category"
                   name="category"
                   defaultValue={category}
