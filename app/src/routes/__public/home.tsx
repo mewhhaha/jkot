@@ -94,8 +94,14 @@ export default function Index() {
           className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
         >
           <div className="absolute inset-0 flex">
-            <div className="-z-10 flex-grow bg-left" style={backgroundImage} />
-            <div className="-z-10 flex-grow bg-right" style={backgroundImage} />
+            <div
+              className="-z-10 flex-grow bg-cover bg-left"
+              style={backgroundImage}
+            />
+            <div
+              className="-z-10 flex-grow bg-cover bg-right"
+              style={backgroundImage}
+            />
           </div>
 
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
