@@ -1,5 +1,5 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef, useCallback } from "react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
   Form,
@@ -178,6 +178,9 @@ export default function Edit() {
   const [content, setContent] = useState<Content>(defaultContent);
   const [preview, setPreview] = useState<Content>(content);
   const navigate = useNavigate();
+
+  const contentRef = useRef(content);
+  contentRef.current = content;
 
   const [socket, status] = useWebSocket(socketURL);
 
@@ -409,11 +412,11 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <Preview
+        {/* <Preview
           content={preview}
           outdated={preview !== content}
-          onUpdate={() => setPreview(content)}
-        />
+          onUpdate={useCallback(() => setPreview(contentRef.current), [])}
+        /> */}
       </div>
       <Outlet />
     </section>
@@ -453,9 +456,9 @@ const Preview: React.FC<PreviewProps> = ({
       {outdated && (
         <button
           onClick={onUpdate}
-          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30"
+          className="absolute top-0 right-0 flex w-1/2 items-center justify-center bg-black bg-opacity-30"
         >
-          <RefreshIcon />
+          <RefreshIcon className="h-12 w-12" />
         </button>
       )}
     </div>
