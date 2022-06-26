@@ -91,20 +91,21 @@ export default function Index() {
       <section className="relative mt-20 flex flex-col items-center">
         <div className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg">
           <div className="absolute inset-0 flex">
-            <Link to={category[0]} target="_blank">
+            <a
+              href={category[0]}
+              target="_blank"
+              rel="noreferrer"
+              className="flex w-full"
+            >
               <div
-                role="img"
-                aria-label={stream.category}
-                className="-z-10 flex-grow bg-cover bg-left"
+                className="flex-grow bg-cover bg-left"
                 style={backgroundImage}
               />
               <div
-                role="img"
-                aria-label={stream.category}
-                className="-z-10 flex-grow bg-cover bg-right"
+                className="flex-grow bg-cover bg-right"
                 style={backgroundImage}
               />
-            </Link>
+            </a>
           </div>
 
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
