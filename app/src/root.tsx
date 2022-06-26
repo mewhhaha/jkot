@@ -8,13 +8,9 @@ import {
 } from "@remix-run/react";
 import type { MetaFunction, LinksFunction } from "@remix-run/react";
 import styles from "./tailwind.css";
-import fonts from "./styles/fonts.css";
 
 export const links: LinksFunction = () => {
-  return [
-    { rel: "stylesheet", href: styles },
-    { rel: "stylesheet", href: fonts },
-  ];
+  return [{ rel: "stylesheet", href: styles }];
 };
 
 export const meta: MetaFunction = () => {
