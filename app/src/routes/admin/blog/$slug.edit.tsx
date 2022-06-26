@@ -1,13 +1,6 @@
 import type { Content, Message, TextInputMessage } from "durable-objects";
 import type { ChangeEvent } from "react";
-import {
-  useState,
-  useEffect,
-  Fragment,
-  useRef,
-  useCallback,
-  memo,
-} from "react";
+import { useState, useEffect, Fragment, useRef, useCallback } from "react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
   Form,
@@ -467,44 +460,42 @@ type PreviewProps = {
   onUpdate: () => void;
 };
 
-const Preview: React.FC<PreviewProps> = memo(
-  ({
-    outdated,
-    onUpdate,
-    content: {
-      title,
-      category,
-      description,
-      imageUrl,
-      imageAlt,
-      imageAuthor,
-      body,
-    },
-  }) => {
-    return (
-      <div className="absolute right-0 top-0 h-full w-screen translate-x-full transform md:static md:block md:w-full md:transform-none">
-        <ArticleFull
-          title={title}
-          category={category}
-          description={description}
-          imageUrl={imageUrl}
-          imageAlt={imageAlt}
-          imageAuthor={imageAuthor}
+const Preview: React.FC<PreviewProps> = ({
+  outdated,
+  onUpdate,
+  content: {
+    title,
+    category,
+    description,
+    imageUrl,
+    imageAlt,
+    imageAuthor,
+    body,
+  },
+}) => {
+  return (
+    <div className="absolute right-0 top-0 h-full w-screen translate-x-full transform md:static md:block md:w-full md:transform-none">
+      <ArticleFull
+        title={title}
+        category={category}
+        description={description}
+        imageUrl={imageUrl}
+        imageAlt={imageAlt}
+        imageAuthor={imageAuthor}
+      >
+        {body}
+      </ArticleFull>
+      {outdated && (
+        <button
+          onClick={onUpdate}
+          className="absolute top-0 right-0 flex w-1/2 items-center justify-center bg-black bg-opacity-30"
         >
-          {body}
-        </ArticleFull>
-        {outdated && (
-          <button
-            onClick={onUpdate}
-            className="absolute top-0 right-0 flex w-1/2 items-center justify-center bg-black bg-opacity-30"
-          >
-            <RefreshIcon className="h-12 w-12" />
-          </button>
-        )}
-      </div>
-    );
-  }
-);
+          <RefreshIcon className="h-12 w-12" />
+        </button>
+      )}
+    </div>
+  );
+};
 
 type RadioImageProps = {
   url: string;
