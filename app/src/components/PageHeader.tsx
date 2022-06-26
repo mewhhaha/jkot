@@ -13,18 +13,10 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ about, title }) => {
               as={Fragment}
               show
               appear
-              beforeEnter={() => {
-                console.log("NETERING");
-              }}
-              beforeLeave={() => {
-                console.log("SDFLSDLF");
-              }}
               enterFrom="blur-3xl"
               enterTo="blur-0"
-              leaveFrom="blur-0"
-              leaveTo="blur-3xl"
             >
-              <span className="mt-1 bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-4xl font-extrabold text-transparent transition-[filter] sm:text-5xl sm:tracking-tight lg:text-6xl">
+              <span className="mt-1 bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-4xl font-extrabold text-transparent transition-all sm:text-5xl sm:tracking-tight lg:text-6xl">
                 {title}
               </span>
             </Transition>
