@@ -88,7 +88,7 @@ export default function Index() {
 
   return (
     <div className="flex-grow space-y-20">
-      <section className="relative flex flex-col items-center">
+      <section className="relative flex flex-col items-center pt-20">
         <div
           aria-label={category[0]}
           className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg"
