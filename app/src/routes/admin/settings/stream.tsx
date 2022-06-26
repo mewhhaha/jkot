@@ -11,6 +11,7 @@ import { categories } from "~/services/category";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
 import type { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
+import { ocx } from "~/styles/cx";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async ({ request, context }) => {
@@ -31,12 +32,14 @@ export const action: ActionFunction = (args) =>
   );
 
 type CategoryListboxProps = {
+  className?: string;
   defaultValue: string | undefined;
   label: string;
   name: string;
 };
 
 const CategoryListbox: React.FC<CategoryListboxProps> = ({
+  className,
   defaultValue,
   label,
   name,
@@ -49,7 +52,12 @@ const CategoryListbox: React.FC<CategoryListboxProps> = ({
         {label}
       </Listbox.Label>
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm">
+        <Listbox.Button
+          className={ocx(
+            "relative w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm",
+            className
+          )}
+        >
           <span className="block truncate">{selected}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <SelectorIcon
@@ -135,6 +143,7 @@ export default function SettingsStream() {
 
               <div className="col-span-3">
                 <CategoryListbox
+                  className="w-full max-w-xs"
                   label="Category"
                   name="category"
                   defaultValue={category}
