@@ -4,5 +4,5 @@ import { requireAuthentication } from "~/services/auth.server";
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(args, async () => {
-    return redirect("profile");
+    return redirect("./profile");
   });
