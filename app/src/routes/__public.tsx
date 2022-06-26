@@ -87,7 +87,7 @@ export default function PublicTemplate() {
 
   return (
     <div className="relative flex h-screen w-screen flex-col overflow-auto">
-      <PageHeader title={`${username} Blog`} about={about} />
+      <PageHeader title={`${username} me, I fucked up!`} about={about} />
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
         <PageLink to="/home">Home</PageLink>
         <PageLink to="/blog">Blog</PageLink>
