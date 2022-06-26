@@ -1,8 +1,7 @@
-import { Combobox } from "@headlessui/react";
+import { Listbox } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import cx from "clsx";
-import type { ChangeEvent } from "react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { Button } from "~/components/Button";
@@ -43,76 +42,63 @@ const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
   name,
 }) => {
   const [selected, setSelected] = useState(defaultValue);
-  const [query, setQuery] = useState("");
-
-  const filtered =
-    query === ""
-      ? Object.keys(categories)
-      : Object.keys(categories).filter((name) => name.includes(query));
-
-  const { current: handleOnChange } = useRef(
-    (event: ChangeEvent<HTMLInputElement>) => setQuery(event.target.value)
-  );
 
   return (
-    <Combobox as="div" value={selected} onChange={setSelected}>
-      <Combobox.Label className="block text-sm font-medium text-gray-700">
+    <Listbox
+      as="div"
+      value={selected}
+      onChange={setSelected}
+      name={name}
+      className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm"
+    >
+      <Listbox.Label className="block text-sm font-medium text-gray-700">
         {label}
-      </Combobox.Label>
+      </Listbox.Label>
       <div className="relative mt-1">
-        <Combobox.Input
-          name={name}
-          className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm"
-          onChange={handleOnChange}
-          autoComplete="off"
-          value={query}
-        />
-        <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+        <Listbox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
           <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-        </Combobox.Button>
+        </Listbox.Button>
 
-        {filtered.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {filtered.map((cat) => (
-              <Combobox.Option
-                key={cat}
-                value={cat}
-                className={({ active }) =>
-                  cx(
-                    "relative cursor-default select-none py-2 pl-3 pr-9",
-                    active ? "bg-orange-600 text-white" : "text-gray-900"
-                  )
-                }
-              >
-                {({ active, selected }) => (
-                  <>
+        <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          {Object.keys(categories).map((cat) => (
+            <Listbox.Option
+              key={cat}
+              value={cat}
+              className={({ active }) =>
+                cx(
+                  "relative cursor-default select-none py-2 pl-3 pr-9",
+                  active ? "bg-orange-600 text-white" : "text-gray-900"
+                )
+              }
+            >
+              {({ active, selected }) => (
+                <>
+                  <span
+                    className={cx(
+                      "block truncate",
+                      selected && "font-semibold"
+                    )}
+                  >
+                    {cat}
+                  </span>
+
+                  {selected && (
                     <span
                       className={cx(
-                        "block truncate",
-                        selected && "font-semibold"
+                        "absolute inset-y-0 right-0 flex items-center pr-4",
+                        active ? "text-white" : "text-orange-600"
                       )}
                     >
-                      {cat}
+                      <CheckIcon className="h-5 w-5" aria-hidden="true" />
                     </span>
-
-                    {selected && (
-                      <span
-                        className={cx(
-                          "absolute inset-y-0 right-0 flex items-center pr-4",
-                          active ? "text-white" : "text-orange-600"
-                        )}
-                      >
-                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                      </span>
-                    )}
-                  </>
-                )}
-              </Combobox.Option>
-            ))}
-          </Combobox.Options>
-        )}
+                  )}
+                </>
+              )}
+            </Listbox.Option>
+          ))}
+        </Listbox.Options>
       </div>
-    </Combobox>
+    </Listbox>
   );
 };
 
