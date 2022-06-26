@@ -75,7 +75,7 @@ export default function Clips() {
         return (
           <li
             key={video.uid}
-            className="flex w-full max-w-md flex-col rounded-md border"
+            className="flex w-full max-w-md flex-col rounded-md border bg-white"
           >
             <label className="px-4 pt-4 text-lg font-semibold">
               This is a video description
