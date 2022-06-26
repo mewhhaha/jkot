@@ -1,5 +1,5 @@
 import type { Content, Message } from "durable-objects";
-import { useState, useEffect, Fragment, useDeferredValue } from "react";
+import { useState, useEffect, Fragment } from "react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
   Form,
@@ -23,6 +23,7 @@ import { Button } from "~/components/Button";
 import type { KVImage } from "~/services/image.server";
 import { createImageKey } from "~/services/image.server";
 import { ocx } from "~/styles/cx";
+import { RefreshIcon } from "@heroicons/react/outline";
 
 type LoaderData = {
   articleId: string;
@@ -175,6 +176,7 @@ export default function Edit() {
   const { images, articleId, socketURL, defaultContent } =
     useLoaderData<LoaderData>();
   const [content, setContent] = useState<Content>(defaultContent);
+  const [preview, setPreview] = useState<Content>(content);
   const navigate = useNavigate();
 
   const [socket, status] = useWebSocket(socketURL);
@@ -407,7 +409,11 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        <Preview content={useDeferredValue(content)} />
+        <Preview
+          content={preview}
+          outdated={preview !== content}
+          onUpdate={() => setPreview(content)}
+        />
       </div>
       <Outlet />
     </section>
@@ -416,8 +422,12 @@ export default function Edit() {
 
 type PreviewProps = {
   content: Content;
+  outdated: boolean;
+  onUpdate: () => void;
 };
 const Preview: React.FC<PreviewProps> = ({
+  outdated,
+  onUpdate,
   content: {
     title,
     category,
@@ -440,6 +450,14 @@ const Preview: React.FC<PreviewProps> = ({
       >
         {body}
       </ArticleFull>
+      {outdated && (
+        <button
+          onClick={onUpdate}
+          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30"
+        >
+          <RefreshIcon />
+        </button>
+      )}
     </div>
   );
 };
