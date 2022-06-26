@@ -488,7 +488,7 @@ const Preview: React.FC<PreviewProps> = ({
       {outdated && (
         <button
           onClick={onUpdate}
-          className="absolute top-0 right-0 flex w-1/2 items-center justify-center bg-black bg-opacity-30"
+          className="absolute top-0 right-0 flex w-full items-center justify-center bg-black bg-opacity-30 md:w-1/2"
         >
           <RefreshIcon className="h-12 w-12" />
         </button>

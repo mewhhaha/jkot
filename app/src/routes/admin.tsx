@@ -6,6 +6,7 @@ import React from "react";
 import { requireAuthentication } from "~/services/auth.server";
 import type { LinksSettings, ProfileSettings } from "~/types";
 import * as settings from "~/services/settings.server";
+import { PageHeader } from "~/components/PageHeader";
 
 type LoaderData = {
   authed: boolean;
@@ -89,29 +90,17 @@ const NavButton: React.FC<NavButtonProps> = ({ children }) => {
 };
 
 export default function HeaderTemplate() {
-  const { links, profile } = useLoaderData<LoaderData>();
+  const {
+    links,
+    profile: { username, about = "" },
+  } = useLoaderData<LoaderData>();
 
   const navigation = createNavigation(links);
 
   return (
     <div className="relative flex h-screen w-screen flex-col overflow-auto">
-      <header className="relative hidden w-full flex-col bg-white sm:flex">
-        <div className="relative mx-auto max-w-7xl py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="flex justify-center text-base font-bold uppercase tracking-wide">
-              <span className="bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-transparent">
-                {`${profile.username}`} Blog
-              </span>
-            </h2>
-            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-              jkot me; I fucked up!
-            </p>
-            <p className="mx-auto mt-5 max-w-xl text-xl text-gray-500">
-              {profile.about}
-            </p>
-          </div>
-        </div>
-      </header>
+      <PageHeader title={`${username} Blog`} about={about} />
+
       <nav className="sticky top-0 z-10 flex h-12 w-full flex-none justify-end space-x-4 overflow-hidden border-b bg-white/70 px-2 pt-1 shadow-md backdrop-blur-md md:space-x-12 md:px-8">
         <PageLink to="/admin/blog">Blog</PageLink>
         <PageLink to="/admin/clips">Clips</PageLink>
