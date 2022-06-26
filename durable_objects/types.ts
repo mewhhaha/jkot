@@ -16,8 +16,7 @@ export type Content = {
   body: string;
 };
 
-export type Message =
-  | [type: "latest", data: Content]
+export type TextInputMessage =
   | [
       type:
         | "title"
@@ -27,6 +26,10 @@ export type Message =
         | "imageAlt"
         | "imageAuthor",
       text: string
-    ]
+    ];
+
+export type Message =
+  | [type: "latest", data: Content]
+  | TextInputMessage
   | [type: "c-add", data: [position: number, text: string]]
   | [type: "c-remove", data: [from: number, to: number]];

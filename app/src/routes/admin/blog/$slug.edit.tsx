@@ -1,4 +1,5 @@
-import type { Content, Message } from "durable-objects";
+import type { Content, Message, TextInputMessage } from "durable-objects";
+import type { ChangeEvent } from "react";
 import { useState, useEffect, Fragment, useRef, useCallback } from "react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import {
@@ -233,9 +234,32 @@ export default function Edit() {
     };
   }, [socket]);
 
-  const send = (message: Message) => {
-    socket?.send(JSON.stringify(message));
-  };
+  const send = useCallback(
+    (message: Message) => {
+      socket?.send(JSON.stringify(message));
+    },
+    [socket]
+  );
+
+  const handleChangeEvent = useCallback(
+    (
+      field: TextInputMessage[0],
+      event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+      const value = event.currentTarget.value;
+      send([field, value]);
+      setContent((prev) => ({ ...prev, [field]: value }));
+    },
+    [send]
+  );
+
+  const handleChangeValue = useCallback(
+    (field: TextInputMessage[0], value: string) => {
+      send([field, value]);
+      setContent((prev) => ({ ...prev, [field]: value }));
+    },
+    [send]
+  );
 
   return (
     <section className="flex flex-grow justify-center">
@@ -255,32 +279,39 @@ export default function Edit() {
                     value={content.body}
                     placeholder="It all started with..."
                     description="The main text of the article."
-                    onChange={(event) => {
-                      const value = event.target.value;
-                      const cursorPosition = event.currentTarget.selectionStart;
-                      const messages = diffs(
-                        content.body,
-                        value,
-                        cursorPosition
-                      );
+                    onChange={useCallback(
+                      (event: ChangeEvent<HTMLTextAreaElement>) => {
+                        const value = event.target.value;
+                        const cursorPosition =
+                          event.currentTarget.selectionStart;
+                        const messages = diffs(
+                          contentRef.current.body,
+                          value,
+                          cursorPosition
+                        );
 
-                      messages.forEach(send);
+                        messages.forEach(send);
 
-                      setContent((prev) => ({
-                        ...prev,
-                        body: value,
-                      }));
-                    }}
+                        setContent((prev) => ({
+                          ...prev,
+                          body: value,
+                        }));
+                      },
+                      [send]
+                    )}
                   />
                 </div>
                 <div className="col-span-3">
                   <Form
                     method="post"
-                    onChange={async (event) => {
-                      const fileFormData = new FormData(event.currentTarget);
-                      await uploadImage(fileFormData, articleId);
-                      navigate(".", { replace: true });
-                    }}
+                    onChange={useCallback(
+                      async (event: ChangeEvent<HTMLFormElement>) => {
+                        const fileFormData = new FormData(event.currentTarget);
+                        await uploadImage(fileFormData, articleId);
+                        navigate(".", { replace: true });
+                      },
+                      [articleId, navigate]
+                    )}
                   >
                     <ImageAreaUpload label="Upload image" name="file" />
                   </Form>
@@ -299,11 +330,11 @@ export default function Edit() {
                       label="Category"
                       name="username"
                       value={content.category}
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["category", value]);
-                        setContent((prev) => ({ ...prev, category: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: ChangeEvent<HTMLInputElement>) =>
+                          handleChangeEvent("category", value),
+                        [handleChangeEvent]
+                      )}
                     />
                   </div>
                   <div className="col-span-3 md:col-span-2">
@@ -311,11 +342,11 @@ export default function Edit() {
                       label="Title"
                       name="title"
                       value={content.title}
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["title", value]);
-                        setContent((prev) => ({ ...prev, title: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: ChangeEvent<HTMLInputElement>) =>
+                          handleChangeEvent("title", value),
+                        [handleChangeEvent]
+                      )}
                     />
                   </div>
 
@@ -339,10 +370,10 @@ export default function Edit() {
                     <RadioGroup
                       value={content.imageUrl}
                       defaultValue={content.imageUrl}
-                      onChange={(value) => {
-                        send(["imageUrl", value]);
-                        setContent((prev) => ({ ...prev, imageUrl: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: string) => handleChangeValue("imageUrl", value),
+                        [handleChangeValue]
+                      )}
                     >
                       <RadioGroup.Label className="block text-sm font-medium text-gray-700">
                         Title Image
@@ -373,11 +404,11 @@ export default function Edit() {
                       label="Title Image Author"
                       name="imageauthor"
                       value={content.imageAuthor}
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["imageAuthor", value]);
-                        setContent((prev) => ({ ...prev, imageAuthor: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: ChangeEvent<HTMLInputElement>) =>
+                          handleChangeEvent("imageAuthor", value),
+                        [handleChangeEvent]
+                      )}
                     />
                   </div>
                   <div className="col-span-3 md:col-span-2">
@@ -385,11 +416,11 @@ export default function Edit() {
                       label="Title Image Alt"
                       name="imagealt"
                       value={content.imageAlt}
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["imageAlt", value]);
-                        setContent((prev) => ({ ...prev, imageAlt: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: ChangeEvent<HTMLInputElement>) =>
+                          handleChangeEvent("imageAlt", value),
+                        [handleChangeEvent]
+                      )}
                     />
                   </div>
 
@@ -400,11 +431,11 @@ export default function Edit() {
                       value={content.description}
                       placeholder="This is..."
                       description="Brief description for your article."
-                      onChange={(event) => {
-                        const value = event.currentTarget.value;
-                        send(["description", value]);
-                        setContent((prev) => ({ ...prev, description: value }));
-                      }}
+                      onChange={useCallback(
+                        (value: ChangeEvent<HTMLTextAreaElement>) =>
+                          handleChangeEvent("description", value),
+                        [handleChangeEvent]
+                      )}
                     />
                   </div>
                 </div>
@@ -412,11 +443,11 @@ export default function Edit() {
             </div>
           </fieldset>
         </div>
-        {/* <Preview
+        <Preview
           content={preview}
           outdated={preview !== content}
-          onUpdate={useCallback(() => setPreview(contentRef.current), [])}
-        /> */}
+          onUpdate={useRef(() => setPreview(contentRef.current)).current}
+        />
       </div>
       <Outlet />
     </section>
@@ -428,6 +459,7 @@ type PreviewProps = {
   outdated: boolean;
   onUpdate: () => void;
 };
+
 const Preview: React.FC<PreviewProps> = ({
   outdated,
   onUpdate,
