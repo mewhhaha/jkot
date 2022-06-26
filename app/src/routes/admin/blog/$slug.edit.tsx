@@ -490,7 +490,7 @@ const Preview: React.FC<PreviewProps> = ({
         onClick={onUpdate}
         className={ocx(
           "absolute top-0 right-0 flex w-full origin-top items-center justify-center bg-black bg-opacity-30 transition-transform duration-300 md:w-1/2",
-          outdated ? "scale-y-100" : "scale-y-0"
+          outdated ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"
         )}
       >
         <RefreshIcon className="h-12 w-12" />
