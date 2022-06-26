@@ -16,7 +16,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({ about, title }) => {
               enterFrom="blur-3xl"
               enterTo="blur-0"
             >
-              <span className="mt-1 bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-4xl font-extrabold text-transparent transition-all sm:text-5xl sm:tracking-tight lg:text-6xl">
+              <span className="mt-1 bg-gradient-to-r from-pink-500 to-orange-400 bg-clip-text text-4xl font-extrabold text-transparent transition-all duration-1000 sm:text-5xl sm:tracking-tight lg:text-6xl">
                 {title}
               </span>
             </Transition>
