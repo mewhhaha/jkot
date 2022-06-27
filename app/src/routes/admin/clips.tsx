@@ -91,7 +91,7 @@ export default function Clips() {
               return (
                 <li key={video.uid}>
                   <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
-                    <div className="flex-shrink-0">
+                    <div className="flex aspect-video h-full w-full flex-shrink-0">
                       <Stream
                         className="h-full w-full bg-black"
                         controls
