@@ -2,6 +2,7 @@ import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "@remix-run/react";
 import type { PublishedContent } from "~/types";
 import { readingTime } from "~/utils/text";
+import { Avatar } from "./Avatar";
 import { Button } from "./Button";
 
 export type ArticleProps = {
@@ -40,14 +41,7 @@ export const ArticleCard: React.FC<ArticleProps> = ({
         </div>
         <div className="mt-6 flex items-center">
           <div className="flex-shrink-0">
-            <a href={authorWebsite}>
-              <span className="sr-only">{author}</span>
-              <img
-                className="h-10 w-10 rounded-full"
-                src={authorImage}
-                alt=""
-              />
-            </a>
+            <Avatar href={authorWebsite} image={authorImage} user={author} />
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-gray-900">
