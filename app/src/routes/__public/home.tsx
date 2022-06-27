@@ -109,7 +109,7 @@ export default function Index() {
           </div>
 
           <div className="relative flex h-full max-h-[540px] w-full min-w-0 max-w-[960px] bg-black">
-            <div className="aspect-video h-full w-full min-w-0 bg-black">
+            <div className="aspect-video h-[288px] w-[512px] min-w-0 bg-black">
               <Stream
                 className="h-full w-full bg-black"
                 controls
