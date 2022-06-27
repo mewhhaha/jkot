@@ -1,5 +1,5 @@
 import { Stream } from "@cloudflare/stream-react";
-import type { LoaderFunction } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
 import { ArticleCard } from "~/components/ArticleCard";
