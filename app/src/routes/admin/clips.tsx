@@ -128,7 +128,9 @@ export default function Clips() {
                               {new Date(video.created).toDateString()}
                             </time>
                             <span aria-hidden="true">&middot;</span>
-                            <span>{video.duration / 60} min watch</span>
+                            <span>
+                              {Math.floor(video.duration / 60)} min watch
+                            </span>
                           </div>
                         </div>
                       </div>
