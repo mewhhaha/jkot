@@ -88,6 +88,9 @@ export default function Clips() {
           </div>
           <ul className="mx-auto mt-12 grid max-w-lg gap-5">
             {videos.map((video) => {
+              const minutes = (video.duration / 60) % 60;
+              const hours = Math.floor(video.duration / 3600);
+
               return (
                 <li key={video.uid}>
                   <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
@@ -118,18 +121,14 @@ export default function Clips() {
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-sm font-medium text-gray-900">
-                            <a href="AuthorWebsite" className="hover:underline">
-                              Author
-                            </a>
-                          </p>
                           <div className="flex space-x-1 text-sm text-gray-500">
                             <time dateTime={video.created}>
                               {new Date(video.created).toDateString()}
                             </time>
                             <span aria-hidden="true">&middot;</span>
                             <span>
-                              {Math.floor(video.duration / 60)} min watch
+                              {hours > 0 ? `${hours} h` : ""}{" "}
+                              {minutes > 0 ? `${minutes} min` : ""} watch
                             </span>
                           </div>
                         </div>
@@ -157,4 +156,3 @@ export default function Clips() {
     </div>
   );
 }
-
