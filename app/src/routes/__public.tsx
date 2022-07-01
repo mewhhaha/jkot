@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import { NavLink, Outlet, useLoaderData } from "@remix-run/react";
 import cx from "clsx";
 import React from "react";

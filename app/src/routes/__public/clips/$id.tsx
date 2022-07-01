@@ -1,5 +1,5 @@
 import { Stream } from "@cloudflare/stream-react";
-import type { LoaderFunction } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import { useLoaderData, useSearchParams } from "@remix-run/react";
 import type { CloudflareDataFunctionArgs, Video } from "~/types";
 

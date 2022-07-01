@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import type { CloudflareDataFunctionArgs, Video } from "~/types";
