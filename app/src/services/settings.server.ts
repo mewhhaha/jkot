@@ -1,4 +1,5 @@
 import type {
+  VideoSettings,
   ArticleSettings,
   CloudflareContext,
   LinksSettings,
@@ -19,7 +20,8 @@ type AllSettings = {
   stream: StreamSettings;
   created: string;
   modified: string;
-} & Record<`article/${string}`, ArticleSettings>;
+} & Record<`article/${string}`, ArticleSettings> &
+  Record<`video/${string}`, VideoSettings>;
 
 export const isArticleKey = (key: string): key is `article/${string}` => {
   return key.startsWith("article/");

@@ -97,6 +97,12 @@ export type ArticleSettings = {
   published?: string;
 };
 
+export type VideoSettings = {
+  id?: string;
+  title?: string;
+  description?: string;
+};
+
 export type PublishedContent = Content & {
   published: string;
   slug: string;

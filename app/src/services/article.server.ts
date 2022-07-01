@@ -21,7 +21,7 @@ export const article = (
       const response = await stub.fetch(`${new URL(request.url).origin}/read`);
       return response.json();
     },
-    destroy: async () => {
+    destroy: () => {
       return stub.fetch(`${new URL(request.url).origin}/destroy`, {
         method: "DELETE",
       });
