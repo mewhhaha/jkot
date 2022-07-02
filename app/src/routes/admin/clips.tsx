@@ -94,7 +94,7 @@ export default function Clips() {
 
                           <div className="group after:block after:h-2 after:w-full after:scale-x-0 after:bg-black after:transition after:group-focus:scale-x-100 after:group-focus:bg-orange-600">
                             <input
-                              className="mt-3 w-full text-base font-semibold text-gray-500 focus:text-orange-600 focus:outline-none"
+                              className="focus:outline-non mt-3 w-full border-b-2 border-gray-900 text-base  font-semibold text-gray-500  focus:border-orange-600 focus:text-orange-600 focus:outline-none"
                               name="description"
                               defaultValue={description}
                             />
