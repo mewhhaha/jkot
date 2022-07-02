@@ -78,7 +78,10 @@ export default function Clips() {
                     </div>
                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
                       <div className="flex-1">
-                        <Form method="post">
+                        <Form
+                          method="post"
+                          onChange={(f) => f.currentTarget.submit()}
+                        >
                           <input hidden value={video.uid} name="id" />
                           <input
                             className="text-xl font-semibold text-gray-900"
