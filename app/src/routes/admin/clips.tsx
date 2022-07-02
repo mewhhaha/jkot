@@ -84,7 +84,7 @@ export default function Clips() {
                           onBlur={(event) => submit(event.currentTarget)}
                         >
                           <input hidden defaultValue={video.uid} name="id" />
-                          <div className="group h-2 w-full transition after:scale-x-0 after:bg-black group-focus:after:scale-x-100 group-focus:after:bg-orange-600">
+                          <div className="group after:block after:h-2 after:w-full after:scale-x-0 after:bg-black after:transition after:group-focus:scale-x-100 after:group-focus:bg-orange-600">
                             <input
                               className="w-full border-b-2 border-gray-900 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
                               name="title"
@@ -92,7 +92,7 @@ export default function Clips() {
                             />
                           </div>
 
-                          <div className="group h-2 w-full transition after:scale-x-0 after:bg-black group-focus:after:scale-x-100 group-focus:after:bg-orange-600">
+                          <div className="group after:block after:h-2 after:w-full after:scale-x-0 after:bg-black after:transition after:group-focus:scale-x-100 after:group-focus:bg-orange-600">
                             <input
                               className="mt-3 w-full text-base font-semibold text-gray-500 focus:text-orange-600 focus:outline-none"
                               name="description"
