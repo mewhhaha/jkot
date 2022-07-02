@@ -1,9 +1,6 @@
 import { Stream } from "@cloudflare/stream-react";
-import { TrashIcon } from "@heroicons/react/outline";
 import type { LoaderFunction } from "@remix-run/cloudflare";
-import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
-import { Button } from "~/components/Button";
 import type { CloudflareDataFunctionArgs, PublishedVideo } from "~/types";
 import { exists } from "~/utils/filter";
 

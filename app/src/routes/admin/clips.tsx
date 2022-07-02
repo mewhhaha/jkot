@@ -1,9 +1,11 @@
 import { Stream } from "@cloudflare/stream-react";
 import { TrashIcon } from "@heroicons/react/outline";
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { requireAuthentication } from "~/services/auth.server";
+import { fields } from "~/services/form.server";
+import { item } from "~/services/settings.server";
 import type { PublishedVideo } from "~/types";
 import { exists } from "~/utils/filter";
 
@@ -27,8 +29,16 @@ export const loader: LoaderFunction = (args) =>
   });
 
 export const action: ActionFunction = (args) =>
-  requireAuthentication(args, () => {
-    return;
+  requireAuthentication(args, async ({ context, request }) => {
+    const formData = await request.formData();
+    const form = fields(formData, ["title", "description", "id"]);
+
+    const settings = item(request, context, `video/${form.id}`);
+    return settings.put({
+      ...settings,
+      title: form.title,
+      description: form.description,
+    });
   });
 
 export default function Clips() {
@@ -51,7 +61,7 @@ export default function Clips() {
           </div>
           <ul className="mx-auto mt-12 grid max-w-lg gap-5">
             {videos.map(({ video, title, description }) => {
-              const minutes = (video.duration / 60) % 60;
+              const minutes = Math.floor((video.duration / 60) % 60);
               const hours = Math.floor(video.duration / 3600);
 
               return (
@@ -68,12 +78,19 @@ export default function Clips() {
                     </div>
                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
                       <div className="flex-1">
-                        <p className="text-xl font-semibold text-gray-900">
-                          {title}
-                        </p>
-                        <p className="mt-3 text-base text-gray-500">
-                          {description}
-                        </p>
+                        <Form method="post">
+                          <input hidden value={video.uid} name="id" />
+                          <input
+                            className="text-xl font-semibold text-gray-900"
+                            name="title"
+                            value={title}
+                          />
+                          <input
+                            className="mt-3 text-base text-gray-500"
+                            name="description"
+                            value={description}
+                          />
+                        </Form>
                       </div>
                       <div className="mt-6 flex items-center">
                         <div className="ml-3">
