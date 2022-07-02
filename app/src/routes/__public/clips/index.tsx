@@ -47,7 +47,7 @@ export default function Clips() {
           </div>
           <ul className="mx-auto mt-12 grid max-w-lg gap-5">
             {videos.map(({ video, title, description }) => {
-              const minutes = (video.duration / 60) % 60;
+              const minutes = Math.floor((video.duration / 60) % 60);
               const hours = Math.floor(video.duration / 3600);
 
               return (
