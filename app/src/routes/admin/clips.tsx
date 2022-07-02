@@ -34,6 +34,7 @@ export const action: ActionFunction = (args) =>
 export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
 
+  console.log("VIDEOS", videos);
   return (
     <div className="flex flex-grow justify-center">
       <section className="relative w-full bg-gray-50 px-4 pt-16 pb-20 sm:px-6">
@@ -50,7 +51,7 @@ export default function Clips() {
             </p>
           </div>
           <ul className="mx-auto mt-12 grid max-w-lg gap-5">
-            {videos.map(({ video, title, description }) => {
+            {/* {videos.map(({ video, title, description }) => {
               const minutes = (video.duration / 60) % 60;
               const hours = Math.floor(video.duration / 3600);
 
@@ -104,7 +105,7 @@ export default function Clips() {
                   </article>
                 </li>
               );
-            })}
+            })} */}
           </ul>
         </div>
       </section>
