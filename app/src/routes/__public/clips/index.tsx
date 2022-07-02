@@ -86,17 +86,6 @@ export default function Clips() {
                         </div>
                       </div>
                     </div>
-                    <div className="absolute top-2 right-2">
-                      <Link to={`${video.uid}/delete`}>
-                        <Button type="submit">
-                          <TrashIcon
-                            className="-mx-1 h-5 w-5"
-                            aria-hidden="true"
-                          />
-                          <span className="sr-only">Delete Video</span>
-                        </Button>
-                      </Link>
-                    </div>
                   </article>
                 </li>
               );
