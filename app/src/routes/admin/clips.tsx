@@ -84,12 +84,12 @@ export default function Clips() {
                         >
                           <input hidden value={video.uid} name="id" />
                           <input
-                            className="border-b-2 border-orange-800 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-gray-800 focus:outline-none"
+                            className="border-b-2 border-gray-900 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
                             name="title"
                             value={title}
                           />
                           <input
-                            className="mt-3 border-b-2 border-orange-800 text-base font-semibold text-gray-500 focus:border-orange-600 focus:text-gray-400 focus:outline-none"
+                            className="mt-3 border-b-2 border-gray-900 text-base font-semibold text-gray-500 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
                             name="description"
                             value={description}
                           />
