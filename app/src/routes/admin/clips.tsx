@@ -86,13 +86,13 @@ export default function Clips() {
                         >
                           <input hidden defaultValue={video.uid} name="id" />
                           <Textedit
-                            className="w-full text-xl font-semibold text-gray-900 focus:outline-none"
+                            className="text-xl font-semibold text-gray-900"
                             name="title"
                             defaultValue={title}
                           />
 
                           <Textedit
-                            className="mt-3 w-full text-base font-semibold  text-gray-500  focus:outline-none"
+                            className="mt-3 text-base font-semibold text-gray-500"
                             name="description"
                             defaultValue={description}
                           />
