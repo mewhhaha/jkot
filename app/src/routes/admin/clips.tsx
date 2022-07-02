@@ -3,6 +3,7 @@ import { TrashIcon } from "@heroicons/react/outline";
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import { Form, Link, Outlet, useLoaderData, useSubmit } from "@remix-run/react";
 import { Button } from "~/components/Button";
+import { Textedit } from "~/components/form/Textedit";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
 import { item } from "~/services/settings.server";
@@ -84,21 +85,17 @@ export default function Clips() {
                           onBlur={(event) => submit(event.currentTarget)}
                         >
                           <input hidden defaultValue={video.uid} name="id" />
-                          <div className="group after:block after:h-2 after:w-full after:scale-x-0 after:bg-black after:transition-all after:group-focus:scale-x-100 after:group-focus:bg-orange-600">
-                            <input
-                              className="w-full border-b-2 border-gray-900 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
-                              name="title"
-                              defaultValue={title}
-                            />
-                          </div>
+                          <Textedit
+                            className="w-full text-xl font-semibold text-gray-900 focus:outline-none"
+                            name="title"
+                            defaultValue={title}
+                          />
 
-                          <div className="group after:block after:h-2 after:w-full after:scale-x-0 after:bg-black after:transition after:group-focus:scale-x-100 after:group-focus:bg-orange-600">
-                            <input
-                              className="focus:outline-non mt-3 w-full border-b-2 border-gray-900 text-base  font-semibold text-gray-500  focus:border-orange-600 focus:text-orange-600 focus:outline-none"
-                              name="description"
-                              defaultValue={description}
-                            />
-                          </div>
+                          <Textedit
+                            className="mt-3 w-full text-base font-semibold  text-gray-500  focus:outline-none"
+                            name="description"
+                            defaultValue={description}
+                          />
                         </Form>
                       </div>
                       <div className="mt-6 flex items-center">
