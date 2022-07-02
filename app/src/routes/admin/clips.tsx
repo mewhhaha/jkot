@@ -83,17 +83,22 @@ export default function Clips() {
                           method="post"
                           onBlur={(event) => submit(event.currentTarget)}
                         >
-                          <input hidden value={video.uid} name="id" />
-                          <input
-                            className="border-b-2 border-gray-900 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
-                            name="title"
-                            value={title}
-                          />
-                          <input
-                            className="mt-3 border-b-2 border-gray-900 text-base font-semibold text-gray-500 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
-                            name="description"
-                            value={description}
-                          />
+                          <input hidden defaultValue={video.uid} name="id" />
+                          <div className="group h-2 w-full transition after:scale-x-0 after:bg-black group-focus:after:scale-x-100 group-focus:after:bg-orange-600">
+                            <input
+                              className="w-full border-b-2 border-gray-900 text-xl font-semibold text-gray-900 focus:border-orange-600 focus:text-orange-600 focus:outline-none"
+                              name="title"
+                              defaultValue={title}
+                            />
+                          </div>
+
+                          <div className="group h-2 w-full transition after:scale-x-0 after:bg-black group-focus:after:scale-x-100 group-focus:after:bg-orange-600">
+                            <input
+                              className="mt-3 w-full text-base font-semibold text-gray-500 focus:text-orange-600 focus:outline-none"
+                              name="description"
+                              defaultValue={description}
+                            />
+                          </div>
                         </Form>
                       </div>
                       <div className="mt-6 flex items-center">
