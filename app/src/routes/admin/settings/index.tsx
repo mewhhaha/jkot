@@ -3,6 +3,6 @@ import { redirect } from "@remix-run/cloudflare";
 import { requireAuthentication } from "~/services/auth.server";
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async () => {
+  requireAuthentication(args, () => {
     return redirect("/admin/settings/profile");
   });

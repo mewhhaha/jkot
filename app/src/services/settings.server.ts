@@ -27,6 +27,10 @@ export const isArticleKey = (key: string): key is `article/${string}` => {
   return key.startsWith("article/");
 };
 
+export const isVideoKey = (key: string): key is `video/${string}` => {
+  return key.startsWith("video/");
+};
+
 export const all = (
   request: Request,
   context: CloudflareContext
@@ -66,7 +70,7 @@ export const item = <
       return response.json();
     },
     delete: () => {
-      if (!isArticleKey(name)) {
+      if (!isArticleKey(name) && !isVideoKey(name)) {
         throw new Error("Can only delete articles");
       }
 

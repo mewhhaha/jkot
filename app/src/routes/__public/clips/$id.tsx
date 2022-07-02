@@ -5,10 +5,18 @@ import type { CloudflareDataFunctionArgs, Video } from "~/types";
 
 export const loader: LoaderFunction = async ({
   context,
-  params,
+  params: { id },
 }: CloudflareDataFunctionArgs): Promise<Video | undefined> => {
-  const videos = await context.CACHE_KV.get<Video[]>("videos", "json");
-  return videos?.find((video) => video.uid === params.id);
+  if (id === undefined) {
+    throw new Error("Invariant violated");
+  }
+
+  const video = await context.VIDEO_KV.get<Video>(id, "json");
+  if (video === null) {
+    throw new Response("Video not found", { status: 404 });
+  }
+
+  return video;
 };
 
 export default function Id() {

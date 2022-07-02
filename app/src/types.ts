@@ -70,6 +70,7 @@ export type CloudflareContext = {
   ARTICLE_KV: KVNamespace;
   IMAGE_KV: KVNamespace;
   CACHE_KV: KVNamespace;
+  VIDEO_KV: KVNamespace;
 };
 
 export type LinksSettings = {
@@ -99,6 +100,7 @@ export type ArticleSettings = {
 
 export type VideoSettings = {
   id?: string;
+  created?: string;
   title?: string;
   description?: string;
 };

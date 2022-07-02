@@ -1,4 +1,7 @@
-export const required = <O extends Record<string, any>, Key extends keyof O>(
+export const required = <
+  O extends Record<string, unknown>,
+  Key extends keyof O
+>(
   obj: O,
   keys: Key[]
 ): obj is { [P in Key]-?: O[P] } & O => {

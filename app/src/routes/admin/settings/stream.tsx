@@ -14,7 +14,7 @@ import type { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
 import { ocx } from "~/styles/cx";
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async ({ request, context }) => {
+  requireAuthentication(args, ({ request, context }) => {
     return settings.item(request, context, "stream").json();
   });
 

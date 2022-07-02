@@ -8,7 +8,7 @@ import * as settings from "~/services/settings.server";
 import type { CloudflareDataFunctionArgs, ProfileSettings } from "~/types";
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async ({ request, context }) => {
+  requireAuthentication(args, ({ request, context }) => {
     return settings.item(request, context, "profile").json();
   });
 

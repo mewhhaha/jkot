@@ -2,6 +2,7 @@ import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { useLoaderData } from "@remix-run/react";
 import type { CloudflareDataFunctionArgs, Video } from "~/types";
+import { exists } from "~/utils/filter";
 
 type LoaderData = {
   videos: Video[];
@@ -10,9 +11,15 @@ type LoaderData = {
 export const loader: LoaderFunction = async ({
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const videos = await context.CACHE_KV.get<Video[]>("videos", "json");
+  const list = await context.VIDEO_KV.list({ prefix: "date" });
 
-  return { videos: videos ?? [] };
+  const result = await Promise.all(
+    list.keys.map(({ name }) => context.VIDEO_KV.get<Video>(name, "json"))
+  );
+
+  const videos = result.filter(exists);
+
+  return { videos };
 };
 
 export default function Clips() {

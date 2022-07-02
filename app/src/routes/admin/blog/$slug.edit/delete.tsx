@@ -35,6 +35,7 @@ export const action: ActionFunction = (args) =>
         ? context.ARTICLE_KV.delete(
             articleKeys({
               date: new Date(settings.published),
+              slug: settings.slug,
             }).dateKey
           )
         : Promise.resolve(),

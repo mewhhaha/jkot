@@ -37,15 +37,14 @@ export const article = (
 };
 
 export function articleKeys(params: { date: Date; slug: string }): {
-  dateKey: string;
-  slugKey: string;
+  dateKey: `date#${number}#slug#${string}`;
+  slugKey: `slug#${string}`;
 };
-export function articleKeys(params: { date: Date }): {
-  dateKey: string;
-};
+
 export function articleKeys(params: { slug: string }): {
-  slugKey: string;
+  slugKey: `slug#${string}`;
 };
+
 export function articleKeys({ date, slug }: { date?: Date; slug?: string }): {
   dateKey?: string;
   slugKey?: string;

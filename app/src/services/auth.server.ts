@@ -33,9 +33,7 @@ export const createAuthenticator = (
       clientSecret: context.AUTH0_CLIENT_SECRET,
       domain: context.AUTH0_DOMAIN,
     },
-    async ({ profile }) => {
-      return profile;
-    }
+    async ({ profile }) => await profile
   );
 
   authenticator.use(auth0Strategy);
