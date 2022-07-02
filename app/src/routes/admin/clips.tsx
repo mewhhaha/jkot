@@ -1,7 +1,7 @@
 import { Stream } from "@cloudflare/stream-react";
 import { TrashIcon } from "@heroicons/react/outline";
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
-import { Form, Link, Outlet, useLoaderData } from "@remix-run/react";
+import { Form, Link, Outlet, useLoaderData, useSubmit } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
@@ -43,6 +43,7 @@ export const action: ActionFunction = (args) =>
 
 export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
+  const submit = useSubmit();
 
   return (
     <div className="flex flex-grow justify-center">
@@ -80,7 +81,7 @@ export default function Clips() {
                       <div className="flex-1">
                         <Form
                           method="post"
-                          onBlur={(f) => f.currentTarget.submit()}
+                          onBlur={(event) => submit(event.currentTarget)}
                         >
                           <input hidden value={video.uid} name="id" />
                           <input
