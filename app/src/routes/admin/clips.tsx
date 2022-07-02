@@ -80,7 +80,7 @@ export default function Clips() {
                       <div className="flex-1">
                         <Form
                           method="post"
-                          onChange={(f) => f.currentTarget.submit()}
+                          onBlur={(f) => f.currentTarget.submit()}
                         >
                           <input hidden value={video.uid} name="id" />
                           <input
