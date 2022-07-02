@@ -1,79 +1,35 @@
 import { Stream } from "@cloudflare/stream-react";
 import { TrashIcon } from "@heroicons/react/outline";
-import type { LoaderFunction } from "@remix-run/cloudflare";
+import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import { Avatar } from "~/components/Avatar";
 import { Button } from "~/components/Button";
-import type { CloudflareDataFunctionArgs } from "~/types";
+import { requireAuthentication } from "~/services/auth.server";
+import type { PublishedVideo } from "~/types";
 import { exists } from "~/utils/filter";
 
-type Video = {
-  allowedOrigins: string[];
-  created: string;
-  duration: number;
-  input: {
-    height: number;
-    width: number;
-  };
-  maxDurationSeconds: number;
-  meta: Record<string, string>;
-  modified: string;
-  uploadExpiry: string;
-  playback: {
-    hls: string;
-    dash: string;
-  };
-  preview: string;
-  readyToStream: true;
-  requireSignedURLs: true;
-  size: number;
-  status: {
-    state: string;
-    pctComplete: number;
-    errorReasonCode: string;
-    errorReasonText: string;
-  };
-  thumbnail: string;
-  thumbnailTimestampPct: number;
-  uid: string;
-  liveInput: string;
-  uploaded: string;
-  watermark: {
-    uid: string;
-    size: number;
-    height: number;
-    width: number;
-    created: string;
-    downloadedFrom: string;
-    name: string;
-    opacity: number;
-    padding: number;
-    scale: number;
-    position: string;
-  };
-  nft: {
-    contract: string;
-    token: number;
-  };
-};
-
 type LoaderData = {
-  videos: Video[];
+  videos: PublishedVideo[];
 };
 
-export const loader: LoaderFunction = async ({
-  context,
-}: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const list = await context.VIDEO_KV.list({ prefix: "date" });
+export const loader: LoaderFunction = (args) =>
+  requireAuthentication(args, async ({ context }): Promise<LoaderData> => {
+    const list = await context.VIDEO_KV.list({ prefix: "date" });
 
-  const result = await Promise.all(
-    list.keys.map(({ name }) => context.VIDEO_KV.get<Video>(name, "json"))
-  );
+    const result = await Promise.all(
+      list.keys.map(({ name }) =>
+        context.VIDEO_KV.get<PublishedVideo>(name, "json")
+      )
+    );
 
-  const videos = result.filter(exists);
+    const videos = result.filter(exists);
 
-  return { videos };
-};
+    return { videos };
+  });
+
+export const action: ActionFunction = (args) =>
+  requireAuthentication(args, () => {
+    return;
+  });
 
 export default function Clips() {
   const { videos } = useLoaderData<LoaderData>();
@@ -94,7 +50,7 @@ export default function Clips() {
             </p>
           </div>
           <ul className="mx-auto mt-12 grid max-w-lg gap-5">
-            {videos.map((video) => {
+            {videos.map(({ video, title, description }) => {
               const minutes = (video.duration / 60) % 60;
               const hours = Math.floor(video.duration / 3600);
 
@@ -113,20 +69,13 @@ export default function Clips() {
                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
                       <div className="flex-1">
                         <p className="text-xl font-semibold text-gray-900">
-                          Title
+                          {title}
                         </p>
                         <p className="mt-3 text-base text-gray-500">
-                          Description
+                          {description}
                         </p>
                       </div>
                       <div className="mt-6 flex items-center">
-                        <div className="flex-shrink-0">
-                          <Avatar
-                            href="AuthroWebsite"
-                            image="AuthorAvatarImage"
-                            user="Authro"
-                          />
-                        </div>
                         <div className="ml-3">
                           <div className="flex space-x-1 text-sm text-gray-500">
                             <time dateTime={video.created}>

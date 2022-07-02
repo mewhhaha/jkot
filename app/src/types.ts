@@ -55,6 +55,12 @@ export type Video = {
   };
 };
 
+export type PublishedVideo = {
+  title: string;
+  description: string;
+  video: Video;
+};
+
 export type CloudflareContext = {
   SESSION_SECRET: string;
   AUTH0_CALLBACK_URL: string;
@@ -102,6 +108,7 @@ export type VideoSettings = {
   id?: string;
   created?: string;
   title?: string;
+  status?: "published" | "unpublished";
   description?: string;
 };
 

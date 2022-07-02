@@ -67,26 +67,28 @@ export class Settings implements DurableObject {
     return new Response(null);
   }
 
-  async fetch(request: Request) {
+  async fetch(request: Request): Promise<Response> {
     const path = new URL(request.url).pathname;
 
     switch (request.method) {
       case "GET": {
         if (path === "/") {
-          return this.list(request);
+          return await this.list(request);
         } else {
           return this.get(request);
         }
       }
       case "DELETE": {
         if (path !== "/") {
-          return this.delete(request);
+          return await this.delete(request);
         }
+        break;
       }
       case "PUT": {
         if (path !== "/") {
-          return this.put(request);
+          return await this.put(request);
         }
+        break;
       }
     }
 
