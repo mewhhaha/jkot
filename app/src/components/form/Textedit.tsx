@@ -13,7 +13,6 @@ export const Textedit: React.FC<TexteditProps> = ({ className, ...props }) => {
         className={ocx("w-full focus:outline-none", className)}
         {...props}
       />
-      <div className="h-1 w-full bg-black" />
       <div className="absolute bottom-0 h-1 w-full translate-y-full scale-x-0 transform bg-orange-600 transition-transform group-focus-within:scale-x-100" />
     </div>
   );
