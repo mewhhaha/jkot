@@ -7,6 +7,7 @@ import { Textedit } from "~/components/form/Textedit";
 import { requireAuthentication } from "~/services/auth.server";
 import { fields } from "~/services/form.server";
 import { item } from "~/services/settings.server";
+import { videoKeys } from "~/services/video.server";
 import type { PublishedVideo } from "~/types";
 import { exists } from "~/utils/filter";
 
@@ -31,15 +32,45 @@ export const loader: LoaderFunction = (args) =>
 
 export const action: ActionFunction = (args) =>
   requireAuthentication(args, async ({ context, request }) => {
-    const formData = await request.formData();
+    const formData: FormData = await request.formData();
     const form = fields(formData, ["title", "description", "id"]);
 
-    const settings = item(request, context, `video/${form.id}`);
-    return settings.put({
-      ...settings,
-      title: form.title,
-      description: form.description,
+    const list = await context.VIDEO_KV.list();
+    const result = await Promise.all(
+      list.keys.map(({ name }) =>
+        context.VIDEO_KV.get<PublishedVideo>(name, "json")
+      )
+    );
+    const videos = result.filter(exists);
+
+    const video = videos.find(({ video: { uid } }) => uid === form.id);
+    if (video === undefined) {
+      return new Response("Video not found", { status: 404 });
+    }
+
+    const settingsItem = item(request, context, `video/${form.id}`);
+    const settings = await settingsItem.json();
+
+    const { dateKey } = videoKeys({
+      date: new Date(video.video.created),
+      id: form.id,
     });
+    return Promise.all([
+      settingsItem.put({
+        ...settings,
+        status: "published",
+        title: form.title,
+        description: form.description,
+      }),
+      context.VIDEO_KV.put(
+        dateKey,
+        JSON.stringify({
+          ...video,
+          title: form.title,
+          description: form.description,
+        })
+      ),
+    ]);
   });
 
 export default function Clips() {
