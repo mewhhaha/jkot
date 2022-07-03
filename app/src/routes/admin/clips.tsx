@@ -57,7 +57,8 @@ export const action: ActionFunction = (args) =>
     });
     return Promise.all([
       settingsItem.put({
-        ...settings,
+        id: form.id,
+        created: video.video.created,
         status: "published",
         title: form.title,
         description: form.description,
