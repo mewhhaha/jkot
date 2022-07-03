@@ -28,7 +28,7 @@ export const action: ActionFunction = (args) =>
     });
     await Promise.all([settings.delete(), context.VIDEO_KV.delete(dateKey)]);
 
-    return redirect("./..");
+    return redirect("/admin/clips");
   });
 
 export default function Delete() {
