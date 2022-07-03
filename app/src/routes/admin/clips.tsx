@@ -113,8 +113,9 @@ export default function Clips() {
                     <div className="flex flex-1 flex-col justify-between bg-white p-6">
                       <div className="flex-1">
                         <Form
-                          method="post"
-                          onBlur={(event) => submit(event.currentTarget)}
+                          onBlur={(event) =>
+                            submit(event.currentTarget, { method: "post" })
+                          }
                         >
                           <input hidden defaultValue={video.uid} name="id" />
                           <Textedit
