@@ -20,6 +20,7 @@ export default function Settings() {
           {navigation.map((item) => {
             return (
               <NavLink
+                prefetch="intent"
                 key={item.name}
                 to={item.to}
                 className={({ isActive }) =>

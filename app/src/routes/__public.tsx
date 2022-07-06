@@ -62,6 +62,7 @@ type PageLinkProps = {
 const PageLink: React.FC<PageLinkProps> = ({ children, to }) => {
   return (
     <NavLink
+      prefetch="intent"
       className={({ isActive }) =>
         cx(
           "flex h-full transform items-center border-b-4 border-transparent text-2xl font-light transition-transform hover:translate-y-0 hover:border-orange-400",
