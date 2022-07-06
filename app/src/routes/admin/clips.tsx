@@ -147,7 +147,7 @@ export default function Clips() {
                       </div>
                     </div>
                     <div className="absolute top-2 right-2">
-                      <Link to={`${video.uid}/delete`}>
+                      <Link prefetch="intent" to={`${video.uid}/delete`}>
                         <Button type="submit">
                           <TrashIcon
                             className="-mx-1 h-5 w-5"

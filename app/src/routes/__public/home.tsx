@@ -143,7 +143,7 @@ export default function Index() {
               </div>
             </div>
             <div className="mt-12 lg:col-span-2 lg:m-0 lg:pl-8">
-              <Link to={`/blog/${featured.slug}`}>
+              <Link prefetch="intent" to={`/blog/${featured.slug}`}>
                 <div className="mx-auto max-w-md px-4 sm:max-w-2xl sm:px-6 lg:max-w-none lg:px-0 lg:py-20">
                   <h2 className="text-4xl font-extrabold text-white">
                     {featured.title}

@@ -105,7 +105,7 @@ const ActionMenu: React.FC = () => {
 
   return (
     <span className="relative z-0 inline-flex rounded-md shadow-sm">
-      <Link to={published ? "unpublish" : "publish"}>
+      <Link prefetch="intent" to={published ? "unpublish" : "publish"}>
         <button
           type="button"
           className={cx(

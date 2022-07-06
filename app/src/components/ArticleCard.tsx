@@ -30,11 +30,15 @@ export const ArticleCard: React.FC<ArticleProps> = ({
       <div className="flex flex-1 flex-col justify-between bg-white p-6">
         <div className="flex-1">
           <p className="text-sm font-medium text-orange-600">
-            <Link to={`/blog?category=${category}`} className="hover:underline">
+            <Link
+              prefetch="intent"
+              to={`/blog?category=${category}`}
+              className="hover:underline"
+            >
               {category}
             </Link>
           </p>
-          <Link to={`/blog/${slug}`} className="mt-2 block">
+          <Link prefetch="intent" to={`/blog/${slug}`} className="mt-2 block">
             <p className="text-xl font-semibold text-gray-900">{title}</p>
             <p className="mt-3 text-base text-gray-500">{description}</p>
           </Link>
@@ -61,7 +65,7 @@ export const ArticleCard: React.FC<ArticleProps> = ({
       </div>
       {edit && (
         <div className="absolute top-2 right-2">
-          <Link to={`/admin/blog/${slug}/edit`}>
+          <Link prefetch="intent" to={`/admin/blog/${slug}/edit`}>
             <Button type="submit">
               <PencilIcon className="-mx-1 h-5 w-5" aria-hidden="true" />
               <span className="sr-only">Edit Article</span>
