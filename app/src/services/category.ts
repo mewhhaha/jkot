@@ -4,6 +4,7 @@ import HumankindImage from "~/images/humankind.jpg";
 import VRisingImage from "~/images/v-rising.jpg";
 import CitizenSleeperImage from "~/images/citizen-sleeper.jpg";
 import DiscoElysiumImage from "~/images/disco-elysium.jpg";
+import GwentRogueMageImage from "~/images/gwent-rogue-mage.png";
 
 export const categories = {
   "Elden Ring": [
@@ -18,4 +19,8 @@ export const categories = {
     CitizenSleeperImage,
   ],
   "Disco Elysium": ["https://discoelysium.com/", DiscoElysiumImage],
+  "GWENT: Rogue Mage": [
+    "https://www.playgwent.com/en/news/44365/gwent-rogue-mage-is-here",
+    GwentRogueMageImage,
+  ],
 } as const;
