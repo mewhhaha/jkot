@@ -15,8 +15,8 @@ export class Settings implements DurableObject {
     });
   }
 
-  async list(_request: Request) {
-    const list = await this.storage.list();
+  async list(_request: Request, prefix: string) {
+    const list = await this.storage.list({ prefix });
     const latest = Object.fromEntries([...list.entries()]);
     return new Response(JSON.stringify(latest), {
       headers: { "Content-Type": "application/json" },
@@ -72,8 +72,8 @@ export class Settings implements DurableObject {
 
     switch (request.method) {
       case "GET": {
-        if (path === "/") {
-          return await this.list(request);
+        if (path.startsWith("/list")) {
+          return await this.list(request, path.slice("/list/".length));
         } else {
           return this.get(request);
         }
