@@ -4,7 +4,7 @@ import { Button } from "./Button";
 
 export const ArticleCardNew = () => {
   return (
-    <article className="flex flex-col justify-center overflow-hidden rounded-lg shadow-lg">
+    <article className="flex w-full flex-col justify-center overflow-hidden rounded-lg shadow-lg">
       <div className="py-6 text-center">
         <svg
           className="mx-auto h-12 w-12 text-gray-400"
