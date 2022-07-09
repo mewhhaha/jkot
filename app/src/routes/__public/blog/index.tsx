@@ -41,7 +41,7 @@ export default function Blog() {
       >
         {articles.map((article) => {
           return (
-            <li key={article.title}>
+            <li key={article.title} className="flex h-full">
               <ArticleCard
                 published=""
                 author=""
