@@ -31,14 +31,14 @@ export const isVideoKey = (key: string): key is `video/${string}` => {
   return key.startsWith("video/");
 };
 
-export const all = <P extends "video" | "article" | undefined>(
+export const all = <P extends "video" | "article" | "" = "">(
   request: Request,
   context: CloudflareContext,
-  prefix?: P
+  prefix: P = "" as P
 ): Omit<
   SettingsDO<
     Partial<
-      P extends undefined
+      P extends ""
         ? AllSettings
         : Record<
             `${P}/${string}`,
@@ -53,11 +53,11 @@ export const all = <P extends "video" | "article" | undefined>(
 
   return {
     get: () => {
-      return stub.fetch(`${new URL(request.url).origin}/list/${prefix ?? ""}`);
+      return stub.fetch(`${new URL(request.url).origin}/list/${prefix}`);
     },
     json: async () => {
       const response = await stub.fetch(
-        `${new URL(request.url).origin}/list/${prefix ?? ""}`
+        `${new URL(request.url).origin}/list/${prefix}`
       );
       return response.json();
     },
