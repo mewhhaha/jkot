@@ -11,6 +11,7 @@ import { exists } from "~/utils/filter";
 
 type LoaderData = {
   clips: PublishedClip[];
+  extra: any;
 };
 
 export const loader: LoaderFunction = (args) =>
@@ -44,13 +45,13 @@ export const loader: LoaderFunction = (args) =>
           })
       );
 
-      return { clips };
+      return { clips, extra: settings };
     }
   );
 
 export default function Clips() {
-  const { clips } = useLoaderData<LoaderData>();
-  console.log(clips);
+  const { clips, extra } = useLoaderData<LoaderData>();
+  console.log(clips, extra);
 
   return (
     <div className="flex flex-grow justify-center">
