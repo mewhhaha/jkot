@@ -82,7 +82,7 @@ export default function Edit() {
             />
           }
         >
-          <span className="flex w-full flex-col">
+          <span className="flex w-full flex-col text-left">
             <Textbox label="Title" defaultValue={clip.title} name="title" />
             <Textarea
               label="Description"
