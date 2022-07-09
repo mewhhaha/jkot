@@ -55,7 +55,7 @@ export type Video = {
   };
 };
 
-export type PublishedVideo = {
+export type PublishedClip = {
   title: string;
   description: string;
   video: Video;

@@ -1,12 +1,10 @@
-import { PencilIcon } from "@heroicons/react/outline";
 import { Link } from "@remix-run/react";
 import type { PublishedContent } from "~/types";
 import { readingTime } from "~/utils/text";
 import { Avatar } from "./Avatar";
-import { Button } from "./Button";
 
 export type ArticleProps = {
-  edit?: boolean;
+  children?: React.ReactNode;
 } & PublishedContent;
 
 export const ArticleCard: React.FC<ArticleProps> = ({
@@ -20,7 +18,7 @@ export const ArticleCard: React.FC<ArticleProps> = ({
   published,
   authorImage,
   body,
-  edit,
+  children,
 }) => {
   return (
     <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
@@ -63,16 +61,7 @@ export const ArticleCard: React.FC<ArticleProps> = ({
           </div>
         </div>
       </div>
-      {edit && (
-        <div className="absolute top-2 right-2">
-          <Link prefetch="intent" to={`/admin/blog/${slug}/edit`}>
-            <Button type="submit">
-              <PencilIcon className="-mx-1 h-5 w-5" aria-hidden="true" />
-              <span className="sr-only">Edit Article</span>
-            </Button>
-          </Link>
-        </div>
-      )}
+      {children}
     </article>
   );
 };
