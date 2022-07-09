@@ -56,7 +56,9 @@ export const all = <P extends "video" | "article" | undefined>(
       return stub.fetch(`${new URL(request.url).origin}/list/${prefix ?? ""}`);
     },
     json: async () => {
-      const response = await stub.fetch(new URL(request.url).origin);
+      const response = await stub.fetch(
+        `${new URL(request.url).origin}/list/${prefix ?? ""}`
+      );
       return response.json();
     },
   };
