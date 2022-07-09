@@ -33,9 +33,14 @@ export const loader: LoaderFunction = (args) =>
               },
             });
 
-            const { result } = await response.json<{ result: Video }>();
+            const video = await response.json<{ result: Video }>();
 
-            return { title, description, video: result };
+            return {
+              title,
+              description,
+              video: video.result,
+              extra: JSON.stringify(video),
+            };
           })
       );
 
@@ -45,6 +50,7 @@ export const loader: LoaderFunction = (args) =>
 
 export default function Clips() {
   const { clips } = useLoaderData<LoaderData>();
+  console.log(clips);
 
   return (
     <div className="flex flex-grow justify-center">
