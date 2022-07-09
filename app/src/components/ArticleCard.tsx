@@ -21,7 +21,7 @@ export const ArticleCard: React.FC<ArticleProps> = ({
   children,
 }) => {
   return (
-    <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
+    <article className="relative flex w-full flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex-shrink-0">
         <img className="h-48 w-full object-cover" src={imageUrl} alt="" />
       </div>

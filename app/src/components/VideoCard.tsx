@@ -15,7 +15,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   const hours = Math.floor(video.duration / 3600);
 
   return (
-    <article className="relative flex flex-col overflow-hidden rounded-lg shadow-lg">
+    <article className="relative flex w-full flex-col overflow-hidden rounded-lg shadow-lg">
       <div className="flex aspect-video h-full w-full flex-shrink-0">
         <Stream
           className="h-full w-full bg-black"
