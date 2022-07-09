@@ -19,7 +19,7 @@ export const loader: LoaderFunction = (args) =>
     args,
     async ({ request, context }): Promise<LoaderData> => {
       const settings = all(request, context, "video").json();
-      const all = all(request, context).json();
+      const a = all(request, context).json();
 
       const clips = await Promise.all(
         Object.values(settings)
@@ -46,7 +46,7 @@ export const loader: LoaderFunction = (args) =>
           })
       );
 
-      return { clips, extra: all };
+      return { clips, extra: a };
     }
   );
 
