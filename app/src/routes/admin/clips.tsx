@@ -1,11 +1,12 @@
-import { TrashIcon } from "@heroicons/react/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { CardList } from "~/components/CardList";
 import { VideoCard } from "~/components/VideoCard";
 import { requireAuthentication } from "~/services/auth.server";
-import type { PublishedClip } from "~/types";
+import { all } from "~/services/settings.server";
+import type { PublishedClip, Video } from "~/types";
 import { exists } from "~/utils/filter";
 
 type LoaderData = {
@@ -13,19 +14,34 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = (args) =>
-  requireAuthentication(args, async ({ context }): Promise<LoaderData> => {
-    const list = await context.VIDEO_KV.list({ prefix: "date" });
+  requireAuthentication(
+    args,
+    async ({ request, context }): Promise<LoaderData> => {
+      const settings = all(request, context, "video").json();
 
-    const result = await Promise.all(
-      list.keys.map(({ name }) =>
-        context.VIDEO_KV.get<PublishedClip>(name, "json")
-      )
-    );
+      const clips = await Promise.all(
+        Object.values(settings)
+          .filter(exists)
+          .map(async ({ title, description, id }) => {
+            const url = new URL(
+              `https://api.cloudflare.com/client/v4/accounts/${context.ACCOUNT_ID}/stream/${id}`
+            );
 
-    const clips = result.filter(exists);
+            const response = await fetch(url, {
+              headers: {
+                Authorization: `Bearer ${context.STREAM_ACCESS_TOKEN}`,
+              },
+            });
 
-    return { clips };
-  });
+            const { result } = await response.json<{ result: Video }>();
+
+            return { title, description, video: result };
+          })
+      );
+
+      return { clips };
+    }
+  );
 
 export default function Clips() {
   const { clips } = useLoaderData<LoaderData>();
@@ -41,8 +57,17 @@ export default function Clips() {
             <li key={clip.video.uid}>
               <VideoCard {...clip}>
                 <div className="absolute top-2 right-2">
+                  <Link prefetch="intent" to={`${clip.video.uid}/edit`}>
+                    <Button type="button">
+                      <PencilIcon
+                        className="-mx-1 h-5 w-5"
+                        aria-hidden="true"
+                      />
+                      <span className="sr-only">Edit Video</span>
+                    </Button>
+                  </Link>
                   <Link prefetch="intent" to={`${clip.video.uid}/delete`}>
-                    <Button type="submit">
+                    <Button type="button">
                       <TrashIcon className="-mx-1 h-5 w-5" aria-hidden="true" />
                       <span className="sr-only">Delete Video</span>
                     </Button>

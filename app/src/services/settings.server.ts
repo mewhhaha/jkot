@@ -31,16 +31,29 @@ export const isVideoKey = (key: string): key is `video/${string}` => {
   return key.startsWith("video/");
 };
 
-export const all = (
+export const all = <P extends "video" | "article" | undefined>(
   request: Request,
-  context: CloudflareContext
-): Omit<SettingsDO<Partial<AllSettings>>, "put" | "delete"> => {
+  context: CloudflareContext,
+  prefix?: P
+): Omit<
+  SettingsDO<
+    Partial<
+      P extends undefined
+        ? AllSettings
+        : Record<
+            `${P}/${string}`,
+            AllSettings[Extract<keyof AllSettings, `${P}/${string}`>]
+          >
+    >
+  >,
+  "put" | "delete"
+> => {
   const doid = context.SETTINGS_DO.idFromName("admin");
   const stub = context.SETTINGS_DO.get(doid);
 
   return {
     get: () => {
-      return stub.fetch(new URL(request.url).origin);
+      return stub.fetch(`${new URL(request.url).origin}/list/${prefix}`);
     },
     json: async () => {
       const response = await stub.fetch(new URL(request.url).origin);
