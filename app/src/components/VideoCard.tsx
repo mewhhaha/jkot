@@ -16,7 +16,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
 
   return (
     <article className="relative flex w-full flex-col overflow-hidden rounded-lg shadow-lg">
-      <div className="flex aspect-video h-full w-full flex-shrink-0">
+      <div className="flex aspect-video w-full flex-shrink-0">
         <Stream
           className="h-full w-full bg-black"
           controls
