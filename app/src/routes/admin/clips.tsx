@@ -11,20 +11,19 @@ import { exists } from "~/utils/filter";
 
 type LoaderData = {
   clips: PublishedClip[];
-  extra: any;
 };
 
 export const loader: LoaderFunction = (args) =>
   requireAuthentication(
     args,
     async ({ request, context }): Promise<LoaderData> => {
-      const settings = all(request, context, "video").json();
-      const a = all(request, context).json();
+      const settings = await all(request, context, "video").json();
 
       const clips = await Promise.all(
         Object.values(settings)
           .filter(exists)
-          .map(async ({ title, description, id }) => {
+          .map(async ({ title = "", description = "", id }) => {
+            if (id === undefined) return undefined;
             const url = new URL(
               `https://api.cloudflare.com/client/v4/accounts/${context.ACCOUNT_ID}/stream/${id}`
             );
@@ -36,7 +35,7 @@ export const loader: LoaderFunction = (args) =>
             });
 
             const video = await response.json<{ result: Video }>();
-
+            if (!video) return undefined;
             return {
               title,
               description,
@@ -46,13 +45,12 @@ export const loader: LoaderFunction = (args) =>
           })
       );
 
-      return { clips, extra: a };
+      return { clips: clips.filter(exists) };
     }
   );
 
 export default function Clips() {
-  const { clips, extra } = useLoaderData<LoaderData>();
-  console.log(clips, extra);
+  const { clips } = useLoaderData<LoaderData>();
 
   return (
     <div className="flex flex-grow justify-center">
