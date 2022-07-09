@@ -68,13 +68,13 @@ export default function Blog() {
         description="These are my thoughts. It's a mix of useful and stupidity. But I won't tell you which is which."
       >
         {user !== null && (
-          <li className="flex h-full">
+          <li className="flex h-full w-full">
             <ArticleCardNew />
           </li>
         )}
         {articles.map((article) => {
           return (
-            <li key={article.title} className="flex h-full">
+            <li key={article.title} className="flex h-full w-full">
               <ArticleCard
                 published=""
                 author=""

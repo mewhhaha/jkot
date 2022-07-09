@@ -36,7 +36,7 @@ export default function Clips() {
       >
         {clips.map((clip) => {
           return (
-            <li key={clip.video.uid} className="flex h-full">
+            <li key={clip.video.uid} className="flex h-full w-full">
               <VideoCard {...clip} />
             </li>
           );
