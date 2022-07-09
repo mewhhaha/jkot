@@ -74,7 +74,7 @@ export default function Edit() {
     <Modal initialFocus={ref} open onClose={handleClose}>
       <Form method="post">
         <Modal.Warning
-          title="Update"
+          title="Edit video"
           icon={
             <PencilIcon
               className="h-6 w-6 text-yellow-600"
@@ -82,13 +82,15 @@ export default function Edit() {
             />
           }
         >
-          <Textbox label="Title" defaultValue={clip.title} name="title" />
-          <Textarea
-            label="Description"
-            description="Write a short description of the clip."
-            name="description"
-            defaultValue={clip.description}
-          />
+          <span className="flex w-full flex-col">
+            <Textbox label="Title" defaultValue={clip.title} name="title" />
+            <Textarea
+              label="Description"
+              description="Write a short description of the clip."
+              name="description"
+              defaultValue={clip.description}
+            />
+          </span>
         </Modal.Warning>
         <Modal.CancelAccept ref={ref} onCancel={handleClose}>
           Save

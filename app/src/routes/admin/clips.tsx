@@ -62,7 +62,7 @@ export default function Clips() {
           return (
             <li key={clip.video.uid}>
               <VideoCard {...clip}>
-                <div className="absolute top-2 right-2">
+                <div className="absolute top-2 right-2 space-x-1">
                   <Link prefetch="intent" to={`${clip.video.uid}/edit`}>
                     <Button type="button">
                       <PencilIcon
