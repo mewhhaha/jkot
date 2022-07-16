@@ -141,7 +141,7 @@ export class Article implements DurableObject {
       return new Response("expected websocket", { status: 400 });
     }
 
-    let pair = new WebSocketPair();
+    const pair = new WebSocketPair();
 
     await this.connect(pair[1]);
 
@@ -245,23 +245,25 @@ export class Article implements DurableObject {
 
     // Signed endpoint
     if (path.endsWith("/websocket")) {
-      return this.verify(request);
+      return await this.verify(request);
     }
 
     switch (request.method) {
       case "GET": {
         if (path === "/read") {
-          return this.read(request);
+          return await this.read(request);
         }
+        break;
       }
       case "DELETE": {
         if (path === "/destroy") {
-          return this.destroy(request);
+          return await this.destroy(request);
         }
+        break;
       }
       case "POST": {
         if (path === "/generate") {
-          return this.generate(request);
+          return await this.generate(request);
         }
       }
     }

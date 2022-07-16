@@ -6,7 +6,11 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { MetaFunction, LinksFunction } from "@remix-run/react";
+import type {
+  MetaFunction,
+  LinksFunction,
+  ErrorBoundaryComponent,
+} from "@remix-run/cloudflare";
 import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => {
@@ -22,6 +26,23 @@ export const meta: MetaFunction = () => {
     description:
       "This is the jkot me blog, with all the fancy details about my technology and life!",
   };
+};
+
+export const ErrorBoundary: ErrorBoundaryComponent = ({ error }) => {
+  console.error(error);
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        There was an unexpected error! Please try refreshing the page again.
+        <Scripts />
+      </body>
+    </html>
+  );
 };
 
 export default function App() {
