@@ -3,7 +3,7 @@ import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import { useRef } from "react";
 import { ArticleCard } from "~/components/ArticleCard";
-import { categories } from "~/services/category.client";
+import { categories } from "~/services/category";
 import type {
   CloudflareDataFunctionArgs,
   PublishedContent,
