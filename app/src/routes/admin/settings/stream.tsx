@@ -7,7 +7,7 @@ import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Textbox } from "~/components/form";
 import { requireAuthentication } from "~/services/auth.server";
-import { categories } from "~/services/category";
+import { categories } from "~/services/category.client";
 import { fields } from "~/services/form.server";
 import * as settings from "~/services/settings.server";
 import type { CloudflareDataFunctionArgs, StreamSettings } from "~/types";
