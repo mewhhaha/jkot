@@ -7,7 +7,7 @@ import type {
   LinksSettings,
   ProfileSettings,
 } from "~/types";
-import * as settings from "~/services/settings.server";
+import { all } from "~/services/settings.server";
 import { PageHeader } from "~/components/PageHeader";
 
 type LoaderData = {
@@ -19,9 +19,7 @@ export const loader: LoaderFunction = async ({
   request,
   context,
 }: CloudflareDataFunctionArgs): Promise<LoaderData> => {
-  const { links = {}, profile = {} } = await settings
-    .all(request, context)
-    .json();
+  const { links = {}, profile = {} } = await all(request, context).json();
 
   return {
     links,
