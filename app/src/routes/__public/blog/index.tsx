@@ -1,15 +1,11 @@
 import type { LoaderFunction } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { CardList } from "~/components/CardList";
-import type {
-  CloudflareDataFunctionArgs,
-  PublishedContent,
-  UnpublishedContent,
-} from "~/types";
+import type { CloudflareDataFunctionArgs, PublishedContent } from "~/types";
 
 type LoaderData = {
-  articles: (PublishedContent | UnpublishedContent)[];
+  articles: PublishedContent[];
 };
 
 export const loader: LoaderFunction = async ({
@@ -31,7 +27,14 @@ export const loader: LoaderFunction = async ({
 };
 
 export default function Blog() {
+  const [search] = useSearchParams();
   const { articles } = useLoaderData<LoaderData>();
+
+  const byCategory = (a: PublishedContent) => {
+    const category = search.get("category");
+    if (!category) return true;
+    return a.category === category;
+  };
 
   return (
     <div className="flex flex-grow justify-center">
@@ -39,14 +42,10 @@ export default function Blog() {
         title="From the blog"
         description="These are my thoughts. It's a mix of useful and stupidity. But I won't tell you which is which."
       >
-        {articles.map((article) => {
+        {articles.filter(byCategory).map((article) => {
           return (
             <li key={article.title} className="flex h-full">
               <ArticleCard
-                published=""
-                author=""
-                authorImage=""
-                authorWebsite=""
                 {...article}
               />
             </li>

@@ -1,9 +1,10 @@
 import { Stream } from "@cloudflare/stream-react";
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { ArticleCard } from "~/components/ArticleCard";
 import { categories } from "~/services/category";
+import { ocx } from "~/styles/cx";
 import type {
   CloudflareDataFunctionArgs,
   PublishedContent,
@@ -77,6 +78,7 @@ const placeholder: PublishedContent = {
 
 export default function Index() {
   const { stream, articles } = useLoaderData<LoaderData>();
+  const [live, setLive] = useState(false);
 
   const featured = articles[0] ?? placeholder;
 
@@ -88,7 +90,12 @@ export default function Index() {
 
   return (
     <div className="flex-grow space-y-20">
-      <section className="relative mt-20 flex flex-col items-center">
+      <section
+        className={ocx(
+          "relative mt-20 flex flex-col items-center",
+          live ? "max-h-[540px]" : "max-h-0"
+        )}
+      >
         <div className="isolate flex h-full max-h-[540px] w-full min-w-0 justify-center shadow-lg">
           <div className="absolute inset-0 flex">
             <a
@@ -114,6 +121,9 @@ export default function Index() {
                 className="h-full w-full bg-black"
                 controls
                 loop
+                onPlaying={() => {
+                  setLive(true)
+                }}
                 title={stream.title}
                 muted
                 autoplay

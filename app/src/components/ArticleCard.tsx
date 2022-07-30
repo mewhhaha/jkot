@@ -28,13 +28,17 @@ export const ArticleCard: React.FC<ArticleProps> = ({
       <div className="flex flex-1 flex-col justify-between bg-white p-6">
         <div className="flex-1">
           <p className="text-sm font-medium text-orange-600">
-            <Link
-              prefetch="intent"
-              to={`/blog?category=${category}`}
-              className="hover:underline"
-            >
-              {category}
-            </Link>
+            {category.split(", ").map((c) => {
+              return (
+                <Link
+                  prefetch="intent"
+                  to={`/blog?category=${c}`}
+                  className="hover:underline"
+                >
+                  {category}
+                </Link>
+              );
+            })}
           </p>
           <Link prefetch="intent" to={`/blog/${slug}`} className="mt-2 block">
             <p className="text-xl font-semibold text-gray-900">{title}</p>
